@@ -1,0 +1,28 @@
+[phone/light] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[phone/light] money: {"spent":"$1,167","income":"$2,300","net":"$1,133","budget":"58%","rows":13,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":286,"h":178},{"kind":"budget","w":286,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}
+[phone/dark] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[phone/dark] money: {"spent":"$1,167","income":"$2,300","net":"$1,133","budget":"58%","rows":13,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":286,"h":178},{"kind":"budget","w":286,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}
+[tablet/light] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[tablet/light] money: {"spent":"$1,167","income":"$2,300","net":"$1,133","budget":"58%","rows":13,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":337,"h":178},{"kind":"budget","w":664,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}
+[tablet/dark] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[tablet/dark] money: {"spent":"$1,167","income":"$2,300","net":"$1,133","budget":"58%","rows":13,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":337,"h":178},{"kind":"budget","w":664,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}
+[desktop/light] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[desktop/light] paid "Internet" overdue 1->0, preview "Dec 2, 2026", row due "Dec 2"
+[desktop/light] history rows=4, first="Wednesday, November 4 | $45.00"
+[desktop/light] add bill count=1 amount=$12.50
+[desktop/light] edit bill amount -> $13.25
+[desktop/light] delete bill remaining=0, monthly rhythm $1,172->$1,172
+[desktop/light] money: {"spent":"$1,212","income":"$2,300","net":"$1,088","budget":"60%","rows":14,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":468,"h":178},{"kind":"budget","w":288,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}
+[desktop/light] filters: {"expense":12,"income":2,"all":14}
+[desktop/light] prev month {"label":"October","chip":true,"expenses":38}, current expenses=12
+[desktop/light] add expense spent 1212->1255, row=1
+[desktop/light] edit expense -> −$50.00
+[desktop/light] budget over (housing): {"level":"over","percent":"999%+","note":"$1,020.00 over","ledger":"122%"}
+[desktop/light] add-budget when full=0, note="Every category set"
+[desktop/light] budgets 10 -> remove 9 -> add options=1 (fun) 10
+[desktop/light] restored fun budget: $16 of $55
+[desktop/light] delete expense remaining=0
+[desktop/light] empty month: {"month":"November","txEmpty":true,"budgetEmpty":true,"chartEmpty":true,"budgetRows":0,"gapChart":false}
+[desktop/light] theme toggle: {"theme":"dark","charts":3,"canvases":[1,1,2]}
+[desktop/dark] bills: {"rows":7,"groups":["Overdue 1","Next seven days 3","Later 3"],"overdue":"1","week":"$108","rhythm":"$1,172","rail":3,"next":["Electricity Today $64","Phone In 5 days $38","Spotify Student In 6 days $6"],"overflow":0}
+[desktop/dark] money: {"spent":"$1,167","income":"$2,300","net":"$1,133","budget":"58%","rows":13,"budgets":10,"legend":7,"canvases":[{"kind":"category","w":260,"h":178},{"kind":"trend","w":468,"h":178},{"kind":"budget","w":288,"h":260}],"fallbacks":0,"donutColors":5,"yTicks":["$0","$500","$1k","$1.5k"],"txOverflow":0,"month":"November","overflow":0}

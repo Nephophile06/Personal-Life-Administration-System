@@ -1,0 +1,29 @@
+[phone/light] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[phone/dark] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[tablet/light] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[tablet/dark] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[desktop/light] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[desktop/dark] settings: {"cards":6,"accents":5,"themes":3,"mascots":4,"avatars":2,"tiles":6,"rail":3,"statsRows":6,"ledger":["Maya Chen","Terracotta","9:00–17:30","114 records"],"accentLabelsFit":true,"overflow":0}
+[desktop/light] accent: html=sage, stored=sage, ledger=Sage, pressed=true
+[desktop/light] theme dark: html=dark, stored=dark
+[desktop/light] theme light: html=light, stored=light
+[desktop/light] mascot clay: html=clay, --pip-pod=#a8615a, pressed=true
+[desktop/light] avatar pip: shell=1, mark=""
+[desktop/light] empty name error="Pip needs a name to greet — anything you like.", focused=settings-name
+[desktop/light] bad email error="That email does not look quite right."
+[desktop/light] profile saved: shell="Maya Quinn", ledger="Maya Quinn", initials="MQ"
+[desktop/light] profile after reload: name="Maya Quinn", email="maya.q@example.com"
+[desktop/light] profile restored: shell="Maya Chen"
+[desktop/light] bad hours error="The window needs to be at least half an hour.", ledger="9:00–17:30"
+[desktop/light] hours saved ledger="9:30–16:30"
+[desktop/light] hours restored ledger="9:00–17:30"
+[desktop/light] ai off: note="AI assist is off. Pip will o...", checked=false
+[desktop/light] ai persisted off: checked=false
+[desktop/light] tasks CSV: file=pip-tasks-2026-11-05.csv, header="Title,Status,Priority,Due,Estimate (min),Category,Notes", rows=21
+[desktop/light] all CSV: file=pip-all-2026-11-05.csv, rows=114, statsTotal=114, header="Table,Title,Date,Amount,Category,Status,Detail"
+[desktop/light] install help steps=3
+[desktop/light] reset: route=#/dashboard, name="Maya Chen"
+[desktop/light] prefs after reset: {"name":"Maya Chen","total":"114 records","hours":"9:00–17:30","ai":true,"mascot":"classic","accent":"terracotta","avatar":"MC"}
+[phone/light] scrolled screenshots: 4104px page, tabbar fixed
+
+CLEAN: no console errors, no overflow, checks passed.

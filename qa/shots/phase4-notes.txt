@@ -1,0 +1,14 @@
+[phone/light] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[phone/light] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"light"}
+[phone/dark] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[phone/dark] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"dark"}
+[tablet/light] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[tablet/light] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"light"}
+[tablet/dark] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[tablet/dark] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"dark"}
+[desktop/light] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[desktop/light] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"light"}
+[desktop/light] after low mood: {"tag":"Low","note":"Checked in as Low. Pip keeps the day light.","nudge":"Low battery is information, not failure. I kept the day to three things.","selected":"2","planHasLowMoodCopy":true}
+[desktop/light] habit count 2 of 4 kept today -> 1 of 4 kept today, pressed=false
+[desktop/dark] welcome: {"heading":"Everything life asks of you, in one place.","tabs":["New desk","Sign in","Use a different name"],"panel":"new"}
+[desktop/dark] dashboard: {"hero":"Still up, Maya.","nudge":"Electricity is due today — ten minutes now saves a late fee later.","planBlocks":5,"bills":3,"habits":4,"goals":4,"budget":"$1,166.94","hash":"#/dashboard","consoleTheme":"dark"}

@@ -1,0 +1,19 @@
+[phone/light] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[phone/light] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}
+[phone/dark] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[phone/dark] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}
+[tablet/light] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[tablet/light] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}
+[tablet/dark] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[tablet/dark] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}
+[desktop/light] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[desktop/light] quick add open 15 -> 16, row=1
+[desktop/light] editor "Change the shape of it." -> meta "PERSONAL | No deadline | 45m | High"
+[desktop/light] complete -> open=15, done tab=7
+[desktop/light] overdue filter only=true, reorder "Book dentist appointment" -> second="Return the parcel"
+[desktop/light] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}
+[desktop/light] accepted=Accepted, first="Electricity", move ["Electricity","Return the parcel"] -> ["Return the parcel","Electricity"]
+[desktop/light] weights: {"status":"Draft","effort":"40"}
+[desktop/light] next day: {"date":"Nov 5","empty":true,"todayChip":true}
+[desktop/dark] tasks: {"open":"15","overdue":"2","groups":["Overdue","Today","Next seven days","Done"],"rows":21,"rail":3,"countToday":"4"}
+[desktop/dark] planner: {"status":"Draft","blocks":13,"bills":1,"breaks":6,"focus":"4h 45m","rail":4,"unplanned":4,"weights":3}

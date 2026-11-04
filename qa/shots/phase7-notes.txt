@@ -1,0 +1,44 @@
+[phone/light] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[phone/light] goal ring {"offset":"105.05","dash":"276.46"}
+[phone/light] review: {"ledger":["6","2","$1,189","8"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 8 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[phone/light] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+[phone/dark] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[phone/dark] goal ring {"offset":"105.05","dash":"276.46"}
+[phone/dark] review: {"ledger":["6","2","$1,189","8"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 8 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[phone/dark] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+[tablet/light] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[tablet/light] goal ring {"offset":"105.05","dash":"276.46"}
+[tablet/light] review: {"ledger":["6","2","$1,189","8"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 8 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[tablet/light] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+[tablet/dark] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[tablet/dark] goal ring {"offset":"105.05","dash":"276.46"}
+[tablet/dark] review: {"ledger":["6","2","$1,189","8"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 8 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[tablet/dark] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+[desktop/light] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[desktop/light] goal ring {"offset":"105.05","dash":"276.46"}
+[desktop/light] habit today false->true, kept today="3 / 4"
+[desktop/light] focus restored to day=true
+[desktop/light] week nav prev="That week’s rhythm" (Oct 26 – Nov 1) back="This week’s rhythm"
+[desktop/light] add habit count=1 meta="2× a week · 0 of 2 kept"
+[desktop/light] edit habit meta="3× a week · 0 of 3 kept"
+[desktop/light] delete habit remaining=0
+[desktop/light] goal progress input="9" card="75% Read 12 books this year 9 / 12 books Dec 31 One a month, slowly. Design, essays, and one very long novel. 3 books to go Log progress" ring=75%
+[desktop/light] add goal count=1
+[desktop/light] delete goal remaining=0
+[desktop/light] review: {"ledger":["6","2","$1,189","9"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 9 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[desktop/light] review nav "Last 7 days" -> "Oct 22 – Oct 28", nextEnabled=true, resetChip=1
+[desktop/light] review reset label="Last 7 days"
+[desktop/light] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+[desktop/light] mark unread 4->5
+[desktop/light] delete "Pip has a plan for today (unread)" remaining=0
+[desktop/light] unread filter rows=4
+[desktop/light] mark all read unread=0, disabled=true
+[desktop/light] unread empty="All caught up."
+[desktop/light] check reminders toast="2 new nudges added.", rows=7
+[desktop/dark] habits: {"rows":4,"days":28,"doneDays":8,"todayMarks":4,"goals":4,"rings":4,"ledger":["2 / 4","8 / 17","9 days","4"],"rail":4,"overflow":0}
+[desktop/dark] goal ring {"offset":"105.05","dash":"276.46"}
+[desktop/dark] review: {"ledger":["6","2","$1,189","8"],"summary":"Between Oct 29 and Nov 4, you finished 6 tasks, kept 8 habit check-ins, spent $1,189. Spen","done":6,"cats":4,"habits":4,"goals":4,"suggestions":3,"moodDays":6,"rail":4,"overflow":0}
+[desktop/dark] notifications: {"rows":6,"unread":4,"groups":["Today 3","This week 3"],"filters":["All 6","Unread 4"],"rail":3,"permission":"Blocked in browser settings","toggleDisabled":true,"overflow":0}
+
+PROBLEMS:
+none
