@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Offline · Pip</title>
+  <meta name="theme-color" content="#f2eadd" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/icons/icon-192.png" />
+  <style>
+    @font-face {
+      font-family: 'Fraunces';
+      font-style: normal;
+      font-weight: 300 700;
+      font-display: swap;
+      src: url('assets/fonts/fraunces-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Instrument Sans';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('assets/fonts/instrument-sans-latin.woff2') format('woff2');
+    }
+    :root {
+      --paper: #f2eadd;
+      --paper-2: #fbf6ec;
+      --ink: #241a12;
+      --muted: #6b5c4d;
+      --line: #ddd0bd;
+      --accent: #b4552d;
+      --accent-soft: #f3ded2;
+      --pip-pod: #c9673f;
+      --pip-cream: #f9edd9;
+      --pip-ink: #3a2a1d;
+      --pip-leaf: #7e9470;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #15120d;
+        --paper-2: #1d1913;
+        --ink: #f4ecdf;
+        --muted: #b3a695;
+        --line: #3a322a;
+        --accent: #e08a5f;
+        --accent-soft: #3a2820;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 20px;
+      background:
+        radial-gradient(1200px 600px at 15% -10%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 60%),
+        var(--paper);
+      color: var(--ink);
+      font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    main {
+      width: 100%;
+      max-width: 520px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: clamp(26px, 6vw, 44px);
+      box-shadow: 0 30px 70px -50px rgba(50, 30, 10, 0.55);
+    }
+    .mark {
+      width: 66px;
+      height: 66px;
+      border-radius: 19px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      margin-bottom: 26px;
+    }
+    .mark svg { width: 40px; height: 40px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10.5px;
+      font-weight: 650;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .eyebrow::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(1.9rem, 6vw, 2.5rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      margin: 14px 0 12px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .note {
+      margin-top: 22px;
+      padding: 14px 16px;
+      border: 1px dashed var(--line);
+      border-radius: 13px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .dot {
+      flex: none;
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: #7e9470;
+      box-shadow: 0 0 0 3px color-mix(in srgb, #7e9470 18%, transparent);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 18px;
+      border-radius: 11px;
+      border: 1px solid transparent;
+      font: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn--primary { background: var(--accent); color: #fff8ef; }
+    .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .foot {
+      margin-top: 24px;
+      font-size: 11.5px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      opacity: 0.85;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--pip-ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20.6c-3.9-2.8-5.7-6-5.7-9.3C6.3 7.3 8.7 4.9 12 4.9s5.7 2.4 5.7 6.4c0 3.3-1.8 6.5-5.7 9.3Z" fill="var(--pip-cream)"/>
+        <path d="M12 4.9V2.2"/>
+        <path d="M11.8 3.3C10 3.2 8.8 2.1 8.8.7c1.8.1 3 1.2 3 2.6Z" fill="var(--pip-leaf)" stroke="none"/>
+        <path d="M12.2 3.1c1.8-.1 3-1.2 3-2.6-1.8.1-3 1.2-3 2.6Z" fill="var(--pip-leaf)" stroke="none"/>
+        <path d="M10.3 12.8v.1M13.7 12.8v.1" stroke-width="1.9"/>
+        <circle cx="9.4" cy="15" r="0.9" fill="#dd8f6c" stroke="none" opacity=".6"/>
+        <circle cx="14.6" cy="15" r="0.9" fill="#dd8f6c" stroke="none" opacity=".6"/>
+        <path d="M11 15.8c.6.6 1.4.6 2 0"/>
+      </svg>
+    </div>
+    <span class="eyebrow">Offline</span>
+    <h1>You’re offline.<br />Pip is still here.</h1>
+    <p>
+      Everything you’ve saved — tasks, bills, budgets, habits — lives on this device.
+      Any page you have opened before will keep working, and changes wait patiently until you reconnect.
+    </p>
+    <div class="note">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Nothing is lost. Your local data is intact, and new edits are queued for when the network returns.</span>
+    </div>
+    <div class="actions">
+      <button class="btn btn--primary" type="button" onclick="location.reload()">Try again</button>
+      <a class="btn btn--ghost" href="./#/dashboard">Open what I have</a>
+    </div>
+    <p class="foot">Pip · local-first · no account, no cloud.</p>
+  </main>
+  <script>
+    window.addEventListener('online', function () {
+      window.location.replace('./#/dashboard');
+    });
+  </script>
+</body>
+</html>

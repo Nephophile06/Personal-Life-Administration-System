@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="terracotta">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pip · Personal Life Admin</title>
+  <meta name="description" content="A calm, local-first personal life administration system for tasks, bills, budgets, habits and your day." />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f2eadd" />
+  <meta name="application-name" content="Pip" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Pip" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23b4552d'/%3E%3Cpath d='M32 51c-9-6.5-13.2-14-13.2-21.5C18.8 20.8 24.4 15 32 15s13.2 5.8 13.2 14.5C45.2 37 41 44.5 32 51Z' fill='%23fff8ef'/%3E%3Cpath d='M32 15V8' stroke='%23fff8ef' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="assets/css/app.css" />
+
+  <link rel="modulepreload" href="assets/js/app.js" />
+  <link rel="modulepreload" href="assets/js/api.js" />
+  <link rel="modulepreload" href="assets/js/store.js" />
+  <link rel="modulepreload" href="assets/js/theme.js" />
+  <link rel="modulepreload" href="assets/js/router.js" />
+  <link rel="modulepreload" href="assets/js/icons.js" />
+  <link rel="modulepreload" href="assets/js/mascot.js" />
+  <link rel="modulepreload" href="assets/js/pwa.js" />
+  <link rel="modulepreload" href="assets/js/constants.js" />
+  <link rel="modulepreload" href="assets/js/ui/format.js" />
+  <link rel="modulepreload" href="assets/js/ui/sheet.js" />
+  <link rel="modulepreload" href="assets/js/ui/toast.js" />
+  <link rel="modulepreload" href="assets/js/pages/welcome.js" />
+  <link rel="modulepreload" href="assets/js/illustrations.js" />
+
+  <script>
+    // Set the paper colour before first paint — no flash of the wrong theme.
+    (function () {
+      try {
+        var pref = localStorage.getItem('pla.theme') || 'auto';
+        var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = pref === 'auto' ? (dark ? 'dark' : 'light') : pref;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.themePref = pref;
+        var accent = localStorage.getItem('pla.accent');
+        if (accent) document.documentElement.dataset.accent = accent;
+      } catch (e) {
+        /* default light paper is fine */
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="app" class="app"></div>
+
+  <noscript>
+    <div style="max-width: 34rem; margin: 12vh auto; padding: 2rem; text-align: center; font-family: Georgia, serif">
+      <h1 style="font-size: 2rem">Pip needs JavaScript</h1>
+      <p style="margin-top: .75rem; line-height: 1.5">This planner keeps everything in your browser. Turn JavaScript on, then reload the page.</p>
+    </div>
+  </noscript>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
