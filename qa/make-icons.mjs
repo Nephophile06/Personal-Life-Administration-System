@@ -1,5 +1,5 @@
 /**
- * Renders the Pip app icons from one SVG so the PNG set stays consistent.
+ * Renders the Puffy app icons from one SVG so the PNG set stays consistent.
  * Run from qa/: node make-icons.mjs
  */
 import { chromium } from 'playwright';
@@ -9,17 +9,29 @@ import path from 'node:path';
 const OUT = path.resolve('../pla-frontend/assets/icons');
 await mkdir(OUT, { recursive: true });
 
-const pod = `
-  <path d="M32 50.6c-8.7-6.2-12.7-13.3-12.7-20.6C19.3 22 24.6 16.4 32 16.4s12.7 5.6 12.7 13.6c0 7.3-4 14.4-12.7 20.6Z"
-        fill="#f9edd9" stroke="#422f20" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M32 16.4V9.6" fill="none" stroke="#f9edd9" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M31.6 11.3c-2.5-.2-4.2-1.7-4.2-3.7 2.5.1 4.2 1.7 4.2 3.7Z" fill="#7e9470"/>
-  <path d="M32.4 10.9c2.5-.2 4.2-1.7 4.2-3.7-2.5.1-4.2 1.7-4.2 3.7Z" fill="#93a784"/>
-  <path d="M27.6 30.4v.1M36.4 30.4v.1" stroke="#3a2a1d" stroke-width="2.8" stroke-linecap="round"/>
-  <circle cx="25.4" cy="35.4" r="2.3" fill="#dd8f6c" opacity=".62"/>
-  <circle cx="38.6" cy="35.4" r="2.3" fill="#dd8f6c" opacity=".62"/>
-  <path d="M29.4 37.2c1.4 1.5 3.8 1.5 5.2 0" fill="none" stroke="#3a2a1d" stroke-width="1.6" stroke-linecap="round"/>
-  <ellipse cx="26.4" cy="23.6" rx="2.4" ry="3.4" fill="#fffaf1" opacity=".55" transform="rotate(-18 26.4 23.6)"/>
+const mark = `
+  <path d="M25 15c0-5.4 14-5.4 14 0" fill="none" stroke="#27343c" stroke-width="2" stroke-linecap="round"/>
+  <path d="M19 22c.7-3.4 2.6-5.8 5.6-7h14.8c3 1.2 4.9 3.6 5.6 7Z"
+        fill="#465c6b" stroke="#27343c" stroke-width="2.1" stroke-linejoin="round"/>
+  <path d="M32 20c9.4 0 15 3.4 17.6 9.2 2.6 5.8 2.6 12.4 0 18.2C47 53.2 41.4 56.6 32 56.6s-15-3.4-17.6-9.2c-2.6-5.8-2.6-12.4 0-18.2C17 23.4 22.6 20 32 20Z"
+        fill="#5f7482" stroke="#27343c" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M32 25c6.6 0 10.8 2.9 12.2 7.4 1.3 4.5 1.3 10.2 0 14.7-1.4 4.5-5.6 7.4-12.2 7.4s-10.8-2.9-12.2-7.4c-1.3-4.5-1.3-10.2 0-14.7C21.2 27.9 25.4 25 32 25Z"
+        fill="#f9edd9"/>
+  <g fill="none" stroke="#465c6b" stroke-width="1.1" stroke-linecap="round" opacity=".55">
+    <path d="M17.6 26c-1.5 4.6-1.5 10.4 0 15.4"/>
+    <path d="M46.4 26c1.5 4.6 1.5 10.4 0 15.4"/>
+  </g>
+  <g fill="none" stroke="#465c6b" stroke-width="1" stroke-linecap="round" opacity=".25">
+    <path d="M26.5 26.4c-1 4-1 9.2 0 13.4"/>
+    <path d="M37.5 26.4c1 4 1 9.2 0 13.4"/>
+  </g>
+  <path d="M32 56.6v2.2" stroke="#27343c" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M32 58.4 34.4 61 32 63.6 29.6 61Z" fill="#465c6b" stroke="#27343c" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M26.9 33.8v.1M37.1 33.8v.1" stroke="#27343c" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="24.8" cy="37.6" r="1.9" fill="#c99a86" opacity=".62"/>
+  <circle cx="39.2" cy="37.6" r="1.9" fill="#c99a86" opacity=".62"/>
+  <path d="M29.4 39.4c1.3 1.4 3.9 1.4 5.2 0" fill="none" stroke="#27343c" stroke-width="1.5" stroke-linecap="round"/>
+  <ellipse cx="26.2" cy="26.5" rx="1.9" ry="2.8" fill="#fffaf1" opacity=".5" transform="rotate(-16 26.2 26.5)"/>
 `;
 
 function svg({ maskable = false, radius = 12 } = {}) {
@@ -27,20 +39,20 @@ function svg({ maskable = false, radius = 12 } = {}) {
   const offset = (64 - 64 * scale) / 2;
   const shape = maskable
     ? ''
-    : `<rect x="0" y="0" width="64" height="64" rx="${radius}" fill="#b4552d"/>`;
+    : `<rect x="0" y="0" width="64" height="64" rx="${radius}" fill="#465c6b"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
     <defs>
       <radialGradient id="paper" cx="30%" cy="22%" r="90%">
-        <stop offset="0" stop-color="#cf7449"/>
-        <stop offset="55%" stop-color="#b4552d"/>
-        <stop offset="100%" stop-color="#9a4524"/>
+        <stop offset="0" stop-color="#728a98"/>
+        <stop offset="55%" stop-color="#465c6b"/>
+        <stop offset="100%" stop-color="#465c6b"/>
       </radialGradient>
       <clipPath id="clip"><rect x="0" y="0" width="64" height="64" rx="${maskable ? 0 : radius}"/></clipPath>
     </defs>
     ${shape ? '' : `<rect x="0" y="0" width="64" height="64" fill="url(#paper)"/>`}
     <g clip-path="url(#clip)">
       ${shape ? `<rect x="0" y="0" width="64" height="64" fill="url(#paper)" rx="${radius}"/>` : ''}
-      <g transform="translate(${offset} ${offset}) scale(${scale})">${pod}</g>
+      <g transform="translate(${offset} ${offset}) scale(${scale})">${mark}</g>
     </g>
   </svg>`;
 }

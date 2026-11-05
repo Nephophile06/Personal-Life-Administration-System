@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Offline · Pip</title>
+  <title>Offline · Puffy</title>
   <meta name="theme-color" content="#f2eadd" />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="assets/icons/icon-192.png" />
@@ -30,10 +30,10 @@
       --line: #ddd0bd;
       --accent: #b4552d;
       --accent-soft: #f3ded2;
-      --pip-pod: #c9673f;
-      --pip-cream: #f9edd9;
-      --pip-ink: #3a2a1d;
-      --pip-leaf: #7e9470;
+      --puffy-pod: #5f7482;
+      --puffy-cream: #f9edd9;
+      --puffy-ink: #27343c;
+      --puffy-leaf: #7e9470;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -169,19 +169,21 @@
 <body>
   <main>
     <div class="mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--pip-ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 20.6c-3.9-2.8-5.7-6-5.7-9.3C6.3 7.3 8.7 4.9 12 4.9s5.7 2.4 5.7 6.4c0 3.3-1.8 6.5-5.7 9.3Z" fill="var(--pip-cream)"/>
-        <path d="M12 4.9V2.2"/>
-        <path d="M11.8 3.3C10 3.2 8.8 2.1 8.8.7c1.8.1 3 1.2 3 2.6Z" fill="var(--pip-leaf)" stroke="none"/>
-        <path d="M12.2 3.1c1.8-.1 3-1.2 3-2.6-1.8.1-3 1.2-3 2.6Z" fill="var(--pip-leaf)" stroke="none"/>
-        <path d="M10.3 12.8v.1M13.7 12.8v.1" stroke-width="1.9"/>
-        <circle cx="9.4" cy="15" r="0.9" fill="#dd8f6c" stroke="none" opacity=".6"/>
-        <circle cx="14.6" cy="15" r="0.9" fill="#dd8f6c" stroke="none" opacity=".6"/>
-        <path d="M11 15.8c.6.6 1.4.6 2 0"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--puffy-ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="3" r="1.1"/>
+        <path d="M12 4.1v2"/>
+        <path d="M9.4 6.1h5.2"/>
+        <path d="M8.4 7.2c-1.2 2-1.2 7.4 0 9.4.9 1.5 2 2.2 3.6 2.2s2.7-.7 3.6-2.2c1.2-2 1.2-7.4 0-9.4" fill="var(--puffy-cream)"/>
+        <path d="M8.4 7.2h7.2"/>
+        <path d="M12 18.8v2.4M10.2 21.2h3.6"/>
+        <path d="M10.5 12.7v.1M13.5 12.7v.1" stroke-width="1.7"/>
+        <circle cx="9.9" cy="14.4" r="0.8" fill="#c99a86" stroke="none" opacity=".6"/>
+        <circle cx="14.1" cy="14.4" r="0.8" fill="#c99a86" stroke="none" opacity=".6"/>
+        <path d="M11 15.2c.6.6 1.4.6 2 0"/>
       </svg>
     </div>
     <span class="eyebrow">Offline</span>
-    <h1>You’re offline.<br />Pip is still here.</h1>
+    <h1>You’re offline.<br />Puffy is still here.</h1>
     <p>
       Everything you’ve saved — tasks, bills, budgets, habits — lives on this device.
       Any page you have opened before will keep working, and changes wait patiently until you reconnect.
@@ -194,7 +196,7 @@
       <button class="btn btn--primary" type="button" onclick="location.reload()">Try again</button>
       <a class="btn btn--ghost" href="./#/dashboard">Open what I have</a>
     </div>
-    <p class="foot">Pip · local-first · no account, no cloud.</p>
+    <p class="foot">Puffy · local-first · no account, no cloud.</p>
   </main>
   <script>
     window.addEventListener('online', function () {

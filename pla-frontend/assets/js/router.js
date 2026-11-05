@@ -75,7 +75,7 @@ export function navigate(path, { replace = false } = {}) {
   }
 }
 
-export function startRouter({ content, ctx, onRoute, fallback = 'dashboard' }) {
+export function startRouter({ content, ctx, onRoute, fallback = 'dashboard', guard }) {
   let cleanup = null;
   let renderToken = 0;
 
@@ -84,9 +84,14 @@ export function startRouter({ content, ctx, onRoute, fallback = 'dashboard' }) {
     const { path, query } = parseHash();
     const route = ROUTES[path] || ROUTES[fallback];
 
+    if (guard && !guard(route, path)) {
+      navigate('welcome', { replace: true });
+      return;
+    }
+
     document.documentElement.dataset.route = route.id;
     document.documentElement.dataset.chrome = route.chrome || 'app';
-    document.title = `${route.title} · Pip`;
+    document.title = `${route.title} · Puffy`;
     onRoute?.(route, path);
 
     try {

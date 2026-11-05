@@ -3,7 +3,7 @@
  * pages talk to api.js so the future JSP/Oracle backend can slot in.
  */
 
-const DB_NAME = 'pip-life-admin';
+const DB_NAME = 'puffy-life-admin';
 const DB_VERSION = 1;
 
 export const STORES = {

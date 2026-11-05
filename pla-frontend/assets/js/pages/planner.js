@@ -225,7 +225,7 @@ function bodyMarkup() {
       ${pip({ mood: 'thinking', size: 118 })}
       <h3>No plan for this day.</h3>
       <p>${state.date === todayISO()
-        ? 'Nothing has been drafted yet. Pip can shape the hours around what is already on your plate.'
+        ? 'Nothing has been drafted yet. Puffy can shape the hours around what is already on your plate.'
         : 'This day was left open. Go back to today, or draft something for it anyway.'}</p>
       <div class="plan-empty__actions">
         <button class="btn btn--primary" type="button" data-generate>${icon('sparkles', 16)} Draft a plan</button>
@@ -293,7 +293,7 @@ function railMarkup() {
 
   return `<section class="card rail-card planner-weights">
       <span class="card-kicker">The rule, not a mood</span>
-      <h2 class="rail-card__title">How Pip decides</h2>
+      <h2 class="rail-card__title">How Puffy decides</h2>
       <p class="rail-card__sub">Urgency meets importance, and short tasks get a nudge when time is tight.</p>
       ${weightRow('urgency', 'Urgency', 'Deadline pressure. Overdue sits at the top.', state.weights.urgency)}
       ${weightRow('importance', 'Importance', 'The priority you set, nothing invented.', state.weights.importance)}
@@ -302,7 +302,7 @@ function railMarkup() {
         <button class="btn btn--accent-soft btn--sm btn--block" type="button" data-apply-weights ${state.busy ? 'disabled' : ''}>
           ${icon('refresh', 14)} Regenerate with these
         </button>
-        <button class="linkish" type="button" data-weight-reset>Reset to Pip’s defaults</button>
+        <button class="linkish" type="button" data-weight-reset>Reset to Puffy’s defaults</button>
       </div>
     </section>
 
@@ -341,11 +341,11 @@ function railMarkup() {
         : `<p class="rail-card__sub">No bills are due today. Nothing to fold in — the hours stay for you.</p>`}
     </section>
 
-    <section class="card rail-card rail-card--pip">
+    <section class="card rail-card rail-card--puffy rail-card--pip">
       ${pip({ mood, size: 76 })}
       <div>
-        <span class="card-kicker">Pip says</span>
-        <p class="rail-pip">${pipLine}</p>
+        <span class="card-kicker">Puffy says</span>
+        <p class="rail-puffy rail-pip">${pipLine}</p>
       </div>
     </section>`;
 }
@@ -531,7 +531,7 @@ export default async function planner(root) {
     if (e.target.closest('[data-weight-reset]')) {
       state.weights = { ...DEFAULT_WEIGHTS };
       paint();
-      toast('Weights reset to Pip’s defaults.', { type: 'info' });
+      toast('Weights reset to Puffy’s defaults.', { type: 'info' });
       return;
     }
 

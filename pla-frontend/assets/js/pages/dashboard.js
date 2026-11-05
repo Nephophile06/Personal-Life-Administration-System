@@ -167,9 +167,9 @@ export default async function dashboard(root, ctx) {
       </div>
       <div class="home-hero__art">
         <span class="home-hero__halo" aria-hidden="true"></span>
-        <div class="home-hero__pip" data-hero-pip>${pip({ mood: heroMood(), size: 184, float: true })}</div>
+        <div class="home-hero__pip" data-hero-puffy data-hero-pip>${pip({ mood: heroMood(), size: 184, float: true })}</div>
         <div class="home-hero__note">
-          <span class="card-kicker">${icon('sparkles', 12)} Pip says</span>
+          <span class="card-kicker">${icon('sparkles', 12)} Puffy says</span>
           <p data-hero-nudge>${esc(nudge())}</p>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default async function dashboard(root, ctx) {
     if (!level) return 'Tap a face — it stays on this device.';
     const meta = moodMeta(level);
     const note = state.checkin?.note ? ` — “${esc(state.checkin.note)}”` : '';
-    return `Checked in as ${meta.label}${note}. ${level <= 2 ? 'Pip keeps the day light.' : 'Saved on this device.'}`;
+    return `Checked in as ${meta.label}${note}. ${level <= 2 ? 'Puffy keeps the day light.' : 'Saved on this device.'}`;
   }
 
   function moodCardMarkup() {
@@ -210,7 +210,7 @@ export default async function dashboard(root, ctx) {
         <div>
           <span class="card-kicker">Check-in</span>
           <h2>How’s the weather inside?</h2>
-          <p class="card-head__sub">One tap. Pip keeps the plan honest.</p>
+          <p class="card-head__sub">One tap. Puffy keeps the plan honest.</p>
         </div>
         <span class="tag tag--accent" data-mood-tag ${selected ? '' : 'hidden'}>${meta ? meta.label : ''}</span>
       </div>
@@ -487,12 +487,12 @@ export default async function dashboard(root, ctx) {
         reshaped = true;
       }
 
-      const heroPip = root.querySelector('[data-hero-pip]');
+      const heroPip = root.querySelector('[data-hero-puffy data-hero-pip]');
       if (heroPip) heroPip.innerHTML = pip({ mood: heroMood(), size: 184, float: true });
       const heroNudge = root.querySelector('[data-hero-nudge]');
       if (heroNudge) heroNudge.textContent = nudge();
 
-      ctx.toast(`Mood noted — ${meta.label}.${reshaped ? ' Pip reshaped the plan.' : ''}`);
+      ctx.toast(`Mood noted — ${meta.label}.${reshaped ? ' Puffy reshaped the plan.' : ''}`);
     } catch (err) {
       console.warn('Could not save mood', err);
       ctx.toast('The check-in did not save. Try once more.', { type: 'error' });

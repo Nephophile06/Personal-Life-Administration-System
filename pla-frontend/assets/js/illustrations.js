@@ -2,7 +2,7 @@
  * Original paper-cut illustrations. Flat fills, ink outlines, no gradients.
  * Sized with viewBoxes so they scale inside empty states.
  */
-import { pip } from './mascot.js';
+import { puffy as pip, puffy } from './mascot.js';
 
 const INK = '#3a2a1d';
 const CREAM = '#fbf4e6';
@@ -197,14 +197,19 @@ export function welcomeScene(period = 'evening', { compact = false } = {}) {
     <path d="M36 182h148" stroke="${INK}" stroke-width="3"/>
     <rect x="28" y="178" width="164" height="12" rx="3" fill="${CREAM_DEEP}" stroke="${INK}" stroke-width="2.6"/>
     <g transform="translate(46 70)">${pip({ mood: night ? 'sleepy' : 'happy', size: compact ? 108 : 116 })}</g>
-    <path d="M161 172v-20c0-3 2-5 5-5h14c3 0 5 2 5 5v20" fill="${TERRA}" stroke="${INK}" stroke-width="2.2"/>
-    <path d="M175 147c0-6 4-10 10-10" stroke="${SAGE_DARK}" stroke-width="2" stroke-linecap="round"/>
-    <path d="M185 136c6-1 10-5 10-10-6 0-10 4-10 10Z" fill="${SAGE}" stroke="${SAGE_DARK}" stroke-width="1.6"/>
+    <g stroke="${INK}" stroke-width="2" stroke-linejoin="round">
+      <rect x="156" y="170" width="42" height="8" rx="2" fill="${SAGE}"/>
+      <rect x="160" y="162" width="37" height="8" rx="2" fill="${CREAM_DEEP}"/>
+      <rect x="157" y="154" width="33" height="8" rx="2" fill="${OCHRE}"/>
+    </g>
+    <g stroke="${INK}" stroke-width="1.2" stroke-linecap="round" opacity=".28">
+      <path d="M162 174h30M165 166h27M162 158h24"/>
+    </g>
     <g stroke="${INK}" stroke-width="1.6" opacity=".35">
       <path d="M26 46h-8M30 30l-6-6M44 20l-3-8"/>
     </g>
   `,
     '0 0 220 200',
-    'Pip at a window'
+    'Puffy at a window'
   );
 }

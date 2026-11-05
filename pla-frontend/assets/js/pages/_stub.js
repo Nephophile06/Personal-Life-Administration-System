@@ -22,7 +22,7 @@ export function stubPage({
       <div>
         <span class="tag tag--accent">${icon('sparkles', 12)} Phase 1 · frame ready</span>
         <h2>${next}</h2>
-        <p>${detail || 'The paper, type, navigation and theme are in place. This screen will be drawn on top of it next, with real local data and Pip keeping an eye on things.'}</p>
+        <p>${detail || 'The paper, type, navigation and theme are in place. This screen will be drawn on top of it next, with real local data and Puffy keeping an eye on things.'}</p>
         <ul class="stub-checks">
           <li><span class="done">${icon('check-circle', 15)}</span> Design tokens &amp; paper surfaces</li>
           <li><span class="done">${icon('check-circle', 15)}</span> Sidebar, phone tabs &amp; hash router</li>

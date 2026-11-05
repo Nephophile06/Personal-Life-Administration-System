@@ -647,7 +647,7 @@ const notifications = [
   {
     id: uid(),
     type: 'system',
-    title: 'Pip has a plan for today',
+    title: 'Puffy has a plan for today',
     body: 'Five blocks, two bills, and one proper break in the middle.',
     ts: hoursAgo(1),
     read: false,
@@ -681,7 +681,8 @@ const profile = {
   name: 'Maya Chen',
   email: 'maya.chen@example.com',
   accent: 'terracotta',
-  mascotStyle: 'classic',
+  mascotStyle: 'slate',
+  mascotForm: 'lantern',
   theme: 'auto',
   workStart: '09:00',
   workEnd: '17:30',

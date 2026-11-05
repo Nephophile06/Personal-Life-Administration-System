@@ -115,8 +115,8 @@ if (!headTags.appleIcon) fail('apple-touch-icon missing');
 
 const cacheInfo = await page.evaluate(async () => {
   const keys = await caches.keys();
-  const shellName = keys.find((k) => k.startsWith('pip-shell'));
-  const runtimeName = keys.find((k) => k.startsWith('pip-runtime'));
+  const shellName = keys.find((k) => k.startsWith('puffy-shell') || k.startsWith('pip-shell'));
+  const runtimeName = keys.find((k) => k.startsWith('puffy-runtime') || k.startsWith('pip-runtime'));
   const shell = shellName ? await caches.open(shellName) : null;
   const runtime = runtimeName ? await caches.open(runtimeName) : null;
   const urlList = shell ? (await shell.keys()).map((r) => new URL(r.url).pathname) : [];
@@ -321,7 +321,7 @@ const offlinePage = await page.evaluate(() => ({
   hasActions: document.querySelectorAll('.actions .btn').length,
 }));
 log('offline page:', JSON.stringify(offlinePage));
-if (!offlinePage.heading || !offlinePage.heading.includes('Pip is still here')) {
+if (!offlinePage.heading || (!offlinePage.heading.includes('Puffy is still here') && !offlinePage.heading.includes('Pip is still here'))) {
   fail('offline fallback page was not served from cache');
 }
 await page.screenshot({ path: path.join(out, 'phase9-offline-desktop.png') });

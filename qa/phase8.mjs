@@ -102,7 +102,7 @@ for (const [label, viewport] of sizes) {
       themePref: localStorage.getItem('pla.theme'),
       mascot: document.documentElement.dataset.mascot,
       pipPod: getComputedStyle(document.documentElement).getPropertyValue('--pip-pod').trim(),
-      avatarPip: document.querySelectorAll('.profile-chip .avatar--pip').length,
+      avatarPip: document.querySelectorAll('.profile-chip .avatar--puffy, .profile-chip .avatar--pip').length,
       name: document.querySelector('[data-profile-name]').textContent,
       ledgerName: document.querySelector('[data-summary-name]')?.textContent || '',
       avatarText: document.querySelector('.profile-chip .avatar')?.textContent.trim() || '',
@@ -129,16 +129,16 @@ for (const [label, viewport] of sizes) {
   prefs = await getPrefs();
   notes.push(`[desktop/light] theme light: html=${prefs.theme}, stored=${prefs.themePref}`);
 
-  /* Pip colourway */
+  /* Puffy colourway */
   await page.click('[data-mascot-choice="clay"]');
   await page.waitForTimeout(320);
   prefs = await getPrefs();
   notes.push(`[desktop/light] mascot clay: html=${prefs.mascot}, --pip-pod=${prefs.pipPod}, pressed=${await page.getAttribute('[data-mascot-choice="clay"]', 'aria-pressed')}`);
-  await page.click('[data-mascot-choice="classic"]');
+  await page.click('[data-mascot-choice="slate"]');
   await page.waitForTimeout(250);
 
   /* Avatar style */
-  await page.click('[data-avatar-style="pip"]');
+  await page.click('[data-avatar-style="puffy"], [data-avatar-style="pip"]');
   await page.waitForTimeout(320);
   prefs = await getPrefs();
   notes.push(`[desktop/light] avatar pip: shell=${prefs.avatarPip}, mark="${prefs.avatarText}"`);
@@ -272,7 +272,7 @@ for (const [label, viewport] of sizes) {
   if (resetGlance.name !== 'Maya Chen') problems.push('[desktop/light] reset lost name');
   if (resetGlance.hours !== '9:00–17:30') problems.push('[desktop/light] reset lost working hours');
   if (!resetGlance.ai) problems.push('[desktop/light] reset lost AI preference');
-  if (resetGlance.mascot !== 'classic' || resetGlance.accent !== 'terracotta') {
+  if (resetGlance.mascot !== 'slate' || resetGlance.accent !== 'terracotta') {
     problems.push('[desktop/light] reset lost appearance preferences');
   }
 

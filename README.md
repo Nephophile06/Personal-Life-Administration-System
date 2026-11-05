@@ -1,4 +1,4 @@
-# Pip — Personal Life Administration System
+# Puffy — Personal Life Administration System
 
 A calm, local-first home for tasks, bills, budgets, habits, goals and the shape of your day. Built for **IDP1** as a complete, installable frontend with no server, no account and no cloud.
 
@@ -20,7 +20,7 @@ Open <http://localhost:4173>. Choose **Continue as demo user** to enter a fully 
 
 > The service worker, install prompt and notifications need `localhost` or HTTPS. Opening `index.html` as a `file://` URL still renders the app but cannot go offline.
 
-To reset the demo week at any time: **Settings → A clean slate → Reset demo data**. Name, palette, hours and Pip's colour survive the reset.
+To reset the demo week at any time: **Settings → A clean slate → Reset demo data**. Name, palette, hours and Puffy's form and colour survive the reset.
 
 ---
 
@@ -35,9 +35,9 @@ To reset the demo week at any time: **Settings → A clean slate → Reset demo 
 | Bills | `#/bills` | Upcoming, paid, frequency, payment history |
 | Expenses & budgets | `#/money` | Month switcher, category donut, daily rhythm, budget ledger |
 | Habits & goals | `#/habits` | Weekly rhythm, streaks, progress rings |
-| Weekly review | `#/review` | Tasks, money, habits, goals, Pip's notes |
+| Weekly review | `#/review` | Tasks, money, habits, goals, Puffy's notes |
 | Notifications | `#/notifications` | Bill/task reminders, browser opt-in, test notification |
-| Profile & Settings | `#/settings` | Profile, accent/theme/Pip, hours, AI toggle, CSV export, install |
+| Profile & Settings | `#/settings` | Profile, accent/theme/Puffy, hours, AI toggle, CSV export, install |
 
 ---
 
@@ -62,7 +62,7 @@ Personal-Life-Administration-System/
 │  │     ├─ store.js             thin IndexedDB wrapper, imported only by api.js
 │  │     ├─ router.js            hash router with lazy page modules
 │  │     ├─ theme.js             accent + light/dark/auto persistence
-│  │     ├─ mascot.js            Pip illustrations, colourways, glyph
+│  │     ├─ mascot.js            Puffy illustrations, four forms, colourways, glyph
 │  │     ├─ planner.js           pure scoring + time-block generation
 │  │     ├─ analytics.js         streaks, budget levels, weekly review
 │  │     ├─ constants.js         categories, priorities, frequencies
@@ -206,7 +206,7 @@ Each function has a `// BACKEND:` comment in `api.js` naming the endpoint it wil
 ## Design & accessibility
 
 - **Warm Ledger** tokens: paper, ink, one accent, soft rules and ledger cells. No default-font look, no purple gradients, no emoji icons.
-- Five accent presets, three theme modes (light / dark / auto), four Pip colourways, initials or Pip avatar.
+- Five accent presets, three theme modes (light / dark / auto), four Puffy forms (lantern, moth, pebble, coffee), four colourways (slate, sage, clay rose, ochre), initials or Puffy avatar.
 - Local variable fonts: Fraunces (display) and Instrument Sans (body).
 - Semantic landmarks, one `h1` per screen, skip link, visible `:focus-visible` rings, labelled controls, `aria-live` toasts, native `<dialog>` sheets with Escape handling, `prefers-reduced-motion` and `prefers-color-scheme`.
 - AA contrast and ARIA checked with Lighthouse and axe-core on every screen in light and dark (100 accessibility, zero WCAG A/AA violations).
@@ -223,6 +223,7 @@ npm install
 node phase8.mjs          # settings, export, reset
 node phase9.mjs          # manifest, SW cache, offline, sync, notifications
 node phase10-layout.mjs  # welcome + 9 screens × 360/768/1280 × light/dark
+node check-coffee-logout.mjs  # Puffy form/colour pickers, logout + route guard
 node axe-check.mjs       # WCAG A/AA scan on 9 screens × light/dark (loads axe-core from CDN)
 ```
 

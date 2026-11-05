@@ -218,7 +218,7 @@ export default async function habitsPage(root, ctx) {
       return `<div class="card empty habit-empty">
         ${emptyHabits()}
         <h3>An empty patch of soil</h3>
-        <p>Start with one thing you’d do anyway — a stretch, a glass of water, a page before bed. Pip will keep the rows.</p>
+        <p>Start with one thing you’d do anyway — a stretch, a glass of water, a page before bed. Puffy will keep the rows.</p>
         <button class="btn btn--primary" type="button" data-action="add-habit">${icon('plus', 15)} Plant a habit</button>
       </div>`;
     }
@@ -337,11 +337,11 @@ export default async function habitsPage(root, ctx) {
       ? `“${esc(s.longest.habit.name)}” is on a ${s.longest.streak}-day run. Keep the same cue and the same time.`
       : 'Habits are kept by the cue, not the willpower. Attach the next one to something you already do.';
     return `<aside class="habits-rail" aria-label="Habits at a glance">
-      <section class="rail-card card rail-card--pip">
+      <section class="rail-card card rail-card--puffy rail-card--pip">
         ${pip({ mood: allDone ? 'celebrating' : state.habits.length ? 'happy' : 'thinking', size: 64 })}
         <div>
-          <span class="card-kicker">Pip says</span>
-          <p class="rail-pip">${pipLine}</p>
+          <span class="card-kicker">Puffy says</span>
+          <p class="rail-puffy rail-pip">${pipLine}</p>
         </div>
       </section>
       ${rhythmCard(s)}
@@ -367,7 +367,7 @@ export default async function habitsPage(root, ctx) {
         s.bestEver?.best > 2
           ? `<section class="rail-card card rail-card--quiet">
               <span class="card-kicker">A quiet record</span>
-              <p class="rail-pip" style="margin-top:8px">Best run so far: <strong>${s.bestEver.best} days</strong> — ${esc(s.bestEver.habit.name)}.</p>
+              <p class="rail-puffy rail-pip" style="margin-top:8px">Best run so far: <strong>${s.bestEver.best} days</strong> — ${esc(s.bestEver.habit.name)}.</p>
             </section>`
           : ''
       }

@@ -432,11 +432,11 @@ export default async function moneyPage(root, ctx) {
     return `<aside class="money-rail" aria-label="Budgets and notes">
       ${budgetCard(overview)}
       ${budgetChartCard(overview)}
-      <section class="rail-card card rail-card--pip">
+      <section class="rail-card card rail-card--puffy rail-card--pip">
         ${pip({ mood: over.length ? 'thinking' : 'happy', size: 60 })}
         <div>
-          <span class="card-kicker">Pip says</span>
-          <p class="rail-pip">${
+          <span class="card-kicker">Puffy says</span>
+          <p class="rail-puffy rail-pip">${
             over.length
               ? `${over.length === 1 ? 'One category is' : `${over.length} categories are`} over. No lecture — move a number, or let this month be a lesson.`
               : closest

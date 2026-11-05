@@ -1,4 +1,4 @@
-/* Pip · single stylesheet
+/* Puffy · single stylesheet
    Sections: tokens, base, layout, components, pages.
    Kept in one file so the first paint needs a single CSS round trip.
    Edit the section you need; there is no build step. */
@@ -89,21 +89,35 @@
   --success-soft: #e2ead9;
   --info: #476571;
 
-  /* Pip's ink and colourway (data-mascot swaps the pod) */
-  --pip-ink: #3a2a1d;
-  --pip-pod: #c9673f;
-  --pip-pod-deep: #b4552d;
-  --pip-cream: #f9edd9;
-  --pip-leaf: #7e9470;
-  --pip-leaf-dark: #556a4b;
-  --pip-leaf-light: #93a784;
-  --pip-cheek: #dd8f6c;
-  --pip-highlight: #f0a47d;
-  --pip-line: #8b8172;
-  --pip-ice: #a9c1c9;
-  --pip-confetti-a: #a2762a;
-  --pip-confetti-b: #5d7057;
-  --pip-confetti-c: #9c7526;
+  /* Puffy's ink and colourway (data-mascot swaps the pod) */
+  --puffy-ink: #3a2a1d;
+  --pip-ink: var(--puffy-ink);
+  --puffy-pod: #5f7482;
+  --pip-pod: var(--puffy-pod);
+  --puffy-pod-deep: #465c6b;
+  --pip-pod-deep: var(--puffy-pod-deep);
+  --puffy-cream: #f9edd9;
+  --pip-cream: var(--puffy-cream);
+  --puffy-leaf: #7e9470;
+  --pip-leaf: var(--puffy-leaf);
+  --puffy-leaf-dark: #556a4b;
+  --pip-leaf-dark: var(--puffy-leaf-dark);
+  --puffy-leaf-light: #93a784;
+  --pip-leaf-light: var(--puffy-leaf-light);
+  --puffy-cheek: #c99a86;
+  --pip-cheek: var(--puffy-cheek);
+  --puffy-highlight: #8ca4b3;
+  --pip-highlight: var(--puffy-highlight);
+  --puffy-line: #8b8172;
+  --pip-line: var(--puffy-line);
+  --puffy-ice: #a9c1c9;
+  --pip-ice: var(--puffy-ice);
+  --puffy-confetti-a: #a2762a;
+  --pip-confetti-a: var(--puffy-confetti-a);
+  --puffy-confetti-b: #5d7057;
+  --pip-confetti-b: var(--puffy-confetti-b);
+  --puffy-confetti-c: #9c7526;
+  --pip-confetti-c: var(--puffy-confetti-c);
 
   /* shadow & texture */
   --shadow-sm: 0 1px 2px rgba(74, 55, 30, 0.05);
@@ -146,33 +160,72 @@
   --focus: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent);
 }
 
-/* Pip colourways — keep his cream belly and ink outline in every theme. */
+/* Puffy colourways — keep his cream belly and ink outline in every theme. */
+[data-mascot='slate'] {
+  --puffy-ink: #27343c;
+  --pip-ink: var(--puffy-ink);
+  --puffy-pod: #5f7482;
+  --pip-pod: var(--puffy-pod);
+  --puffy-pod-deep: #465c6b;
+  --pip-pod-deep: var(--puffy-pod-deep);
+  --puffy-leaf: #7e9470;
+  --pip-leaf: var(--puffy-leaf);
+  --puffy-leaf-dark: #556a4b;
+  --pip-leaf-dark: var(--puffy-leaf-dark);
+  --puffy-leaf-light: #93a784;
+  --pip-leaf-light: var(--puffy-leaf-light);
+  --puffy-cheek: #c99a86;
+  --pip-cheek: var(--puffy-cheek);
+  --puffy-highlight: #8ca4b3;
+  --pip-highlight: var(--puffy-highlight);
+}
 [data-mascot='sage'] {
-  --pip-pod: #7c9370;
-  --pip-pod-deep: #5c7052;
-  --pip-leaf: #66805a;
-  --pip-leaf-dark: #4a5f40;
-  --pip-leaf-light: #9db392;
-  --pip-cheek: #c49a7c;
-  --pip-highlight: #b8c9a9;
+  --puffy-pod: #7c9370;
+  --pip-pod: var(--puffy-pod);
+  --puffy-pod-deep: #5c7052;
+  --pip-pod-deep: var(--puffy-pod-deep);
+  --puffy-leaf: #66805a;
+  --pip-leaf: var(--puffy-leaf);
+  --puffy-leaf-dark: #4a5f40;
+  --pip-leaf-dark: var(--puffy-leaf-dark);
+  --puffy-leaf-light: #9db392;
+  --pip-leaf-light: var(--puffy-leaf-light);
+  --puffy-cheek: #c49a7c;
+  --pip-cheek: var(--puffy-cheek);
+  --puffy-highlight: #b8c9a9;
+  --pip-highlight: var(--puffy-highlight);
 }
 [data-mascot='clay'] {
-  --pip-pod: #a8615a;
-  --pip-pod-deep: #8c4741;
-  --pip-leaf: #7e8a70;
-  --pip-leaf-dark: #58654d;
-  --pip-leaf-light: #9aa88c;
-  --pip-cheek: #d19a84;
-  --pip-highlight: #d19a84;
+  --puffy-pod: #a8615a;
+  --pip-pod: var(--puffy-pod);
+  --puffy-pod-deep: #8c4741;
+  --pip-pod-deep: var(--puffy-pod-deep);
+  --puffy-leaf: #7e8a70;
+  --pip-leaf: var(--puffy-leaf);
+  --puffy-leaf-dark: #58654d;
+  --pip-leaf-dark: var(--puffy-leaf-dark);
+  --puffy-leaf-light: #9aa88c;
+  --pip-leaf-light: var(--puffy-leaf-light);
+  --puffy-cheek: #d19a84;
+  --pip-cheek: var(--puffy-cheek);
+  --puffy-highlight: #d19a84;
+  --pip-highlight: var(--puffy-highlight);
 }
 [data-mascot='ochre'] {
-  --pip-pod: #b98a3f;
-  --pip-pod-deep: #966b25;
-  --pip-leaf: #85946a;
-  --pip-leaf-dark: #5d6a4a;
-  --pip-leaf-light: #a3b18d;
-  --pip-cheek: #d3a273;
-  --pip-highlight: #e0bc82;
+  --puffy-pod: #96681c;
+  --pip-pod: var(--puffy-pod);
+  --puffy-pod-deep: #744a0d;
+  --pip-pod-deep: var(--puffy-pod-deep);
+  --puffy-leaf: #7c8f63;
+  --pip-leaf: var(--puffy-leaf);
+  --puffy-leaf-dark: #566845;
+  --pip-leaf-dark: var(--puffy-leaf-dark);
+  --puffy-leaf-light: #a0b08a;
+  --pip-leaf-light: var(--puffy-leaf-light);
+  --puffy-cheek: #cf9860;
+  --pip-cheek: var(--puffy-cheek);
+  --puffy-highlight: #c79a4d;
+  --pip-highlight: var(--puffy-highlight);
 }
 
 [data-theme='dark'] {
@@ -944,6 +997,35 @@ h4 {
   color: var(--muted);
 }
 
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
+}
+
+.logout-btn svg {
+  flex: none;
+}
+
+.logout-btn:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 18%, transparent);
+}
+
 /* ---- Main column --------------------------------------------------------- */
 
 .app__main {
@@ -1621,12 +1703,12 @@ button.chip:hover {
   width: 100%;
   height: 100%;
 }
-.avatar--pip {
+.avatar--puffy, .avatar--pip {
   background: var(--pip-cream);
   color: var(--pip-ink);
   border-color: color-mix(in srgb, var(--pip-pod-deep) 28%, transparent);
 }
-.avatar--pip .pip-glyph {
+.avatar--puffy, .avatar--pip .puffy-glyph, .pip-glyph {
   width: 62%;
   height: 62%;
 }
@@ -2342,17 +2424,17 @@ dialog.sheet::backdrop {
   outline: none;
 }
 
-/* ---- Pip ---------------------------------------------------------------- */
+/* ---- Puffy -------------------------------------------------------------- */
 
-.pip {
+.puffy, .pip {
   overflow: visible;
 }
 
-.pip--float {
-  animation: pip-float 6s ease-in-out infinite;
+.puffy--float, .pip--float {
+  animation: puffy-float 6s ease-in-out infinite;
 }
 
-@keyframes pip-float {
+@keyframes puffy-float {
   0%,
   100% {
     transform: translateY(0);
@@ -2362,7 +2444,7 @@ dialog.sheet::backdrop {
   }
 }
 
-.pip-stamp {
+.puffy-stamp, .pip-stamp {
   --stamp: 44px;
   width: var(--stamp);
   height: var(--stamp);
@@ -2377,7 +2459,7 @@ dialog.sheet::backdrop {
   position: relative;
 }
 
-.pip-stamp::after {
+.puffy-stamp, .pip-stamp::after {
   content: '';
   position: absolute;
   inset: 3px;
@@ -2386,7 +2468,7 @@ dialog.sheet::backdrop {
   pointer-events: none;
 }
 
-.pip-stamp .pip {
+.puffy-stamp, .pip-stamp .puffy, .pip {
   width: 88%;
   height: 88%;
   margin-top: 10%;
@@ -3044,14 +3126,14 @@ a.hero-chip:hover {
   border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-.home-hero__pip {
+.home-hero__puffy, .home-hero__pip {
   position: relative;
   z-index: 2;
   width: clamp(140px, 15vw, 184px);
   filter: drop-shadow(0 16px 18px rgba(74, 55, 30, 0.14));
 }
 
-.home-hero__pip svg {
+.home-hero__puffy, .home-hero__pip svg {
   width: 100%;
   height: auto;
 }
@@ -3314,12 +3396,12 @@ a.hero-chip:hover {
   gap: 12px;
   padding: 6px 0 14px;
 }
-.plan-empty__pip {
+.plan-empty__puffy, .plan-empty__pip {
   width: 54px;
   flex: none;
   margin: -8px 0 -10px -8px;
 }
-.plan-empty__pip svg {
+.plan-empty__puffy, .plan-empty__pip svg {
   width: 100%;
   height: auto;
 }
@@ -3611,7 +3693,7 @@ a.hero-chip:hover {
   .home-hero__halo {
     display: none;
   }
-  .home-hero__pip {
+  .home-hero__puffy, .home-hero__pip {
     width: 104px;
     flex: none;
     margin-left: -10px;
@@ -4399,17 +4481,17 @@ a.hero-chip:hover {
 .area-list .bar {
   grid-column: 1 / -1;
 }
-.rail-card--pip {
+.rail-card--puffy, .rail-card--pip {
   flex-direction: row;
   align-items: center;
   gap: 12px;
   background: var(--surface-2);
   box-shadow: none;
 }
-.rail-card--pip .pip {
+.rail-card--puffy, .rail-card--pip .puffy, .pip {
   flex: none;
 }
-.rail-pip {
+.rail-puffy, .rail-pip {
   font-size: var(--text-xs);
   color: var(--ink-soft);
   line-height: 1.5;
@@ -4921,7 +5003,7 @@ a.hero-chip:hover {
   gap: var(--s-3);
   padding: var(--s-6) var(--s-4) var(--s-4);
 }
-.planner-page .plan-empty .pip {
+.planner-page .plan-empty .puffy, .pip {
   margin-bottom: 2px;
 }
 .planner-page .plan-empty h3 {
@@ -6085,7 +6167,7 @@ a.hero-chip:hover {
   padding: 28px 20px 32px;
   text-align: center;
 }
-.tx-empty .pip {
+.tx-empty .puffy, .pip {
   opacity: 0.92;
 }
 .tx-empty p {
@@ -7454,7 +7536,7 @@ a.hero-chip:hover {
 .settings-portrait .avatar--xl {
   --size: 76px;
 }
-.settings-portrait .pip {
+.settings-portrait .puffy, .pip {
   width: 94px;
   height: 94px;
 }
@@ -7536,7 +7618,7 @@ a.hero-chip:hover {
   flex: none;
   overflow: hidden;
 }
-.avatar-toggle__dot--pip {
+.avatar-toggle__dot--puffy, .avatar-toggle__dot--pip {
   background: var(--pip-cream);
   color: var(--pip-ink);
 }
@@ -7623,13 +7705,13 @@ a.hero-chip:hover {
   align-items: center;
   gap: 6px;
 }
-.pip-studio {
+.puffy-studio, .pip-studio {
   display: grid;
   grid-template-columns: 98px minmax(0, 1fr);
   gap: var(--s-4);
   align-items: center;
 }
-.pip-studio__preview {
+.puffy-studio, .pip-studio__preview {
   display: grid;
   place-items: center;
   width: 98px;
@@ -7639,22 +7721,70 @@ a.hero-chip:hover {
   border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--line));
   overflow: hidden;
 }
-.pip-studio__preview .pip {
+.puffy-studio, .pip-studio__preview .puffy, .pip {
   width: 88px;
   height: 88px;
 }
-.pip-studio__side {
+.puffy-studio, .pip-studio__side {
   display: flex;
   flex-direction: column;
   gap: 9px;
   min-width: 0;
 }
-.pip-choices {
+.puffy-studio, .pip-studio__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.puffy-forms, .puffy-form, .pip-forms {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.puffy-form, .pip-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 4px 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
+}
+.puffy-form, .pip-form:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+}
+.puffy-form, .pip-form__art {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+}
+.puffy-form, .pip-form__art .puffy, .pip {
+  width: 36px;
+  height: 36px;
+}
+.puffy-form, .pip-form[aria-pressed='true'] {
+  background: var(--accent-softer);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  color: var(--accent-ink);
+}
+.puffy-choices, .puffy-choice, .pip-choices {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 6px;
 }
-.pip-choice {
+.puffy-choice, .pip-choice {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -7670,11 +7800,11 @@ a.hero-chip:hover {
   cursor: pointer;
   transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
 }
-.pip-choice:hover {
+.puffy-choice, .pip-choice:hover {
   border-color: var(--line-strong);
   background: var(--surface-2);
 }
-.pip-choice__swatch {
+.puffy-choice, .pip-choice__swatch {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -7682,7 +7812,7 @@ a.hero-chip:hover {
   border: 1px solid rgba(20, 14, 8, 0.16);
   flex: none;
 }
-.pip-choice[aria-pressed='true'] {
+.puffy-choice, .pip-choice[aria-pressed='true'] {
   background: var(--accent-softer);
   border-color: color-mix(in srgb, var(--accent) 42%, transparent);
   color: var(--accent-ink);
@@ -7821,13 +7951,13 @@ a.hero-chip:hover {
 }
 
 /* Rail additions */
-.settings-rail__pip {
+.settings-rail__puffy, .settings-rail__pip {
   align-items: flex-start;
 }
-.settings-rail__pip .card-kicker {
+.settings-rail__puffy, .settings-rail__pip .card-kicker {
   display: block;
 }
-.settings-rail__pip p {
+.settings-rail__puffy, .settings-rail__pip p {
   margin: 3px 0 0;
 }
 .settings-stats-card .rail-card__head {
@@ -7976,10 +8106,12 @@ a.hero-chip:hover {
 
 /* Custom focus rings */
 .accent-choice:focus-visible,
-.pip-choice:focus-visible,
+.puffy-form, .pip-form:focus-visible,
+.puffy-choice, .pip-choice:focus-visible,
 .avatar-toggle__btn:focus-visible,
 .settings-data__tile:focus-visible,
-.export-row:focus-visible {
+.export-row:focus-visible,
+.logout-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -8000,11 +8132,11 @@ a.hero-chip:hover {
 }
 
 @media (max-width: 480px) {
-  .pip-studio {
+  .puffy-studio, .pip-studio {
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
   }
-  .pip-studio__side {
+  .puffy-studio, .pip-studio__side {
     width: 100%;
   }
   .settings-hours {
@@ -8022,7 +8154,7 @@ a.hero-chip:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .accent-choice,
-  .pip-choice,
+  .puffy-choice, .pip-choice,
   .avatar-toggle__btn,
   .settings-data__tile,
   .export-row {

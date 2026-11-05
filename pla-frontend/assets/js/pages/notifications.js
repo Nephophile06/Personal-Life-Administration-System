@@ -21,7 +21,7 @@ const TYPE_META = {
   bill: { icon: 'receipt', tone: 'ochre', label: 'Bill' },
   task: { icon: 'tasks', tone: 'accent', label: 'Task' },
   budget: { icon: 'chart', tone: 'rose', label: 'Budget' },
-  system: { icon: 'sparkles', tone: 'sage', label: 'Pip' },
+  system: { icon: 'sparkles', tone: 'sage', label: 'Puffy' },
   habit: { icon: 'flame', tone: 'ochre', label: 'Habit' },
 };
 
@@ -126,7 +126,7 @@ export default async function notificationsPage(root, ctx) {
         : emptyState({
             illustration: emptyNotifications(),
             title: 'No nudges yet.',
-            text: 'Pip only speaks up when a date gets close or something slips. Quiet means quiet.',
+            text: 'Puffy only speaks up when a date gets close or something slips. Quiet means quiet.',
             action: `<button class="btn btn--secondary" type="button" data-action="check">${icon('refresh', 15)} Check for reminders</button>`,
           });
     }
@@ -188,11 +188,11 @@ export default async function notificationsPage(root, ctx) {
   function rail() {
     const unread = unreadCount();
     return `<aside class="notif-rail" aria-label="How nudges work">
-      <section class="rail-card card rail-card--pip">
+      <section class="rail-card card rail-card--puffy rail-card--pip">
         ${pip({ mood: unread ? 'happy' : 'sleepy', size: 62 })}
         <div>
-          <span class="card-kicker">Pip says</span>
-          <p class="rail-pip">${
+          <span class="card-kicker">Puffy says</span>
+          <p class="rail-puffy rail-pip">${
             unread
               ? `${unread === 1 ? 'One nudge is' : `${unread} nudges are`} waiting. Open, read, delete — then let the list be quiet.`
               : 'Nothing needs you right now. I’ll speak up when a date gets close.'
@@ -279,10 +279,10 @@ export default async function notificationsPage(root, ctx) {
       );
       if (created.length && profile.notificationsOn && notificationSupport() === 'granted') {
         showNotification(
-          created.length === 1 ? created[0].title : `${created.length} new nudges from Pip`,
+          created.length === 1 ? created[0].title : `${created.length} new nudges from Puffy`,
           {
             body: created.length === 1 ? created[0].body : 'A bill is close or a task slipped. Open the list when you have a minute.',
-            tag: 'pip-reminders',
+            tag: 'puffy-reminders',
             link: '#/notifications',
           }
         );
@@ -319,7 +319,7 @@ export default async function notificationsPage(root, ctx) {
       }
       profile = await ctx.updateProfile({ notificationsOn: true });
       paint();
-      toast('Browser notifications on. Pip will keep it rare.');
+      toast('Browser notifications on. Puffy will keep it rare.');
     } catch (err) {
       console.error(err);
       input.checked = false;
@@ -332,7 +332,7 @@ export default async function notificationsPage(root, ctx) {
       toastError('Allow notifications first.');
       return;
     }
-    const sent = await showNotification('Pip is here', {
+    const sent = await showNotification('Puffy is here', {
       body: 'A quiet test. Real nudges only appear when a date gets close.',
       tag: 'pla-test',
       link: '#/notifications',

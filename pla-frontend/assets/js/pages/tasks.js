@@ -244,7 +244,7 @@ function listMarkup() {
     return emptyState({
       illustration: emptyTasks(),
       title: 'A blank page, in the good way.',
-      text: 'Add the first thing — even a small one. Pip will fold it into the day.',
+      text: 'Add the first thing — even a small one. Puffy will fold it into the day.',
       action: `<button class="btn btn--primary" type="button" data-new>${icon('plus', 16)} Add a task</button>`,
     });
   }
@@ -348,11 +348,11 @@ function railMarkup() {
         : '<p class="tiny muted">Nothing open. The ledger is balanced.</p>'}
     </section>
 
-    <section class="card rail-card rail-card--pip">
+    <section class="card rail-card rail-card--puffy rail-card--pip">
       ${pip({ mood: s.overdue ? 'worried' : s.dueToday ? 'thinking' : 'happy', size: 78 })}
       <div>
-        <span class="card-kicker">Pip says</span>
-        <p class="rail-pip">${nudge}</p>
+        <span class="card-kicker">Puffy says</span>
+        <p class="rail-puffy rail-pip">${nudge}</p>
       </div>
     </section>`;
 }

@@ -311,7 +311,7 @@ export default async function reviewPage(root, ctx) {
           <h2>For the next seven days</h2>
           <p class="card-head__sub">small, optional, and entirely yours</p>
         </div>
-        <span class="tag tag--accent">${icon('sparkles', 11)} Pip’s notes</span>
+        <span class="tag tag--accent">${icon('sparkles', 11)} Puffy’s notes</span>
       </div>
       <ol class="review-notes">
         ${r.suggestions
@@ -389,16 +389,16 @@ export default async function reviewPage(root, ctx) {
     return `<aside class="review-rail" aria-label="Week details">
       ${moodCard()}
       ${overdueCard(r)}
-      <section class="rail-card card rail-card--pip">
+      <section class="rail-card card rail-card--puffy rail-card--pip">
         ${pip({ mood: r.overdueCount > 2 ? 'thinking' : 'happy', size: 60 })}
         <div>
-          <span class="card-kicker">Pip says</span>
-          <p class="rail-pip">${message}</p>
+          <span class="card-kicker">Puffy says</span>
+          <p class="rail-puffy rail-pip">${message}</p>
         </div>
       </section>
       <section class="rail-card card rail-card--quiet">
         <span class="card-kicker">One small ask</span>
-        <p class="rail-pip" style="margin-top:8px">Before you close this page, choose one thing for Monday. Not three. One.</p>
+        <p class="rail-puffy rail-pip" style="margin-top:8px">Before you close this page, choose one thing for Monday. Not three. One.</p>
       </section>
     </aside>`;
   }

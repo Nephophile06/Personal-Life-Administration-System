@@ -23,7 +23,7 @@
 [desktop/light] all CSV: file=pip-all-2026-11-05.csv, rows=114, statsTotal=114, header="Table,Title,Date,Amount,Category,Status,Detail"
 [desktop/light] install help steps=3
 [desktop/light] reset: route=#/dashboard, name="Maya Chen"
-[desktop/light] prefs after reset: {"name":"Maya Chen","total":"114 records","hours":"9:00–17:30","ai":true,"mascot":"classic","accent":"terracotta","avatar":"MC"}
-[phone/light] scrolled screenshots: 4104px page, tabbar fixed
+[desktop/light] prefs after reset: {"name":"Maya Chen","total":"114 records","hours":"9:00–17:30","ai":true,"mascot":"slate","accent":"terracotta","avatar":"MC"}
+[phone/light] scrolled screenshots: 4236px page, tabbar fixed
 
 CLEAN: no console errors, no overflow, checks passed.

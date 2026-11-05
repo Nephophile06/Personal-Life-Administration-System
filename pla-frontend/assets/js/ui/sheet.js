@@ -73,6 +73,7 @@ export function confirmSheet({
   title = 'Are you sure?',
   message = '',
   confirmLabel = 'Confirm',
+  cancelLabel = 'Keep it',
   tone = 'danger',
 } = {}) {
   return new Promise((resolve) => {
@@ -81,7 +82,7 @@ export function confirmSheet({
       title,
       body: `<p class="lede" style="font-size:var(--text-base)">${message}</p>`,
       footer: `
-        <button class="btn btn--ghost" type="button" data-cancel>Keep it</button>
+        <button class="btn btn--ghost" type="button" data-cancel>${cancelLabel}</button>
         <button class="btn ${tone === 'danger' ? 'btn--danger' : 'btn--primary'}" type="button" data-ok>${confirmLabel}</button>
       `,
       onClose: () => {

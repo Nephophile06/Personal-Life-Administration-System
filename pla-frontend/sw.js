@@ -1,5 +1,5 @@
 /**
- * Pip service worker — offline shell, cached Chart.js, background sync.
+ * Puffy service worker — offline shell, cached Chart.js, background sync.
  *
  * Cache strategy:
  *   navigations  network-first (3.5s) → cached index.html → offline.html
@@ -9,9 +9,9 @@
  *
  * Bump VERSION whenever precached files change.
  */
-const VERSION = 'pip-v1.0.5';
-const SHELL = `pip-shell-${VERSION}`;
-const RUNTIME = `pip-runtime-${VERSION}`;
+const VERSION = 'puffy-v1.1.0';
+const SHELL = `puffy-shell-${VERSION}`;
+const RUNTIME = `puffy-runtime-${VERSION}`;
 const CHART_URL = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
 const SYNC_TAG = 'pla-sync';
 
@@ -90,7 +90,7 @@ self.addEventListener('activate', (event) => {
       const keys = await caches.keys();
       await Promise.all(
         keys
-          .filter((key) => key.startsWith('pip-') && key !== SHELL && key !== RUNTIME)
+          .filter((key) => (key.startsWith('puffy-') || key.startsWith('pip-')) && key !== SHELL && key !== RUNTIME)
           .map((key) => caches.delete(key))
       );
       await self.clients.claim();
@@ -190,7 +190,7 @@ function queueCount() {
     };
     let req;
     try {
-      req = indexedDB.open('pip-life-admin');
+      req = indexedDB.open('puffy-life-admin');
     } catch {
       done(0);
       return;
@@ -260,11 +260,11 @@ self.addEventListener('message', (event) => {
 
   if (data.type === 'PLA_NOTIFY') {
     event.waitUntil(
-      self.registration.showNotification(data.title || 'Pip', {
+      self.registration.showNotification(data.title || 'Puffy', {
         body: data.body || '',
         icon: 'assets/icons/icon-192.png',
         badge: 'assets/icons/icon-192.png',
-        tag: data.tag || 'pip-nudge',
+        tag: data.tag || 'puffy-nudge',
         renotify: true,
         data: { link: data.link || './#/dashboard' },
       })
@@ -280,7 +280,7 @@ self.addEventListener('message', (event) => {
         event.ports[0].postMessage({
           version: VERSION,
           pending,
-          caches: keys.filter((key) => key.startsWith('pip-')),
+          caches: keys.filter((key) => (key.startsWith('puffy-') || key.startsWith('pip-'))),
           chartCached: Boolean(await (await caches.open(RUNTIME)).match(CHART_URL)),
         });
       })()

@@ -53,7 +53,7 @@ export async function registerServiceWorker() {
     navigator.serviceWorker.addEventListener('message', onWorkerMessage);
     return reg;
   } catch (err) {
-    console.warn('[Pip] Service worker registration failed:', err);
+    console.warn('[Puffy] Service worker registration failed:', err);
     return null;
   }
 }
@@ -64,9 +64,9 @@ async function onWorkerMessage(event) {
   try {
     const { flushQueue } = await import('./api.js');
     const result = await flushQueue();
-    console.debug(`[Pip] Queue flushed on background sync · ${result.pending} change(s) waiting for a server.`);
+    console.debug(`[Puffy] Queue flushed on background sync · ${result.pending} change(s) waiting for a server.`);
   } catch (err) {
-    console.debug('[Pip] Queue flush skipped:', err && err.message);
+    console.debug('[Puffy] Queue flush skipped:', err && err.message);
   }
 }
 
@@ -118,7 +118,7 @@ export async function requestNotificationPermission() {
  * Prefer the service worker so notifications survive a closed tab and respect
  * the shared notification channel. Falls back to the page constructor.
  */
-export async function showNotification(title, { body = '', tag = 'pip-nudge', link = './#/dashboard' } = {}) {
+export async function showNotification(title, { body = '', tag = 'puffy-nudge', link = './#/dashboard' } = {}) {
   if (notificationSupport() !== 'granted') return false;
   try {
     if ('serviceWorker' in navigator) {
@@ -138,7 +138,7 @@ export async function showNotification(title, { body = '', tag = 'pip-nudge', li
     new Notification(title, { body, tag });
     return true;
   } catch (err) {
-    console.warn('[Pip] Notification could not be shown:', err);
+    console.warn('[Puffy] Notification could not be shown:', err);
     return false;
   }
 }

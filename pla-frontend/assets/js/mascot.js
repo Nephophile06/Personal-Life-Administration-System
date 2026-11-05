@@ -1,42 +1,66 @@
 /**
- * Pip — an original seed-pod companion.
- * Drawn from scratch: terracotta pod, cream belly, ink line, two-leaf sprout.
+ * Puffy — an original desk companion.
+ * Four hand-drawn forms share one face, palette and mood system:
+ * a paper lantern (default), a moth, a river pebble and a coffee cup.
  * Expressions: happy · thinking · celebrating · sleepy · worried.
  */
 
 /**
- * Pip's ink and colour come from CSS custom properties so the whole cast can
- * change colourway at once (Settings → Pip's look) without re-rendering each
+ * Puffy's ink and colour come from CSS custom properties so the whole cast can
+ * change colourway at once (Settings → Puffy's look) without re-rendering each
  * illustration by hand.
  */
-const INK = 'var(--pip-ink)';
-const POD = 'var(--pip-pod)';
-const POD_DEEP = 'var(--pip-pod-deep)';
-const CREAM = 'var(--pip-cream)';
-const LEAF = 'var(--pip-leaf)';
-const LEAF_DARK = 'var(--pip-leaf-dark)';
-const CHEEK = 'var(--pip-cheek)';
+const INK = 'var(--puffy-ink)';
+const POD = 'var(--puffy-pod)';
+const POD_DEEP = 'var(--puffy-pod-deep)';
+const CREAM = 'var(--puffy-cream)';
+const LEAF = 'var(--puffy-leaf)';
+const LEAF_DARK = 'var(--puffy-leaf-dark)';
+const CHEEK = 'var(--puffy-cheek)';
 
 export const MASCOT_STYLES = [
-  { id: 'classic', label: 'Terracotta', swatch: '#c9673f', note: 'The original pod' },
+  { id: 'slate', label: 'Slate', swatch: '#5f7482', note: 'A cool blue for warm rooms' },
   { id: 'sage', label: 'Sage', swatch: '#7c9370', note: 'Quiet and leafy' },
   { id: 'clay', label: 'Clay rose', swatch: '#a8615a', note: 'A warmer blush' },
-  { id: 'ochre', label: 'Ochre', swatch: '#b98a3f', note: 'Late afternoon' },
+  { id: 'ochre', label: 'Ochre', swatch: '#96681c', note: 'Deep amber against the paper' },
 ];
 
+export const MASCOT_FORMS = [
+  { id: 'lantern', label: 'Lantern', note: 'A small warm glow for the desk' },
+  { id: 'moth', label: 'Moth', note: 'Quiet, always drawn to the light' },
+  { id: 'pebble', label: 'Pebble', note: 'Steady as a stone from the river' },
+  { id: 'coffee', label: 'Coffee', note: 'A warm cup for slow mornings' },
+];
+
+const FORM_IDS = new Set(MASCOT_FORMS.map((f) => f.id));
+
 /** Sets the colourway on <html>; the SVG reads the matching CSS variables. */
-export function applyMascotStyle(id = 'classic') {
-  const known = MASCOT_STYLES.some((s) => s.id === id) ? id : 'classic';
+export function applyMascotStyle(id = 'slate') {
+  // Older installs stored 'classic'; Slate now fills that slot.
+  const known = MASCOT_STYLES.some((s) => s.id === id) ? id : 'slate';
   document.documentElement.dataset.mascot = known;
   return known;
+}
+
+/** Sets Puffy's silhouette on <html>; new renders follow it immediately. */
+export function applyMascotForm(id = 'lantern') {
+  const known = FORM_IDS.has(id) ? id : 'lantern';
+  document.documentElement.dataset.puffyForm = known;
+  document.documentElement.dataset.pipForm = known;
+  return known;
+}
+
+export function getMascotForm() {
+  const current = document.documentElement.dataset.puffyForm || document.documentElement.dataset.pipForm;
+  return FORM_IDS.has(current) ? current : 'lantern';
 }
 
 function eyesHappy() {
   return `
     <ellipse cx="86" cy="101" rx="3.5" ry="4.3" fill="${INK}"/>
     <ellipse cx="114" cy="101" rx="3.5" ry="4.3" fill="${INK}"/>
-    <circle cx="87.3" cy="99.3" r="1.15" fill="var(--pip-cream)"/>
-    <circle cx="115.3" cy="99.3" r="1.15" fill="var(--pip-cream)"/>`;
+    <circle cx="87.3" cy="99.3" r="1.15" fill="var(--puffy-cream)"/>
+    <circle cx="115.3" cy="99.3" r="1.15" fill="var(--puffy-cream)"/>`;
 }
 
 const FACES = {
@@ -46,8 +70,8 @@ const FACES = {
   thinking: `
     <ellipse cx="88" cy="101" rx="3.5" ry="4.3" fill="${INK}"/>
     <ellipse cx="116" cy="101" rx="3.5" ry="4.3" fill="${INK}"/>
-    <circle cx="89.6" cy="99.3" r="1.15" fill="var(--pip-cream)"/>
-    <circle cx="117.6" cy="99.3" r="1.15" fill="var(--pip-cream)"/>
+    <circle cx="89.6" cy="99.3" r="1.15" fill="var(--puffy-cream)"/>
+    <circle cx="117.6" cy="99.3" r="1.15" fill="var(--puffy-cream)"/>
     <path d="M80.5 92.5c2.5-2 5.5-2.2 8-1" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
     <ellipse cx="105.5" cy="118.5" rx="2.8" ry="3.6" fill="${INK}"/>`,
   celebrating: `
@@ -89,10 +113,126 @@ function arms(mood) {
     <path d="M138 118c7 3 11 8 12 14" fill="none" stroke="${POD}" stroke-width="4.6" stroke-linecap="round"/>`;
 }
 
+function cheeks(left = 79, right = 121, cy = 113, r = 5.6) {
+  return `
+    <circle cx="${left}" cy="${cy}" r="${r}" fill="${CHEEK}" opacity=".5"/>
+    <circle cx="${right}" cy="${cy}" r="${r}" fill="${CHEEK}" opacity=".5"/>`;
+}
+
+function shadow(rx = 38) {
+  return `<ellipse cx="100" cy="183" rx="${rx}" ry="6" fill="${INK}" opacity=".13"/>`;
+}
+
+/* ---- The four forms ------------------------------------------------------ */
+
+/** Paper lantern: loop, cap, barrel body, cream window, tassel. */
+function lanternForm(mood) {
+  return `
+    ${shadow(37)}
+    <circle cx="100" cy="19" r="4.2" fill="none" stroke="${INK}" stroke-width="3"/>
+    <path d="M100 23.2v7" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M100 42c21 0 33 6 39 19 7 14 7 41 0 57-6 13-18 23-39 23s-33-10-39-23c-7-16-7-43 0-57 6-13 18-19 39-19Z" fill="${POD}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M70 46c1.5-8 6-13.5 13-16.5h34c7 3 11.5 8.5 13 16.5Z" fill="${POD_DEEP}" stroke="${INK}" stroke-width="3.6" stroke-linejoin="round"/>
+    <path d="M100 54c14.5 0 24 6.5 27 17.5 3 12 3 28 0 40-3 11-12.5 17.5-27 17.5s-24-6.5-27-17.5c-3-12-3-28 0-40 3-11 12.5-17.5 27-17.5Z" fill="${CREAM}"/>
+    <g fill="none" stroke="${POD_DEEP}" stroke-width="2" stroke-linecap="round" opacity=".5">
+      <path d="M74 65c-4 25-4 47 2 65"/>
+      <path d="M126 65c4 25 4 47-2 65"/>
+    </g>
+    <g fill="none" stroke="${POD_DEEP}" stroke-width="1.3" stroke-linecap="round" opacity=".2">
+      <path d="M89 57c-2 29-2 51 0 73"/>
+      <path d="M111 57c2 29 2 51 0 73"/>
+    </g>
+    <path d="M100 142v8" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M96 150h8l-2.2 12h-3.6Z" fill="${POD_DEEP}" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/>
+    ${arms(mood)}
+    ${cheeks(78, 122, 112, 5.6)}`;
+}
+
+/** Moth: two pairs of paper wings, a soft body, feathery antennae. */
+function mothForm(mood) {
+  return `
+    ${shadow(34)}
+    <path d="M91 70C78 43 50 32 30 41 11 50 7 73 19 90c10 14 28 22 50 23 9 0 16-1 23-3Z" fill="${POD}" stroke="${INK}" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M109 70c13-27 41-38 61-29 19 9 23 32 11 49-10 14-28 22-50 23-9 0-16-1-23-3Z" fill="${POD}" stroke="${INK}" stroke-width="3.4" stroke-linejoin="round"/>
+    <ellipse cx="45" cy="72" rx="11" ry="14" fill="${CREAM}" stroke="${POD_DEEP}" stroke-width="1.5" transform="rotate(-18 45 72)"/>
+    <ellipse cx="155" cy="72" rx="11" ry="14" fill="${CREAM}" stroke="${POD_DEEP}" stroke-width="1.5" transform="rotate(18 155 72)"/>
+    <circle cx="43" cy="76" r="3.2" fill="${POD_DEEP}" opacity=".55"/>
+    <circle cx="157" cy="76" r="3.2" fill="${POD_DEEP}" opacity=".55"/>
+    <path d="M92 108c-17 3-30 14-32 27-1 11 11 18 24 12 9-4 14-16 17-28Z" fill="${POD}" stroke="${INK}" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M108 108c17 3 30 14 32 27 1 11-11 18-24 12-9-4-14-16-17-28Z" fill="${POD}" stroke="${INK}" stroke-width="3.2" stroke-linejoin="round"/>
+    <circle cx="76" cy="139" r="4.6" fill="${CREAM}" opacity=".8"/>
+    <circle cx="124" cy="139" r="4.6" fill="${CREAM}" opacity=".8"/>
+    <path d="M100 40c17 0 28 10 28 24v64c0 14-11 24-28 24s-28-10-28-24V64c0-14 11-24 28-24Z" fill="${POD}" stroke="${INK}" stroke-width="3.8" stroke-linejoin="round"/>
+    <path d="M100 50c12 0 20 8 20 19v54c0 11-8 19-20 19s-20-8-20-19V69c0-11 8-19 20-19Z" fill="${CREAM}"/>
+    <g fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round">
+      <path d="M91 44C84 36 82 27 76 20"/>
+      <path d="M76 20 70 16M76 20l-2-7M76 20l5-5"/>
+      <path d="M109 44c7-8 9-17 15-24"/>
+      <path d="M124 20l6-4M124 20l2-7M124 20l-5-5"/>
+    </g>
+    <g fill="none" stroke="${INK}" stroke-width="3.4" stroke-linecap="round">
+      <path d="M94 150v10M106 150v10"/>
+    </g>
+    ${cheeks(82, 118, 111, 4.4)}`;
+}
+
+/** River pebble: an asymmetric stone, moss cap, lichen-coloured face patch. */
+function pebbleForm(mood) {
+  return `
+    ${shadow(40)}
+    <path d="M98 48c20-1 38 8 48 23 11 16 12 37 3 53-9 16-26 28-45 30-19 2-36-6-46-19-11-14-12-34-5-50 7-17 25-36 45-37Z" fill="${POD}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M61 75c3-14 14-25 30-28 21-4 43 0 53 16-7 7-19 10-33 10-19 0-36-1-50 2Z" fill="${LEAF}" stroke="${LEAF_DARK}" stroke-width="2.6" stroke-linejoin="round"/>
+    <g fill="${LEAF_DARK}" opacity=".45">
+      <circle cx="82" cy="64" r="1.2"/><circle cx="96" cy="58" r="1"/><circle cx="118" cy="62" r="1.3"/><circle cx="132" cy="68" r="1"/>
+    </g>
+    <path d="M99 80c16-1 28 9 30 23 2 14-5 26-16 31-9 4-19 3-27-3-9-7-14-19-12-31 2-13 11-20 25-20Z" fill="${CREAM}"/>
+    <g fill="none" stroke="${INK}" stroke-width="1.8" stroke-linecap="round" opacity=".2">
+      <path d="M58 104c4 2 7 6 8 11M142 92c-4 1-7 4-9 8"/>
+    </g>
+    <g fill="none" stroke="${INK}" stroke-width="7.5" stroke-linecap="round">
+      <path d="M84 150c-.4 6-.6 10-.4 12M116 150c.4 6 .6 10 .4 12"/>
+    </g>
+    <g fill="none" stroke="${POD}" stroke-width="3.6" stroke-linecap="round">
+      <path d="M84 150c-.4 6-.6 10-.4 12M116 150c.4 6 .6 10 .4 12"/>
+    </g>
+    <ellipse cx="84" cy="164" rx="7.4" ry="3.6" fill="${POD}" stroke="${INK}" stroke-width="2.6"/>
+    <ellipse cx="116" cy="164" rx="7.4" ry="3.6" fill="${POD}" stroke="${INK}" stroke-width="2.6"/>
+    ${arms(mood)}
+    ${cheeks(82, 118, 111, 5.2)}`;
+}
+
+/** Coffee: a takeaway cup with a deep lid, cream sleeve and three curls of steam. */
+function coffeeForm(mood) {
+  return `
+    ${shadow(36)}
+    <g fill="none" stroke="${POD_DEEP}" stroke-width="3.2" stroke-linecap="round" opacity=".42">
+      <path d="M83 46c-6.5-8 6.5-13 0-22"/>
+      <path d="M100 42c-6.5-8 6.5-13 0-22"/>
+      <path d="M117 46c-6.5-8 6.5-13 0-22"/>
+    </g>
+    <path d="M66 62h68l-7 98c-.5 6.4-5.8 11-12.2 11H85.2c-6.4 0-11.7-4.6-12.2-11Z" fill="${POD}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M69 128h62l-5 30c-.4 3-2.8 5-5.8 5H79.8c-3 0-5.4-2-5.8-5Z" fill="${CREAM}" stroke="${POD_DEEP}" stroke-width="2.2" stroke-linejoin="round"/>
+    <g fill="none" stroke="${POD_DEEP}" stroke-width="1.3" stroke-linecap="round" opacity=".42">
+      <path d="M72.4 136h55.2M73.6 144h52.8M74.8 152h50.4"/>
+    </g>
+    <path d="M60 54h80c3.3 0 6 2.7 6 6v7c0 2.2-1.8 4-4 4H58c-2.2 0-4-1.8-4-4v-7c0-3.3 2.7-6 6-6Z" fill="${POD_DEEP}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="100" cy="54" rx="40" ry="7.6" fill="${POD}" stroke="${INK}" stroke-width="3.4"/>
+    <rect x="116" y="49.5" width="11" height="5" rx="2.5" fill="${CREAM}" opacity=".85"/>
+    ${arms(mood)}
+    ${cheeks(80, 120, 112, 5.2)}`;
+}
+
+const FORMS = {
+  lantern: lanternForm,
+  moth: mothForm,
+  pebble: pebbleForm,
+  coffee: coffeeForm,
+};
+
 function extras(mood) {
   if (mood === 'sleepy') {
     return `
-      <g fill="none" stroke="var(--pip-line)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <g fill="none" stroke="var(--puffy-line)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M146 55h9l-9 10h9"/>
         <path d="M161 36h6.5l-6.5 7.5h6.5" opacity=".65"/>
       </g>`;
@@ -100,20 +240,20 @@ function extras(mood) {
   if (mood === 'celebrating') {
     return `
       <g stroke="none">
-        <rect x="32" y="44" width="7" height="11" rx="1.5" fill="var(--pip-confetti-a)" transform="rotate(-24 35 49)"/>
-        <rect x="157" y="35" width="6" height="10" rx="1.5" fill="var(--pip-confetti-b)" transform="rotate(20 160 40)"/>
+        <rect x="32" y="44" width="7" height="11" rx="1.5" fill="var(--puffy-confetti-a)" transform="rotate(-24 35 49)"/>
+        <rect x="157" y="35" width="6" height="10" rx="1.5" fill="var(--puffy-confetti-b)" transform="rotate(20 160 40)"/>
         <circle cx="47" cy="70" r="3.4" fill="${POD_DEEP}"/>
-        <circle cx="161" cy="64" r="2.6" fill="var(--pip-confetti-c)"/>
-        <path d="M120 26l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="var(--pip-confetti-a)" opacity=".8"/>
+        <circle cx="161" cy="64" r="2.6" fill="var(--puffy-confetti-c)"/>
+        <path d="M120 26l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="var(--puffy-confetti-a)" opacity=".8"/>
       </g>`;
   }
   if (mood === 'worried') {
     return `
-      <path d="M141 80c1.6 3.2 4.8 4.6 7.4 3 2.4-1.6 2.6-5 .8-7.8-1.6-2.6-4.6-4.8-8.2-6.2.2 4 .2 8 0 11Z" fill="var(--pip-ice)" stroke="${INK}" stroke-width="2" stroke-linejoin="round" opacity=".9"/>`;
+      <path d="M141 80c1.6 3.2 4.8 4.6 7.4 3 2.4-1.6 2.6-5 .8-7.8-1.6-2.6-4.6-4.8-8.2-6.2.2 4 .2 8 0 11Z" fill="var(--puffy-ice)" stroke="${INK}" stroke-width="2" stroke-linejoin="round" opacity=".9"/>`;
   }
   if (mood === 'thinking') {
     return `
-      <g fill="var(--pip-line)" stroke="none">
+      <g fill="var(--puffy-line)" stroke="none">
         <circle cx="150" cy="62" r="2.6" opacity=".8"/>
         <circle cx="160" cy="52" r="1.8" opacity=".55"/>
       </g>`;
@@ -121,53 +261,60 @@ function extras(mood) {
   return '';
 }
 
-export function pip({
+export function puffy({
   mood = 'happy',
   size = 120,
   className = '',
   title = '',
   float = false,
+  form = getMascotForm(),
 } = {}) {
+  const shape = FORM_IDS.has(form) ? form : 'lantern';
   const label = title
     ? `role="img" aria-label="${title}"`
     : 'aria-hidden="true"';
-  const armsMarkup = arms(mood);
-  return `<svg class="pip pip--${mood} ${float ? 'pip--float' : ''} ${className}" width="${size}" height="${size}" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" ${label}>
-    <ellipse cx="100" cy="181" rx="36" ry="6" fill="${INK}" opacity=".13"/>
+  return `<svg class="puffy pip puffy--${mood} pip--${mood} puffy--${shape} pip--${shape} ${float ? 'puffy--float pip--float' : ''} ${className}" data-form="${shape}" width="${size}" height="${size}" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" ${label}>
     ${extras(mood)}
-    <path d="M100 30c1.6-8 1-15-2.4-22" stroke="${LEAF_DARK}" stroke-width="4" stroke-linecap="round"/>
-    <path d="M99.5 14.5C89 16 81.5 11 80 3.6c10-1.6 17.5 3.4 19.5 10.9Z" fill="${LEAF}" stroke="${LEAF_DARK}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M101.5 11.5c1.4-7.8 8.4-12.2 16.5-10.6.2 8-6.4 12.8-16.5 10.6Z" fill="var(--pip-leaf-light)" stroke="${LEAF_DARK}" stroke-width="2.6" stroke-linejoin="round"/>
-    <path d="M86 154c-.4 6-.6 11-.6 15M114 154c.4 6 .6 11 .6 15" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>
-    <path d="M86 154c-.4 6-.6 11-.6 15M114 154c.4 6 .6 11 .6 15" stroke="${POD}" stroke-width="4.2" stroke-linecap="round"/>
-    <path d="M78.2 170c0 3 3.4 4.8 8 4.8s7.6-1.9 7.6-4.8-3.4-3.5-7.8-3.5-7.8.5-7.8 3.5Z" fill="${POD}" stroke="${INK}" stroke-width="2.8"/>
-    <path d="M106.2 170c0 3 3.4 4.8 8 4.8s7.6-1.9 7.6-4.8-3.4-3.5-7.8-3.5-7.8.5-7.8 3.5Z" fill="${POD}" stroke="${INK}" stroke-width="2.8"/>
-    <path d="M100 24c17 0 28 12 33 30 6 22 6 45-2 62-5 11-14 21-24 28-4 3-10 3-14 0-10-7-19-17-24-28-8-17-8-40-2-62 5-18 16-30 33-30Z" fill="${POD}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
-    <path d="M100 47c11 0 19 8 21.5 21 2.7 15 1 31-5 42-4 8-10 14-16.5 19-6.5-5-12.5-11-16.5-19-6-11-7.7-27-5-42C81 55 89 47 100 47Z" fill="${CREAM}"/>
-    <path d="M77.5 130c8 12 15 18 22.5 23 7.5-5 14.5-11 22.5-23" fill="none" stroke="${POD_DEEP}" stroke-width="1.8" stroke-dasharray="2 6" stroke-linecap="round" opacity=".55"/>
-    <path d="M68 78c-2 12-1 26 4 38" fill="none" stroke="var(--pip-highlight)" stroke-width="5" stroke-linecap="round" opacity=".38"/>
-    <circle cx="76.5" cy="113" r="6.4" fill="${CHEEK}" opacity=".5"/>
-    <circle cx="123.5" cy="113" r="6.4" fill="${CHEEK}" opacity=".5"/>
-    <g fill="${POD_DEEP}" opacity=".5">
-      <circle cx="75" cy="106" r="1.1"/><circle cx="71.5" cy="110" r="1.1"/><circle cx="78" cy="111" r="1"/>
-      <circle cx="125" cy="106" r="1.1"/><circle cx="128.5" cy="110" r="1.1"/><circle cx="122" cy="111" r="1"/>
-    </g>
-    ${armsMarkup}
+    ${FORMS[shape](mood)}
     ${FACES[mood] || FACES.happy}
   </svg>`;
 }
 
-/** Compact pod glyph used in the wordmark / tiny contexts. */
-export function pipGlyph(size = 22, cls = '') {
-  return `<svg class="pip-glyph ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <path d="M12 20.6c-3.9-2.8-5.7-6-5.7-9.3C6.3 7.3 8.7 4.9 12 4.9s5.7 2.4 5.7 6.4c0 3.3-1.8 6.5-5.7 9.3Z"/>
-    <path d="M12 4.9V2.2"/>
-    <path d="M11.8 3.3C10 3.2 8.8 2.1 8.8.7c1.8.1 3 1.2 3 2.6Z" fill="currentColor" stroke="none"/>
-    <path d="M12.2 3.1c1.8-.1 3-1.2 3-2.6-1.8.1-3 1.2-3 2.6Z" fill="currentColor" stroke="none"/>
+/** Compact glyph used in the wordmark / tiny contexts; follows Puffy's form. */
+export function puffyGlyph(size = 22, cls = '', form = getMascotForm()) {
+  const shape = FORM_IDS.has(form) ? form : 'lantern';
+  const art = {
+    lantern: `
+      <circle cx="12" cy="3" r="1.1"/>
+      <path d="M12 4.1v2"/>
+      <path d="M9.4 6.1h5.2"/>
+      <path d="M8.4 7.2c-1.2 2-1.2 7.4 0 9.4.9 1.5 2 2.2 3.6 2.2s2.7-.7 3.6-2.2c1.2-2 1.2-7.4 0-9.4"/>
+      <path d="M8.4 7.2h7.2"/>
+      <path d="M12 18.8v2.4M10.2 21.2h3.6"/>`,
+    moth: `
+      <path d="M9.2 10.2C7.6 7.4 4.6 6 2.8 7.1 1.2 8.1 1.4 11 3 12.9c1.2 1.4 3.2 2.1 5.4 2.1"/>
+      <path d="M14.8 10.2c1.6-2.8 4.6-4.2 6.4-3.1 1.6 1 1.4 3.9-.2 5.8-1.2 1.4-3.2 2.1-5.4 2.1"/>
+      <path d="M12 8.2c1 0 1.7 1 1.7 2.2v7.2c0 1.2-.7 2.2-1.7 2.2s-1.7-1-1.7-2.2v-7.2c0-1.2.7-2.2 1.7-2.2Z"/>
+      <path d="M10.8 8 9.6 5.2M13.2 8l1.2-2.8"/>`,
+    pebble: `
+      <path d="M11.8 5.2c3.2-.2 6 1.2 7.4 3.6 1.4 2.4 1.4 5.6-.2 7.8-1.6 2.2-4.2 3.4-6.8 3.2-2.6-.2-5-1.8-6-4.2-1-2.4-.8-5.2.8-7.2 1.2-1.6 2.8-2.8 4.8-3.2Z"/>
+      <path d="M6.4 9.2c1.2-1.6 3.4-2.4 5.6-2.4 2.8 0 5.4.8 6.6 2.6"/>`,
+    coffee: `
+      <path d="M6.6 8.6h10.8l-.9 9.4c-.1 1.2-1.1 2.1-2.3 2.1h-4.4c-1.2 0-2.2-.9-2.3-2.1Z"/>
+      <path d="M6.2 6.1h11.6v2.5H6.2z"/>
+      <path d="M10 4.6c-.8-.9.6-1.4 0-2.4M14 4.6c-.8-.9.6-1.4 0-2.4"/>
+      <path d="M8.4 12.4h7.2"/>`,
+  }[shape];
+  return `<svg class="puffy-glyph pip-glyph ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-form="${shape}">
+    ${art}
   </svg>`;
 }
 
-/** Pip in a wax-seal stamp. */
-export function pipStamp(size = 48, mood = 'happy') {
-  return `<span class="pip-stamp" style="--stamp:${size}px">${pip({ mood, size: Math.round(size * 0.92) })}</span>`;
+/** Puffy in a wax-seal stamp. */
+export function puffyStamp(size = 48, mood = 'happy') {
+  return `<span class="puffy-stamp pip-stamp" data-puffy-stamp="${mood}" data-pip-stamp="${mood}" style="--stamp:${size}px">${puffy({ mood, size: Math.round(size * 0.92) })}</span>`;
 }
+
+export const pipStamp = puffyStamp;
+export const pipGlyph = puffyGlyph;
+export const pip = puffy;

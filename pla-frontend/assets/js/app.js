@@ -1,5 +1,5 @@
 import { icon } from './icons.js';
-import { applyMascotStyle, pipGlyph, pipStamp } from './mascot.js';
+import { applyMascotStyle, applyMascotForm, puffy as pip, puffyGlyph as pipGlyph, puffyStamp as pipStamp, puffy, puffyGlyph, puffyStamp } from './mascot.js';
 import {
   initTheme,
   applyAccent,
@@ -11,7 +11,7 @@ import {
 import { startRouter, navigate } from './router.js';
 import { registerServiceWorker, watchQueue, isStandalone } from './pwa.js';
 import { formatDate, todayISO, initials } from './ui/format.js';
-import { openSheet } from './ui/sheet.js';
+import { openSheet, confirmSheet } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 import {
   initApi,
@@ -26,7 +26,8 @@ const DEMO_PROFILE = {
   name: 'Maya Chen',
   email: 'maya.chen@example.com',
   accent: 'terracotta',
-  mascotStyle: 'classic',
+  mascotStyle: 'slate',
+  mascotForm: 'lantern',
   avatarStyle: 'initials',
   workStart: '09:00',
   workEnd: '17:30',
@@ -120,9 +121,9 @@ function shellMarkup() {
   <aside class="sidebar" aria-label="Primary sidebar">
     <div class="sidebar__top">
       <a class="brand" href="#/dashboard">
-        <span class="brand__mark">${pipGlyph(23)}</span>
+        <span class="brand__mark" data-glyph-size="23">${pipGlyph(23)}</span>
         <span>
-          <span class="brand__word">Pip</span>
+          <span class="brand__word">Puffy</span>
           <span class="brand__sub">Life admin</span>
         </span>
       </a>
@@ -146,14 +147,18 @@ function shellMarkup() {
         </span>
         ${icon('chevron-right', 15)}
       </a>
+      <button class="logout-btn" type="button" data-logout>
+        ${icon('logout', 15)}
+        <span>Log out</span>
+      </button>
     </div>
   </aside>
 
   <div class="app__main">
     <header class="topbar">
-      <a class="mobile-brand" href="#/dashboard" aria-label="Pip home">
-        <span class="brand__mark">${pipGlyph(18)}</span>
-        <span>Pip</span>
+      <a class="mobile-brand" href="#/dashboard" aria-label="Puffy home">
+        <span class="brand__mark" data-glyph-size="18">${pipGlyph(18)}</span>
+        <span>Puffy</span>
       </a>
       <div class="topbar__date">
         ${icon('calendar', 15)}
@@ -201,11 +206,12 @@ function shellMarkup() {
 
 function paintProfile() {
   document.querySelectorAll('[data-profile-name]').forEach((el) => (el.textContent = profile.name));
-  const usePip = profile.avatarStyle === 'pip';
+  const usePip = profile.avatarStyle === 'pip' || profile.avatarStyle === 'puffy';
   document.querySelectorAll('[data-avatar]').forEach((el) => {
     el.classList.toggle('avatar--pip', usePip);
+    el.classList.toggle('avatar--puffy', usePip);
     el.innerHTML = usePip ? pipGlyph(18) : initials(profile.name);
-    el.title = usePip ? 'Pip' : profile.name;
+    el.title = usePip ? 'Puffy' : profile.name;
   });
 }
 
@@ -247,8 +253,15 @@ function openMore() {
         <p class="tiny muted">Your data lives on this device only. No account, no cloud, no peeking.</p>
       </div>
     `,
+    footer: `<button class="btn btn--ghost btn--block" type="button" data-logout-more>
+      ${icon('logout', 15)} Log out
+    </button>`,
   });
   sheet.body.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => sheet.close()));
+  sheet.footer?.querySelector('[data-logout-more]')?.addEventListener('click', () => {
+    sheet.close();
+    logOut();
+  });
 }
 
 function markNavigation(route, path) {
@@ -278,12 +291,48 @@ async function refreshBadges() {
   }
 }
 
+function paintShellMascots() {
+  document.querySelectorAll('.brand__mark[data-glyph-size]').forEach((el) => {
+    el.innerHTML = pipGlyph(Number(el.dataset.glyphSize) || 22);
+  });
+  document.querySelectorAll('[data-puffy-stamp], [data-pip-stamp]').forEach((el) => {
+    const mood = el.dataset.puffyStamp || el.dataset.pipStamp || 'happy';
+    const size = parseFloat(el.style.getPropertyValue('--stamp')) || 40;
+    el.innerHTML = puffy({ mood, size: Math.round(size * 0.92) });
+  });
+}
+
 function refreshShell() {
   applyAccent(profile.accent || getAccent());
   applyMascotStyle(profile.mascotStyle);
+  applyMascotForm(profile.mascotForm);
+  paintShellMascots();
   paintProfile();
   paintThemeButton();
   refreshBadges();
+}
+
+async function logOut() {
+  const ok = await confirmSheet({
+    title: 'Log out of Puffy?',
+    message:
+      'Your desk — tasks, bills, budgets, habits and settings — stays on this device. You can open it again from the welcome screen.',
+    confirmLabel: 'Log out',
+    cancelLabel: 'Stay logged in',
+    tone: 'primary',
+  });
+  if (!ok) return;
+
+  try {
+    const next = await saveProfile({ onboarded: false });
+    profile = { ...profile, ...next };
+    refreshShell();
+    toast('Logged out. Your desk is waiting here.');
+    navigate('welcome', { replace: true });
+  } catch (err) {
+    console.warn('Could not log out', err);
+    toast('Could not log out. Local storage may be blocked.', { type: 'error' });
+  }
 }
 
 async function boot() {
@@ -296,6 +345,7 @@ async function boot() {
     if (stored) profile = { ...DEMO_PROFILE, ...stored };
     applyAccent(profile.accent || getAccent());
     applyMascotStyle(profile.mascotStyle);
+    applyMascotForm(profile.mascotForm);
   } catch (err) {
     // Private windows can block IndexedDB. The shell still renders so the
     // message can explain what happened rather than showing a blank page.
@@ -314,6 +364,7 @@ async function boot() {
   });
 
   document.querySelector('[data-tab="more"]')?.addEventListener('click', openMore);
+  document.querySelector('[data-logout]')?.addEventListener('click', logOut);
 
   paintThemeButton();
   paintOnline();
@@ -330,7 +381,7 @@ async function boot() {
   });
   window.addEventListener('appinstalled', () => {
     window.__plaInstallPrompt = null;
-    toast('Pip is installed. It works offline now.', { type: 'success' });
+    toast('Puffy is installed. It works offline now.', { type: 'success' });
   });
 
   const ctx = {
@@ -371,6 +422,7 @@ async function boot() {
     ctx,
     onRoute: markNavigation,
     fallback: 'dashboard',
+    guard: (route) => route.id === 'welcome' || profile.onboarded,
   });
 
   document.documentElement.classList.add('is-ready');
@@ -385,7 +437,7 @@ async function boot() {
   else window.addEventListener('load', startPwa, { once: true });
 
   document.addEventListener('pla:update-ready', () => {
-    toast('A new Pip is ready. Reload when you have a moment.', { type: 'info', duration: 7000 });
+    toast('A new Puffy is ready. Reload when you have a moment.', { type: 'info', duration: 7000 });
   });
 }
 

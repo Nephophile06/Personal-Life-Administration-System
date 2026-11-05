@@ -1,5 +1,5 @@
 phone/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-phone/light dashboard: h="Still up, Maya." overflow=0 focusables=19
+phone/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 phone/light tasks: h="The list, honestly." overflow=0 focusables=180
 phone/light planner: h="A plan you can argue with." overflow=0 focusables=35
 phone/light bills: h="Bills, held steady." overflow=0 focusables=30
@@ -7,9 +7,9 @@ phone/light money: h="The month, in plain sight." overflow=0 focusables=43
 phone/light habits: h="Tend the garden." overflow=0 focusables=53
 phone/light review: h="The week, held up to the light." overflow=0 focusables=7
 phone/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-phone/light settings: h="A desk that fits only you." overflow=0 focusables=32
+phone/light settings: h="A desk that fits only you." overflow=0 focusables=36
 phone/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-phone/dark dashboard: h="Still up, Maya." overflow=0 focusables=19
+phone/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 phone/dark tasks: h="The list, honestly." overflow=0 focusables=180
 phone/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 phone/dark bills: h="Bills, held steady." overflow=0 focusables=30
@@ -17,9 +17,9 @@ phone/dark money: h="The month, in plain sight." overflow=0 focusables=43
 phone/dark habits: h="Tend the garden." overflow=0 focusables=53
 phone/dark review: h="The week, held up to the light." overflow=0 focusables=7
 phone/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-phone/dark settings: h="A desk that fits only you." overflow=0 focusables=32
+phone/dark settings: h="A desk that fits only you." overflow=0 focusables=36
 tablet/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-tablet/light dashboard: h="Still up, Maya." overflow=0 focusables=19
+tablet/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 tablet/light tasks: h="The list, honestly." overflow=0 focusables=180
 tablet/light planner: h="A plan you can argue with." overflow=0 focusables=35
 tablet/light bills: h="Bills, held steady." overflow=0 focusables=30
@@ -27,9 +27,9 @@ tablet/light money: h="The month, in plain sight." overflow=0 focusables=43
 tablet/light habits: h="Tend the garden." overflow=0 focusables=53
 tablet/light review: h="The week, held up to the light." overflow=0 focusables=7
 tablet/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-tablet/light settings: h="A desk that fits only you." overflow=0 focusables=32
+tablet/light settings: h="A desk that fits only you." overflow=0 focusables=36
 tablet/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-tablet/dark dashboard: h="Still up, Maya." overflow=0 focusables=19
+tablet/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 tablet/dark tasks: h="The list, honestly." overflow=0 focusables=180
 tablet/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 tablet/dark bills: h="Bills, held steady." overflow=0 focusables=30
@@ -37,9 +37,9 @@ tablet/dark money: h="The month, in plain sight." overflow=0 focusables=43
 tablet/dark habits: h="Tend the garden." overflow=0 focusables=53
 tablet/dark review: h="The week, held up to the light." overflow=0 focusables=7
 tablet/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-tablet/dark settings: h="A desk that fits only you." overflow=0 focusables=32
+tablet/dark settings: h="A desk that fits only you." overflow=0 focusables=36
 desktop/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-desktop/light dashboard: h="Still up, Maya." overflow=0 focusables=19
+desktop/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 desktop/light tasks: h="The list, honestly." overflow=0 focusables=180
 desktop/light planner: h="A plan you can argue with." overflow=0 focusables=35
 desktop/light bills: h="Bills, held steady." overflow=0 focusables=30
@@ -47,9 +47,9 @@ desktop/light money: h="The month, in plain sight." overflow=0 focusables=43
 desktop/light habits: h="Tend the garden." overflow=0 focusables=53
 desktop/light review: h="The week, held up to the light." overflow=0 focusables=7
 desktop/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-desktop/light settings: h="A desk that fits only you." overflow=0 focusables=32
+desktop/light settings: h="A desk that fits only you." overflow=0 focusables=36
 desktop/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
-desktop/dark dashboard: h="Still up, Maya." overflow=0 focusables=19
+desktop/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
 desktop/dark tasks: h="The list, honestly." overflow=0 focusables=180
 desktop/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 desktop/dark bills: h="Bills, held steady." overflow=0 focusables=30
@@ -57,6 +57,6 @@ desktop/dark money: h="The month, in plain sight." overflow=0 focusables=43
 desktop/dark habits: h="Tend the garden." overflow=0 focusables=53
 desktop/dark review: h="The week, held up to the light." overflow=0 focusables=7
 desktop/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-desktop/dark settings: h="A desk that fits only you." overflow=0 focusables=32
+desktop/dark settings: h="A desk that fits only you." overflow=0 focusables=36
 
 CLEAN: all screens rendered without overflow or console errors.

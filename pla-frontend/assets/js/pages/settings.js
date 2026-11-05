@@ -10,7 +10,7 @@ import {
   applyTheme,
   getThemePref,
 } from '../theme.js';
-import { MASCOT_STYLES, applyMascotStyle, pip, pipGlyph } from '../mascot.js';
+import { MASCOT_FORMS, MASCOT_STYLES, applyMascotStyle, applyMascotForm, pip, pipGlyph } from '../mascot.js';
 import { icon } from '../icons.js';
 import {
   FREQUENCIES,
@@ -44,6 +44,7 @@ const DATASETS = [
 
 const accentFor = (id) => ACCENTS.find((a) => a.id === id) || ACCENTS[0];
 const mascotFor = (id) => MASCOT_STYLES.find((s) => s.id === id) || MASCOT_STYLES[0];
+const formFor = (id) => MASCOT_FORMS.find((f) => f.id === id) || MASCOT_FORMS[0];
 const priorityLabel = (id) => PRIORITIES.find((p) => p.id === id)?.label || id || '';
 const categoryLabel = (id) => categoryMeta(id).label;
 const frequencyLabel = (id) => FREQUENCIES.find((f) => f.id === id)?.label || id || '';
@@ -261,6 +262,12 @@ export default async function settingsPage(root, ctx) {
 
   const chosenAccent = () => accentFor(profile.accent);
   const chosenMascot = () => mascotFor(profile.mascotStyle);
+  const chosenForm = () => formFor(profile.mascotForm);
+  // Normalise older stored ids ('classic', retired 'kite') to the current set.
+  const currentStyleId = () =>
+    MASCOT_STYLES.some((s) => s.id === profile.mascotStyle) ? profile.mascotStyle : 'slate';
+  const currentFormId = () =>
+    MASCOT_FORMS.some((f) => f.id === profile.mascotForm) ? profile.mascotForm : 'lantern';
 
   /* ---- Markup ------------------------------------------------------------ */
 
@@ -275,17 +282,25 @@ export default async function settingsPage(root, ctx) {
   ).join('');
 
   const mascotChoices = MASCOT_STYLES.map(
-    (s) => `<button class="pip-choice" type="button" data-mascot-choice="${s.id}"
-      aria-pressed="${ (profile.mascotStyle || 'classic') === s.id }">
-      <span class="pip-choice__swatch" aria-hidden="true" style="--swatch:${s.swatch}"></span>
+    (s) => `<button class="puffy-choice pip-choice" type="button" data-mascot-choice="${s.id}"
+      aria-pressed="${currentStyleId() === s.id}">
+      <span class="puffy-choice__swatch pip-choice__swatch" aria-hidden="true" style="--swatch:${s.swatch}"></span>
       <span>${s.label}</span>
     </button>`
   ).join('');
 
+  const formChoices = MASCOT_FORMS.map(
+    (f) => `<button class="puffy-form pip-form" type="button" data-puffy-form-choice="${f.id}" data-pip-form-choice="${f.id}"
+      aria-pressed="${currentFormId() === f.id}" title="${f.label}">
+      <span class="puffy-form__art pip-form__art" aria-hidden="true">${pip({ form: f.id, mood: 'happy', size: 42 })}</span>
+      <span class="puffy-form__label pip-form__label">${f.label}</span>
+    </button>`
+  ).join('');
+
   const installLabel = isStandalone()
-    ? 'Pip is installed'
+    ? 'Puffy is installed'
     : window.__plaInstallPrompt
-      ? 'Install Pip'
+      ? 'Install Puffy'
       : 'How to install';
 
   const dataCounts = stats
@@ -303,7 +318,7 @@ export default async function settingsPage(root, ctx) {
     ${pageHead({
       eyebrow: 'Make it yours',
       title: 'A desk that fits only you.',
-      sub: 'Your name, your palette, the hours Pip may use — and a clean way to take your data with you.',
+      sub: 'Your name, your palette, the hours Puffy may use — and a clean way to take your data with you.',
       actions: `
         <button class="btn btn--ghost btn--sm" type="button" data-export>${icon('download', 15)} Export data</button>
         <button class="btn btn--primary btn--sm" type="button" data-install ${isStandalone() ? 'disabled' : ''}>
@@ -321,7 +336,7 @@ export default async function settingsPage(root, ctx) {
       <div class="ledger-cell" data-ledger-cell="ochre">
         <span class="ledger-cell__label"><span class="pill-dot" aria-hidden="true"></span>Palette</span>
         <span class="ledger-cell__value" data-summary-accent>${chosenAccent().label}</span>
-        <span class="ledger-cell__note" data-summary-accent-note>${chosenMascot().label} Pip · ${THEME_LABEL[getThemePref()]} theme</span>
+        <span class="ledger-cell__note" data-summary-accent-note>${chosenForm().label} Puffy · ${THEME_LABEL[getThemePref()]} theme</span>
       </div>
       <div class="ledger-cell" data-ledger-cell="sage">
         <span class="ledger-cell__label"><span class="pill-dot" aria-hidden="true"></span>Working hours</span>
@@ -343,7 +358,7 @@ export default async function settingsPage(root, ctx) {
             <span class="settings-card__icon tone tone--accent" aria-hidden="true">${icon('user', 19)}</span>
             <div class="grow">
               <h2 id="settings-profile-title">You</h2>
-              <p class="settings-card__sub">The name Pip uses, and the mark beside it.</p>
+              <p class="settings-card__sub">The name Puffy uses, and the mark beside it.</p>
             </div>
           </header>
 
@@ -379,10 +394,10 @@ export default async function settingsPage(root, ctx) {
                     <span class="avatar-toggle__dot">${initials(profile.name)}</span>
                     Initials
                   </button>
-                  <button class="avatar-toggle__btn" type="button" data-avatar-style="pip"
-                    aria-pressed="${profile.avatarStyle === 'pip'}">
-                    <span class="avatar-toggle__dot avatar-toggle__dot--pip">${pipGlyph(17)}</span>
-                    Pip
+                  <button class="avatar-toggle__btn" type="button" data-avatar-style="puffy"
+                    aria-pressed="${(profile.avatarStyle === 'puffy' || profile.avatarStyle === 'pip')}">
+                    <span class="avatar-toggle__dot avatar-toggle__dot--puffy avatar-toggle__dot--pip">${pipGlyph(17)}</span>
+                    Puffy
                   </button>
                 </div>
                 <p class="settings-hint">Shown in the sidebar and top bar.</p>
@@ -396,7 +411,7 @@ export default async function settingsPage(root, ctx) {
             <span class="settings-card__icon tone tone--ochre" aria-hidden="true">${icon('palette', 19)}</span>
             <div class="grow">
               <h2 id="settings-look-title">Look &amp; feel</h2>
-              <p class="settings-card__sub">One accent, three themes, and Pip in the colour you like.</p>
+              <p class="settings-card__sub">One accent, three themes, and a Puffy that feels like yours.</p>
             </div>
           </header>
 
@@ -422,12 +437,15 @@ export default async function settingsPage(root, ctx) {
           </div>
 
           <div class="settings-block">
-            <h3 class="settings-subhead">Pip’s colourway</h3>
-            <div class="pip-studio">
-              <div class="pip-studio__preview" data-mascot-preview>${pip({ mood: 'happy', size: 104 })}</div>
-              <div class="pip-studio__side">
-                <div class="pip-choices" role="group" aria-label="Pip colourway">${mascotChoices}</div>
-                <p class="settings-hint" data-mascot-note>${chosenMascot().note}. Every Pip on the desk follows along.</p>
+            <h3 class="settings-subhead">Puffy’s look</h3>
+            <div class="puffy-studio pip-studio">
+              <div class="puffy-studio__preview pip-studio__preview" data-mascot-preview>${pip({ mood: 'happy', size: 104 })}</div>
+              <div class="puffy-studio__side pip-studio__side">
+                <span class="puffy-studio__label pip-studio__label">Form</span>
+                <div class="puffy-forms pip-forms" role="group" aria-label="Puffy’s form">${formChoices}</div>
+                <span class="puffy-studio__label pip-studio__label">Colour</span>
+                <div class="puffy-choices pip-choices" role="group" aria-label="Puffy’s colour">${mascotChoices}</div>
+                <p class="settings-hint" data-mascot-note>${chosenForm().note}. ${chosenMascot().note}.</p>
               </div>
             </div>
           </div>
@@ -457,7 +475,7 @@ export default async function settingsPage(root, ctx) {
               </div>
             </div>
             <p class="field__error" data-hours-error role="alert"></p>
-            <p class="settings-hint">Pip leaves 5–10 minute breaths between blocks, and never schedules inside a busy block.</p>
+            <p class="settings-hint">Puffy leaves 5–10 minute breaths between blocks, and never schedules inside a busy block.</p>
             <div class="settings-actions">
               <button class="linkish" type="button" data-hours-defaults>Use 9:00–17:30</button>
               <button class="btn btn--primary btn--sm" type="submit">Save hours</button>
@@ -469,19 +487,19 @@ export default async function settingsPage(root, ctx) {
           <header class="settings-card__head">
             <span class="settings-card__icon tone tone--accent" aria-hidden="true">${icon('wand', 19)}</span>
             <div class="grow">
-              <h2 id="settings-assist-title">Pip’s help</h2>
+              <h2 id="settings-assist-title">Puffy’s help</h2>
               <p class="settings-card__sub">How much of the planning you want to hand over.</p>
             </div>
           </header>
 
           <div class="switch-row settings-switch">
             <span class="switch-row__text">
-              <span class="switch-row__title">Let Pip draft plans with AI</span>
+              <span class="switch-row__title">Let Puffy draft plans with AI</span>
               <span class="switch-row__sub">A future backend can rewrite the draft in plainer language. Nothing leaves this browser today.</span>
             </span>
             <label class="switch">
               <input type="checkbox" data-ai-toggle ${profile.aiOn ? 'checked' : ''}
-                aria-label="Let Pip draft plans with AI">
+                aria-label="Let Puffy draft plans with AI">
               <span class="switch__track"></span>
             </label>
           </div>
@@ -539,15 +557,15 @@ export default async function settingsPage(root, ctx) {
           </div>
         </section>
 
-        <p class="settings-foot tiny muted">${icon('leaf', 13)} Pip is local-first: no account, no server, no tracking. Export a CSV whenever you want a copy.</p>
+        <p class="settings-foot tiny muted">${icon('leaf', 13)} Puffy is local-first: no account, no server, no tracking. Export a CSV whenever you want a copy.</p>
       </div>
 
       <aside class="settings-rail" aria-label="Settings side notes">
-        <section class="card rail-card rail-card--pip settings-rail__pip">
+        <section class="card rail-card rail-card--puffy rail-card--pip settings-rail__puffy settings-rail__pip">
           ${pip({ mood: 'happy', size: 54 })}
           <div>
-            <span class="card-kicker">Pip says</span>
-            <p class="rail-pip">Your desk is yours. I only keep what you give me — and I never send it anywhere.</p>
+            <span class="card-kicker">Puffy says</span>
+            <p class="rail-puffy rail-pip">Your desk is yours. I only keep what you give me — and I never send it anywhere.</p>
           </div>
         </section>
 
@@ -571,14 +589,14 @@ export default async function settingsPage(root, ctx) {
           <h2 class="rail-card__title" data-install-title>${installTitle()}</h2>
           <p class="rail-card__sub" data-install-status>${installStatus()}</p>
           <ol class="install-steps settings-install__steps">
-            <li>Open Pip in Chrome, Edge or Safari.</li>
+            <li>Open Puffy in Chrome, Edge or Safari.</li>
             <li>Use the browser menu: <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
-            <li>Confirm. Pip opens full-screen and keeps your data.</li>
+            <li>Confirm. Puffy opens full-screen and keeps your data.</li>
           </ol>
-          <p class="settings-hint">Install is offered when Pip is served over HTTPS or localhost.</p>
+          <p class="settings-hint">Install is offered when Puffy is served over HTTPS or localhost.</p>
         </section>
 
-        <p class="settings-version tiny muted">Pip · local-first · v1.0<br><span>Data contract v1 · IndexedDB</span><br><span data-sw-status>Offline shell: checking…</span></p>
+        <p class="settings-version tiny muted">Puffy · local-first · v1.0<br><span>Data contract v1 · IndexedDB</span><br><span data-sw-status>Offline shell: checking…</span></p>
       </aside>
     </div>
   </div>`;
@@ -586,26 +604,26 @@ export default async function settingsPage(root, ctx) {
   /* ---- Little painters --------------------------------------------------- */
 
   function renderPortrait() {
-    if (profile.avatarStyle === 'pip') return pip({ mood: 'happy', size: 84 });
+    if ((profile.avatarStyle === 'puffy' || profile.avatarStyle === 'pip')) return pip({ mood: 'happy', size: 84 });
     return `<span class="avatar avatar--xl">${initials(profile.name)}</span>`;
   }
 
   function aiNote(on) {
     return on
-      ? 'AI assist is on. Until a model endpoint exists, every plan still comes from Pip’s local urgency, importance and effort rules.'
-      : 'AI assist is off. Pip will only use the local scoring rules — no model, no waiting.';
+      ? 'AI assist is on. Until a model endpoint exists, every plan still comes from Puffy’s local urgency, importance and effort rules.'
+      : 'AI assist is off. Puffy will only use the local scoring rules — no model, no waiting.';
   }
 
   function installTitle() {
-    if (isStandalone()) return 'Pip is installed.';
+    if (isStandalone()) return 'Puffy is installed.';
     if (window.__plaInstallPrompt) return 'One tap away.';
     return 'A place on your home screen.';
   }
 
   function installStatus() {
-    if (isStandalone()) return 'Open Pip from your home screen. It works offline and opens without the address bar.';
-    if (window.__plaInstallPrompt) return 'Your browser is ready to install Pip as an app.';
-    return 'Use the browser menu to install Pip. The steps are below.';
+    if (isStandalone()) return 'Open Puffy from your home screen. It works offline and opens without the address bar.';
+    if (window.__plaInstallPrompt) return 'Your browser is ready to install Puffy as an app.';
+    return 'Use the browser menu to install Puffy. The steps are below.';
   }
 
   function paintSummary() {
@@ -616,7 +634,7 @@ export default async function settingsPage(root, ctx) {
     const accentEl = root.querySelector('[data-summary-accent]');
     if (accentEl) accentEl.textContent = chosenAccent().label;
     const accentNote = root.querySelector('[data-summary-accent-note]');
-    if (accentNote) accentNote.textContent = `${chosenMascot().label} Pip · ${THEME_LABEL[getThemePref()]} theme`;
+    if (accentNote) accentNote.textContent = `${chosenForm().label} Puffy · ${THEME_LABEL[getThemePref()]} theme`;
     const hoursEl = root.querySelector('[data-summary-hours]');
     if (hoursEl) hoursEl.textContent = windowLabel(profile);
     const recordEl = root.querySelector('[data-summary-records]');
@@ -633,6 +651,9 @@ export default async function settingsPage(root, ctx) {
     root.querySelectorAll('[data-mascot-choice]').forEach((btn) => {
       btn.setAttribute('aria-pressed', String(btn.dataset.mascotChoice === chosenMascot().id));
     });
+    root.querySelectorAll('[data-puffy-form-choice], [data-pip-form-choice]').forEach((btn) => {
+      btn.setAttribute('aria-pressed', String((btn.dataset.puffyFormChoice || btn.dataset.pipFormChoice) === chosenForm().id));
+    });
     root.querySelectorAll('[data-avatar-style]').forEach((btn) => {
       btn.setAttribute('aria-pressed', String(btn.dataset.avatarStyle === (profile.avatarStyle || 'initials')));
     });
@@ -641,7 +662,7 @@ export default async function settingsPage(root, ctx) {
     const preview = root.querySelector('[data-mascot-preview]');
     if (preview) preview.innerHTML = pip({ mood: 'happy', size: 104 });
     const note = root.querySelector('[data-mascot-note]');
-    if (note) note.textContent = `${chosenMascot().note}. Every Pip on the desk follows along.`;
+    if (note) note.textContent = `${chosenForm().note}. ${chosenMascot().note}.`;
   }
 
   function paintInstall() {
@@ -651,7 +672,7 @@ export default async function settingsPage(root, ctx) {
     });
     const label = root.querySelector('[data-install-label]');
     if (label) {
-      label.textContent = installed ? 'Pip is installed' : window.__plaInstallPrompt ? 'Install Pip' : 'How to install';
+      label.textContent = installed ? 'Puffy is installed' : window.__plaInstallPrompt ? 'Install Puffy' : 'How to install';
     }
     const title = root.querySelector('[data-install-title]');
     if (title) title.textContent = installTitle();
@@ -670,7 +691,7 @@ export default async function settingsPage(root, ctx) {
     const submit = form.querySelector('button[type="submit"]');
 
     if (!name) {
-      error.textContent = 'Pip needs a name to greet — anything you like.';
+      error.textContent = 'Puffy needs a name to greet — anything you like.';
       form.elements.name.focus();
       return;
     }
@@ -687,7 +708,7 @@ export default async function settingsPage(root, ctx) {
       profile = await ctx.updateProfile({ name, email });
       paintSummary();
       paintChoices();
-      toast('Profile saved. Pip will use that name.');
+      toast('Profile saved. Puffy will use that name.');
     } catch (err) {
       console.warn('Could not save profile', err);
       toastError('That did not save. Check that this browser allows local storage.');
@@ -706,7 +727,7 @@ export default async function settingsPage(root, ctx) {
     const submit = form.querySelector('button[type="submit"]');
 
     if (!start || !end) {
-      error.textContent = 'Give Pip both a start and a finish time.';
+      error.textContent = 'Give Puffy both a start and a finish time.';
       return;
     }
     const span = timeToMinutes(end) - timeToMinutes(start);
@@ -766,36 +787,57 @@ export default async function settingsPage(root, ctx) {
     }
   }
 
+  async function chooseForm(id) {
+    const next = formFor(id);
+    if (currentFormId() === next.id) return;
+    const previous = currentFormId();
+    applyMascotForm(next.id);
+    profile = { ...profile, mascotForm: next.id };
+    paintChoices();
+    paintSummary();
+    try {
+      profile = await ctx.updateProfile({ mascotForm: next.id });
+      toast(`Puffy is a ${next.label.toLowerCase()} now.`, { type: 'info', duration: 2000 });
+    } catch (err) {
+      console.warn('Could not save Puffy form', err);
+      profile = { ...profile, mascotForm: previous };
+      applyMascotForm(previous);
+      paintChoices();
+      paintSummary();
+      toastError('Puffy’s form could not be saved.');
+    }
+  }
+
   async function chooseMascot(id) {
     const next = mascotFor(id);
-    if ((profile.mascotStyle || 'classic') === next.id) return;
-    const previous = profile.mascotStyle || 'classic';
+    if (currentStyleId() === next.id) return;
+    const previous = currentStyleId();
     applyMascotStyle(next.id);
     profile = { ...profile, mascotStyle: next.id };
     paintChoices();
     paintSummary();
     try {
       profile = await ctx.updateProfile({ mascotStyle: next.id });
-      toast(`Pip is wearing ${next.label.toLowerCase()}.`, { type: 'info', duration: 2000 });
+      toast(`Puffy is wearing ${next.label.toLowerCase()}.`, { type: 'info', duration: 2000 });
     } catch (err) {
-      console.warn('Could not save Pip colourway', err);
+      console.warn('Could not save Puffy colourway', err);
       profile = { ...profile, mascotStyle: previous };
       applyMascotStyle(previous);
       paintChoices();
       paintSummary();
-      toastError('Pip’s colourway could not be saved.');
+      toastError('Puffy’s colourway could not be saved.');
     }
   }
 
   async function chooseAvatar(id) {
-    if (id !== 'initials' && id !== 'pip') return;
+    if (id !== 'initials' && id !== 'puffy' && id !== 'pip') return;
     if ((profile.avatarStyle || 'initials') === id) return;
     const previous = profile.avatarStyle || 'initials';
     profile = { ...profile, avatarStyle: id };
     paintChoices();
     try {
       profile = await ctx.updateProfile({ avatarStyle: id });
-      toast(id === 'pip' ? 'Pip is now your mark.' : 'Initials are back.', { type: 'info', duration: 1800 });
+      toast(id === 'puffy' || id === 'pip' ? 'Puffy is now your mark.' : 'Initials are back.', { type: 'info', duration: 1800 });
     } catch (err) {
       console.warn('Could not save avatar style', err);
       profile = { ...profile, avatarStyle: previous };
@@ -838,7 +880,7 @@ export default async function settingsPage(root, ctx) {
     try {
       const data = await ensureExportData();
       const { csv, count, noun } = buildExport(kind, data);
-      downloadCSV(`pip-${kind}-${todayISO()}.csv`, csv);
+      downloadCSV(`puffy-${kind}-${todayISO()}.csv`, csv);
       toast(`Exported ${count} ${noun} as CSV.`);
     } catch (err) {
       console.warn('Export failed', err);
@@ -917,25 +959,25 @@ export default async function settingsPage(root, ctx) {
     const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const steps = ios
       ? [
-          'Open Pip in Safari.',
+          'Open Puffy in Safari.',
           'Tap the <strong>Share</strong> button in the toolbar.',
           'Choose <strong>Add to Home Screen</strong>, then Add.',
         ]
       : [
-          'Open Pip in Chrome or Edge.',
+          'Open Puffy in Chrome or Edge.',
           'Open the browser menu — the three dots or the install icon in the address bar.',
-          'Choose <strong>Install Pip</strong> or <strong>Add to Home screen</strong>.',
+          'Choose <strong>Install Puffy</strong> or <strong>Add to Home screen</strong>.',
         ];
     openSheet({
       eyebrow: 'Home screen',
-      title: 'A place for Pip',
-      subtitle: 'Installed, Pip opens without the address bar and works offline.',
+      title: 'A place for Puffy',
+      subtitle: 'Installed, Puffy opens without the address bar and works offline.',
       body: `
         <div class="install-hero">${pip({ mood: 'happy', size: 92 })}</div>
         <ol class="install-steps">${steps.map((s) => `<li>${s}</li>`).join('')}</ol>
         <div class="settings-note">
           ${icon('info', 15)}
-          <p>If the install option is missing, make sure Pip is served over <strong>HTTPS</strong> or on <strong>localhost</strong>. Reload once after the first visit.</p>
+          <p>If the install option is missing, make sure Puffy is served over <strong>HTTPS</strong> or on <strong>localhost</strong>. Reload once after the first visit.</p>
         </div>`,
       footer: `<button class="btn btn--primary" type="button" data-close-sheet>Got it</button>`,
     }).footer.querySelector('[data-close-sheet]')?.addEventListener('click', (event) => {
@@ -974,6 +1016,7 @@ export default async function settingsPage(root, ctx) {
 
     if (target.matches('[data-accent-choice]')) return chooseAccent(target.dataset.accentChoice);
     if (target.matches('[data-theme-choice]')) return chooseTheme(target.dataset.themeChoice);
+    if (target.matches('[data-puffy-form-choice], [data-pip-form-choice]')) return chooseForm((target.dataset.puffyFormChoice || target.dataset.pipFormChoice));
     if (target.matches('[data-mascot-choice]')) return chooseMascot(target.dataset.mascotChoice);
     if (target.matches('[data-avatar-style]')) return chooseAvatar(target.dataset.avatarStyle);
     if (target.matches('[data-export]')) return openExportSheet();
@@ -1016,7 +1059,7 @@ export default async function settingsPage(root, ctx) {
     const bits = ['Offline shell ready'];
     bits.push(status.chartCached ? 'Chart.js cached' : 'Chart.js loads online');
     el.textContent = bits.join(' · ');
-    el.title = `${status.version || 'Pip'} · ${status.pending || 0} local change(s) queued · ${status.caches?.length || 0} cache(s) on this device`;
+    el.title = `${status.version || 'Puffy'} · ${status.pending || 0} local change(s) queued · ${status.caches?.length || 0} cache(s) on this device`;
   }
 
   root.addEventListener('click', onClick);

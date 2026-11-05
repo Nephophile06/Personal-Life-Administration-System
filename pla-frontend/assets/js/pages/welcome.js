@@ -21,7 +21,7 @@ export default function welcome(root, ctx) {
       <section class="welcome__art" aria-hidden="true">
         <div class="welcome__scene">${welcomeScene(g.period)}</div>
         <div class="welcome__quote">
-          <span class="eyebrow eyebrow--plain">Pip says</span>
+          <span class="eyebrow eyebrow--plain">Puffy says</span>
           <p class="serif">“${g.line}”</p>
         </div>
         <ul class="welcome__truths">
@@ -35,7 +35,7 @@ export default function welcome(root, ctx) {
         <a class="brand welcome__brand" href="#/welcome">
           <span class="brand__mark">${pipGlyph(23)}</span>
           <span>
-            <span class="brand__word">Pip</span>
+            <span class="brand__word">Puffy</span>
             <span class="brand__sub">Life admin</span>
           </span>
         </a>
@@ -54,7 +54,7 @@ export default function welcome(root, ctx) {
             <div class="auth__panel" id="auth-new" data-panel="new">
               <form class="auth__form" data-signup novalidate>
                 <div class="field">
-                  <label for="signup-name">What should Pip call you?</label>
+                  <label for="signup-name">What should Puffy call you?</label>
                   <input class="input" id="signup-name" name="name" autocomplete="name" maxlength="40" placeholder="e.g. Maya Chen" required>
                 </div>
                 <div class="field">
@@ -162,7 +162,7 @@ export default function welcome(root, ctx) {
     const enteredEmail = String(data.get('email') || '').trim();
 
     if (!entered) {
-      if (error) error.textContent = 'A name is all Pip needs — anything you like.';
+      if (error) error.textContent = 'A name is all Puffy needs — anything you like.';
       nameInput?.focus();
       return;
     }

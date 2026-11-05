@@ -243,11 +243,11 @@ export default async function bills(root, ctx) {
         <p class="tiny muted">A payment writes the expense and rolls the next date forward.</p>
       </section>
 
-      <section class="rail-card card rail-card--pip">
+      <section class="rail-card card rail-card--puffy rail-card--pip">
         ${pip({ mood: 'happy', size: 64 })}
         <div>
-          <span class="card-kicker">Pip says</span>
-          <p class="rail-pip">${
+          <span class="card-kicker">Puffy says</span>
+          <p class="rail-puffy rail-pip">${
             s.overdue.length
               ? `${s.overdue.length === 1 ? 'One bill has' : `${s.overdue.length} bills have`} slipped past. Pay ${s.overdue.length === 1 ? 'it' : 'them'} and the dates roll forward — no spiral.`
               : 'Bills stop being surprises when you can see them coming. Nothing is chasing you today.'
@@ -281,7 +281,7 @@ export default async function bills(root, ctx) {
   function emptyBills() {
     return `<div class="card empty">
       <h3>No regulars yet</h3>
-      <p>Add rent, a phone plan, anything that comes back around. Pip keeps the dates.</p>
+      <p>Add rent, a phone plan, anything that comes back around. Puffy keeps the dates.</p>
       <button class="btn btn--primary" type="button" data-action="add-bill">${icon('plus', 15)} Add your first bill</button>
     </div>`;
   }
@@ -417,7 +417,7 @@ export default async function bills(root, ctx) {
           payments: bill?.payments || [],
         });
         sheet.close();
-        toast(isEdit ? `${name} updated` : `${name} added. Pip will keep the date.`);
+        toast(isEdit ? `${name} updated` : `${name} added. Puffy will keep the date.`);
         await refresh();
       } catch (err) {
         console.error(err);
