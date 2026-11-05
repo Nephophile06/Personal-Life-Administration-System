@@ -1,4 +1,4 @@
-/* Puffy · single stylesheet
+/* Pip · single stylesheet
    Sections: tokens, base, layout, components, pages.
    Kept in one file so the first paint needs a single CSS round trip.
    Edit the section you need; there is no build step. */
@@ -89,35 +89,35 @@
   --success-soft: #e2ead9;
   --info: #476571;
 
-  /* Puffy's ink and colourway (data-mascot swaps the pod) */
-  --puffy-ink: #3a2a1d;
-  --pip-ink: var(--puffy-ink);
-  --puffy-pod: #5f7482;
-  --pip-pod: var(--puffy-pod);
-  --puffy-pod-deep: #465c6b;
-  --pip-pod-deep: var(--puffy-pod-deep);
-  --puffy-cream: #f9edd9;
-  --pip-cream: var(--puffy-cream);
-  --puffy-leaf: #7e9470;
-  --pip-leaf: var(--puffy-leaf);
-  --puffy-leaf-dark: #556a4b;
-  --pip-leaf-dark: var(--puffy-leaf-dark);
-  --puffy-leaf-light: #93a784;
-  --pip-leaf-light: var(--puffy-leaf-light);
-  --puffy-cheek: #c99a86;
-  --pip-cheek: var(--puffy-cheek);
-  --puffy-highlight: #8ca4b3;
-  --pip-highlight: var(--puffy-highlight);
-  --puffy-line: #8b8172;
-  --pip-line: var(--puffy-line);
-  --puffy-ice: #a9c1c9;
-  --pip-ice: var(--puffy-ice);
-  --puffy-confetti-a: #a2762a;
-  --pip-confetti-a: var(--puffy-confetti-a);
-  --puffy-confetti-b: #5d7057;
-  --pip-confetti-b: var(--puffy-confetti-b);
-  --puffy-confetti-c: #9c7526;
-  --pip-confetti-c: var(--puffy-confetti-c);
+  /* Pip's ink and colourway (data-mascot swaps the pod) */
+  --pip-ink: #3a2a1d;
+  --puffy-ink: var(--pip-ink);
+  --pip-pod: #c9673f;
+  --puffy-pod: var(--pip-pod);
+  --pip-pod-deep: #b4552d;
+  --puffy-pod-deep: var(--pip-pod-deep);
+  --pip-cream: #f9edd9;
+  --puffy-cream: var(--pip-cream);
+  --pip-leaf: #7e9470;
+  --puffy-leaf: var(--pip-leaf);
+  --pip-leaf-dark: #556a4b;
+  --puffy-leaf-dark: var(--pip-leaf-dark);
+  --pip-leaf-light: #93a784;
+  --puffy-leaf-light: var(--pip-leaf-light);
+  --pip-cheek: #dd8f6c;
+  --puffy-cheek: var(--pip-cheek);
+  --pip-highlight: #f0a47d;
+  --puffy-highlight: var(--pip-highlight);
+  --pip-line: #8b8172;
+  --puffy-line: var(--pip-line);
+  --pip-ice: #a9c1c9;
+  --puffy-ice: var(--pip-ice);
+  --pip-confetti-a: #a2762a;
+  --puffy-confetti-a: var(--pip-confetti-a);
+  --pip-confetti-b: #5d7057;
+  --puffy-confetti-b: var(--pip-confetti-b);
+  --pip-confetti-c: #9c7526;
+  --puffy-confetti-c: var(--pip-confetti-c);
 
   /* shadow & texture */
   --shadow-sm: 0 1px 2px rgba(74, 55, 30, 0.05);
@@ -160,72 +160,33 @@
   --focus: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent);
 }
 
-/* Puffy colourways — keep his cream belly and ink outline in every theme. */
-[data-mascot='slate'] {
-  --puffy-ink: #27343c;
-  --pip-ink: var(--puffy-ink);
-  --puffy-pod: #5f7482;
-  --pip-pod: var(--puffy-pod);
-  --puffy-pod-deep: #465c6b;
-  --pip-pod-deep: var(--puffy-pod-deep);
-  --puffy-leaf: #7e9470;
-  --pip-leaf: var(--puffy-leaf);
-  --puffy-leaf-dark: #556a4b;
-  --pip-leaf-dark: var(--puffy-leaf-dark);
-  --puffy-leaf-light: #93a784;
-  --pip-leaf-light: var(--puffy-leaf-light);
-  --puffy-cheek: #c99a86;
-  --pip-cheek: var(--puffy-cheek);
-  --puffy-highlight: #8ca4b3;
-  --pip-highlight: var(--puffy-highlight);
-}
+/* Pip colourways — keep his cream belly and ink outline in every theme. */
 [data-mascot='sage'] {
-  --puffy-pod: #7c9370;
-  --pip-pod: var(--puffy-pod);
-  --puffy-pod-deep: #5c7052;
-  --pip-pod-deep: var(--puffy-pod-deep);
-  --puffy-leaf: #66805a;
-  --pip-leaf: var(--puffy-leaf);
-  --puffy-leaf-dark: #4a5f40;
-  --pip-leaf-dark: var(--puffy-leaf-dark);
-  --puffy-leaf-light: #9db392;
-  --pip-leaf-light: var(--puffy-leaf-light);
-  --puffy-cheek: #c49a7c;
-  --pip-cheek: var(--puffy-cheek);
-  --puffy-highlight: #b8c9a9;
-  --pip-highlight: var(--puffy-highlight);
+  --pip-pod: #7c9370;
+  --pip-pod-deep: #5c7052;
+  --pip-leaf: #66805a;
+  --pip-leaf-dark: #4a5f40;
+  --pip-leaf-light: #9db392;
+  --pip-cheek: #c49a7c;
+  --pip-highlight: #b8c9a9;
 }
 [data-mascot='clay'] {
-  --puffy-pod: #a8615a;
-  --pip-pod: var(--puffy-pod);
-  --puffy-pod-deep: #8c4741;
-  --pip-pod-deep: var(--puffy-pod-deep);
-  --puffy-leaf: #7e8a70;
-  --pip-leaf: var(--puffy-leaf);
-  --puffy-leaf-dark: #58654d;
-  --pip-leaf-dark: var(--puffy-leaf-dark);
-  --puffy-leaf-light: #9aa88c;
-  --pip-leaf-light: var(--puffy-leaf-light);
-  --puffy-cheek: #d19a84;
-  --pip-cheek: var(--puffy-cheek);
-  --puffy-highlight: #d19a84;
-  --pip-highlight: var(--puffy-highlight);
+  --pip-pod: #a8615a;
+  --pip-pod-deep: #8c4741;
+  --pip-leaf: #7e8a70;
+  --pip-leaf-dark: #58654d;
+  --pip-leaf-light: #9aa88c;
+  --pip-cheek: #d19a84;
+  --pip-highlight: #d19a84;
 }
 [data-mascot='ochre'] {
-  --puffy-pod: #96681c;
-  --pip-pod: var(--puffy-pod);
-  --puffy-pod-deep: #744a0d;
-  --pip-pod-deep: var(--puffy-pod-deep);
-  --puffy-leaf: #7c8f63;
-  --pip-leaf: var(--puffy-leaf);
-  --puffy-leaf-dark: #566845;
-  --pip-leaf-dark: var(--puffy-leaf-dark);
-  --puffy-leaf-light: #a0b08a;
-  --pip-leaf-light: var(--puffy-leaf-light);
-  --puffy-cheek: #cf9860;
-  --pip-cheek: var(--puffy-cheek);
-  --puffy-highlight: #c79a4d;
-  --pip-highlight: var(--puffy-highlight);
+  --pip-pod: #b98a3f;
+  --pip-pod-deep: #966b25;
+  --pip-leaf: #85946a;
+  --pip-leaf-dark: #5d6a4a;
+  --pip-leaf-light: #a3b18d;
+  --pip-cheek: #d3a273;
+  --pip-highlight: #e0bc82;
 }
 
 [data-theme='dark'] {
@@ -997,35 +958,6 @@ h4 {
   color: var(--muted);
 }
 
-.logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 34px;
-  padding: 6px 9px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: none;
-  color: var(--muted);
-  font-family: var(--font-body);
-  font-size: 11.5px;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
-}
-
-.logout-btn svg {
-  flex: none;
-}
-
-.logout-btn:hover {
-  color: var(--danger);
-  background: var(--danger-soft);
-  border-color: color-mix(in srgb, var(--danger) 18%, transparent);
-}
-
 /* ---- Main column --------------------------------------------------------- */
 
 .app__main {
@@ -1703,12 +1635,15 @@ button.chip:hover {
   width: 100%;
   height: 100%;
 }
-.avatar--puffy, .avatar--pip {
+.avatar--pip, .avatar--puffy {
   background: var(--pip-cream);
   color: var(--pip-ink);
   border-color: color-mix(in srgb, var(--pip-pod-deep) 28%, transparent);
 }
-.avatar--puffy, .avatar--pip .puffy-glyph, .pip-glyph {
+.avatar--pip .pip-glyph,
+.avatar--pip .puffy-glyph,
+.avatar--puffy .pip-glyph,
+.avatar--puffy .puffy-glyph {
   width: 62%;
   height: 62%;
 }
@@ -2424,17 +2359,17 @@ dialog.sheet::backdrop {
   outline: none;
 }
 
-/* ---- Puffy -------------------------------------------------------------- */
+/* ---- Pip ---------------------------------------------------------------- */
 
-.puffy, .pip {
+.pip, .puffy {
   overflow: visible;
 }
 
-.puffy--float, .pip--float {
-  animation: puffy-float 6s ease-in-out infinite;
+.pip--float, .puffy--float {
+  animation: pip-float 6s ease-in-out infinite;
 }
 
-@keyframes puffy-float {
+@keyframes pip-float {
   0%,
   100% {
     transform: translateY(0);
@@ -2444,7 +2379,7 @@ dialog.sheet::backdrop {
   }
 }
 
-.puffy-stamp, .pip-stamp {
+.pip-stamp, .puffy-stamp {
   --stamp: 44px;
   width: var(--stamp);
   height: var(--stamp);
@@ -2459,7 +2394,7 @@ dialog.sheet::backdrop {
   position: relative;
 }
 
-.puffy-stamp, .pip-stamp::after {
+.pip-stamp::after, .puffy-stamp::after {
   content: '';
   position: absolute;
   inset: 3px;
@@ -2468,7 +2403,7 @@ dialog.sheet::backdrop {
   pointer-events: none;
 }
 
-.puffy-stamp, .pip-stamp .puffy, .pip {
+.pip-stamp .pip, .pip-stamp .puffy, .puffy-stamp .pip, .puffy-stamp .puffy {
   width: 88%;
   height: 88%;
   margin-top: 10%;
@@ -3126,14 +3061,14 @@ a.hero-chip:hover {
   border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-.home-hero__puffy, .home-hero__pip {
+.home-hero__pip, .home-hero__puffy {
   position: relative;
   z-index: 2;
   width: clamp(140px, 15vw, 184px);
   filter: drop-shadow(0 16px 18px rgba(74, 55, 30, 0.14));
 }
 
-.home-hero__puffy, .home-hero__pip svg {
+.home-hero__pip svg {
   width: 100%;
   height: auto;
 }
@@ -3396,12 +3331,12 @@ a.hero-chip:hover {
   gap: 12px;
   padding: 6px 0 14px;
 }
-.plan-empty__puffy, .plan-empty__pip {
+.plan-empty__pip, .plan-empty__puffy {
   width: 54px;
   flex: none;
   margin: -8px 0 -10px -8px;
 }
-.plan-empty__puffy, .plan-empty__pip svg {
+.plan-empty__pip svg {
   width: 100%;
   height: auto;
 }
@@ -3693,7 +3628,7 @@ a.hero-chip:hover {
   .home-hero__halo {
     display: none;
   }
-  .home-hero__puffy, .home-hero__pip {
+  .home-hero__pip, .home-hero__puffy {
     width: 104px;
     flex: none;
     margin-left: -10px;
@@ -4481,17 +4416,22 @@ a.hero-chip:hover {
 .area-list .bar {
   grid-column: 1 / -1;
 }
-.rail-card--puffy, .rail-card--pip {
+.rail-card--pip,
+.rail-card--puffy {
   flex-direction: row;
   align-items: center;
   gap: 12px;
   background: var(--surface-2);
   box-shadow: none;
 }
-.rail-card--puffy, .rail-card--pip .puffy, .pip {
+.rail-card--pip .pip,
+.rail-card--pip .puffy,
+.rail-card--puffy .pip,
+.rail-card--puffy .puffy {
   flex: none;
 }
-.rail-puffy, .rail-pip {
+.rail-pip,
+.rail-puffy {
   font-size: var(--text-xs);
   color: var(--ink-soft);
   line-height: 1.5;
@@ -5003,7 +4943,8 @@ a.hero-chip:hover {
   gap: var(--s-3);
   padding: var(--s-6) var(--s-4) var(--s-4);
 }
-.planner-page .plan-empty .puffy, .pip {
+.planner-page .plan-empty .pip,
+.planner-page .plan-empty .puffy {
   margin-bottom: 2px;
 }
 .planner-page .plan-empty h3 {
@@ -6167,7 +6108,8 @@ a.hero-chip:hover {
   padding: 28px 20px 32px;
   text-align: center;
 }
-.tx-empty .puffy, .pip {
+.tx-empty .pip,
+.tx-empty .puffy {
   opacity: 0.92;
 }
 .tx-empty p {
@@ -7536,7 +7478,8 @@ a.hero-chip:hover {
 .settings-portrait .avatar--xl {
   --size: 76px;
 }
-.settings-portrait .puffy, .pip {
+.settings-portrait .pip,
+.settings-portrait .puffy {
   width: 94px;
   height: 94px;
 }
@@ -7618,7 +7561,7 @@ a.hero-chip:hover {
   flex: none;
   overflow: hidden;
 }
-.avatar-toggle__dot--puffy, .avatar-toggle__dot--pip {
+.avatar-toggle__dot--pip, .avatar-toggle__dot--puffy {
   background: var(--pip-cream);
   color: var(--pip-ink);
 }
@@ -7705,13 +7648,15 @@ a.hero-chip:hover {
   align-items: center;
   gap: 6px;
 }
-.puffy-studio, .pip-studio {
+.pip-studio,
+.puffy-studio {
   display: grid;
   grid-template-columns: 98px minmax(0, 1fr);
   gap: var(--s-4);
   align-items: center;
 }
-.puffy-studio, .pip-studio__preview {
+.pip-studio__preview,
+.puffy-studio__preview {
   display: grid;
   place-items: center;
   width: 98px;
@@ -7721,29 +7666,36 @@ a.hero-chip:hover {
   border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--line));
   overflow: hidden;
 }
-.puffy-studio, .pip-studio__preview .puffy, .pip {
+.pip-studio__preview .pip,
+.pip-studio__preview .puffy,
+.puffy-studio__preview .pip,
+.puffy-studio__preview .puffy {
   width: 88px;
   height: 88px;
 }
-.puffy-studio, .pip-studio__side {
+.pip-studio__side,
+.puffy-studio__side {
   display: flex;
   flex-direction: column;
   gap: 9px;
   min-width: 0;
 }
-.puffy-studio, .pip-studio__label {
+.pip-studio__label,
+.puffy-studio__label {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.puffy-forms, .puffy-form, .pip-forms {
+.pip-forms,
+.puffy-forms {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
-.puffy-form, .pip-form {
+.pip-form,
+.puffy-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7760,31 +7712,42 @@ a.hero-chip:hover {
   cursor: pointer;
   transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
 }
-.puffy-form, .pip-form:hover {
+.pip-form:hover,
+.puffy-form:hover {
   border-color: var(--line-strong);
   background: var(--surface-2);
 }
-.puffy-form, .pip-form__art {
+.pip-form[aria-pressed='true'],
+.puffy-form[aria-pressed='true'] {
+  background: var(--accent-softer);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  color: var(--accent-ink);
+}
+.pip-form__art,
+.puffy-form__art {
   display: grid;
   place-items: center;
   width: 36px;
   height: 36px;
 }
-.puffy-form, .pip-form__art .puffy, .pip {
+.pip-form__art svg,
+.puffy-form__art svg {
   width: 36px;
   height: 36px;
 }
-.puffy-form, .pip-form[aria-pressed='true'] {
-  background: var(--accent-softer);
-  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-  color: var(--accent-ink);
+.pip-form__label,
+.puffy-form__label {
+  font-size: 10.5px;
+  line-height: 1.2;
 }
-.puffy-choices, .puffy-choice, .pip-choices {
+.pip-choices,
+.puffy-choices {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 6px;
 }
-.puffy-choice, .pip-choice {
+.pip-choice,
+.puffy-choice {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -7800,11 +7763,13 @@ a.hero-chip:hover {
   cursor: pointer;
   transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
 }
-.puffy-choice, .pip-choice:hover {
+.pip-choice:hover,
+.puffy-choice:hover {
   border-color: var(--line-strong);
   background: var(--surface-2);
 }
-.puffy-choice, .pip-choice__swatch {
+.pip-choice__swatch,
+.puffy-choice__swatch {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -7812,7 +7777,8 @@ a.hero-chip:hover {
   border: 1px solid rgba(20, 14, 8, 0.16);
   flex: none;
 }
-.puffy-choice, .pip-choice[aria-pressed='true'] {
+.pip-choice[aria-pressed='true'],
+.puffy-choice[aria-pressed='true'] {
   background: var(--accent-softer);
   border-color: color-mix(in srgb, var(--accent) 42%, transparent);
   color: var(--accent-ink);
@@ -7951,13 +7917,15 @@ a.hero-chip:hover {
 }
 
 /* Rail additions */
-.settings-rail__puffy, .settings-rail__pip {
+.settings-rail__pip, .settings-rail__puffy {
   align-items: flex-start;
 }
-.settings-rail__puffy, .settings-rail__pip .card-kicker {
+.settings-rail__pip .card-kicker,
+.settings-rail__puffy .card-kicker {
   display: block;
 }
-.settings-rail__puffy, .settings-rail__pip p {
+.settings-rail__pip p,
+.settings-rail__puffy p {
   margin: 3px 0 0;
 }
 .settings-stats-card .rail-card__head {
@@ -8106,12 +8074,10 @@ a.hero-chip:hover {
 
 /* Custom focus rings */
 .accent-choice:focus-visible,
-.puffy-form, .pip-form:focus-visible,
-.puffy-choice, .pip-choice:focus-visible,
+.pip-choice:focus-visible,
 .avatar-toggle__btn:focus-visible,
 .settings-data__tile:focus-visible,
-.export-row:focus-visible,
-.logout-btn:focus-visible {
+.export-row:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -8132,11 +8098,13 @@ a.hero-chip:hover {
 }
 
 @media (max-width: 480px) {
-  .puffy-studio, .pip-studio {
+  .pip-studio,
+  .puffy-studio {
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
   }
-  .puffy-studio, .pip-studio__side {
+  .pip-studio__side,
+  .puffy-studio__side {
     width: 100%;
   }
   .settings-hours {
@@ -8154,7 +8122,7 @@ a.hero-chip:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .accent-choice,
-  .puffy-choice, .pip-choice,
+  .pip-choice,
   .avatar-toggle__btn,
   .settings-data__tile,
   .export-row {

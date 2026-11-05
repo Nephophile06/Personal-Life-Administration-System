@@ -9,7 +9,7 @@
  *
  * Bump VERSION whenever precached files change.
  */
-const VERSION = 'puffy-v1.1.0';
+const VERSION = 'puffy-v1.1.1';
 const SHELL = `puffy-shell-${VERSION}`;
 const RUNTIME = `puffy-runtime-${VERSION}`;
 const CHART_URL = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
