@@ -1,0 +1,16 @@
+{
+  "name": "personal-life-administration-system",
+  "version": "1.0.0",
+  "description": "Puffy — Personal Life Administration System",
+  "scripts": {
+    "dev": "npx serve pla-frontend -l 4173",
+    "start": "npx serve pla-frontend -l 4173"
+  },
+  "keywords": [
+    "pwa",
+    "personal-admin",
+    "local-first"
+  ],
+  "author": "",
+  "license": "ISC"
+}

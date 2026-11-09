@@ -11,9 +11,9 @@ Plain **HTML, CSS and JavaScript (ES modules)**. No framework, no bundler, no bu
 From the project root:
 
 ```bash
-cd pla-frontend
-npx serve . -l 4173
-# or: python -m http.server 4173
+npm run dev
+# or: cd pla-frontend && npx serve . -l 4173
+# or: cd pla-frontend && python -m http.server 4173
 ```
 
 Open <http://localhost:4173>. Choose **Continue as demo user** to enter a fully seeded week for Maya Chen (114 records across tasks, bills, expenses, habits, goals, check-ins and notifications).
@@ -30,14 +30,14 @@ To reset the demo week at any time: **Settings → A clean slate → Reset demo 
 | --- | --- | --- |
 | Welcome / Login / Register | `#/welcome` | Local-only "auth"; no password |
 | Dashboard | `#/dashboard` | Mood check-in, today's plan, money and habit snapshots |
-| Tasks | `#/tasks` | List and board views, drag order, editor sheet |
+| Tasks | `#/tasks` | List and board views, drag order, Puffy's order, score breakdown, activity history |
 | Daily planner | `#/planner` | Scored plan, editable weights, free slots, accept/regenerate |
-| Bills | `#/bills` | Upcoming, paid, frequency, payment history |
-| Expenses & budgets | `#/money` | Month switcher, category donut, daily rhythm, budget ledger |
-| Habits & goals | `#/habits` | Weekly rhythm, streaks, progress rings |
+| Bills | `#/bills` | Upcoming, paid, frequency, per-bill reminder window, payment history |
+| Expenses & budgets | `#/money` | Month switcher, category donut, daily rhythm, budget ledger, 80/100% alerts |
+| Habits & goals | `#/habits` | Weekly rhythm, animated streaks, progress rings |
 | Weekly review | `#/review` | Tasks, money, habits, goals, Puffy's notes |
-| Notifications | `#/notifications` | Bill/task reminders, browser opt-in, test notification |
-| Profile & Settings | `#/settings` | Profile, accent/theme/Puffy, hours, AI toggle, CSV export, install |
+| Notifications | `#/notifications` | Bill/task/budget/review reminders, browser opt-in, test notification |
+| Profile & Settings | `#/settings` | Profile, accent/theme/Puffy, hours, nudges, CSV export, install |
 
 ---
 
@@ -96,7 +96,7 @@ Every create/update/delete also appends to the `syncQueue` store:
 { id, entity: "task", op: "update", payload: { ...record }, ts: 1762324442000 }
 ```
 
-Dates are local `YYYY-MM-DD` strings, money is USD in numbers, and the profile is a singleton with `id: "me"`.
+Dates are local `YYYY-MM-DD` strings, money is USD in numbers, and the profile is a singleton with `id: "me"`. The profile also carries notification preferences (`notifyBills`, `notifyTasks`, `notifyBudgets`, `notifyReview`, `remindDaysBefore`), while each bill may override the lead window with its own `remindDaysBefore`. Tasks keep a capped `history` array of `{ id, ts, type, text }` entries (FR-20).
 
 ### Function → future endpoint
 
@@ -142,6 +142,7 @@ Each function has a `// BACKEND:` comment in `api.js` naming the endpoint it wil
 | `getSpendingTrend(days)` | `GET /api/expenses/trend?days=14` |
 | `getSpentBetween(from, to)` | `GET /api/expenses/range?from=&to=` |
 | `getTransactionsBetween(from, to)` | `GET /api/transactions/range?from=&to=` |
+| `generateBudgetAlerts(month)` | `POST /api/notifications/budget-alerts?month=YYYY-MM` |
 
 | Habits, goals & check-ins | Endpoint |
 | --- | --- |
@@ -224,21 +225,22 @@ node phase8.mjs          # settings, export, reset
 node phase9.mjs          # manifest, SW cache, offline, sync, notifications
 node phase10-layout.mjs  # welcome + 9 screens × 360/768/1280 × light/dark
 node check-coffee-logout.mjs  # Puffy form/colour pickers, logout + route guard
+node check-proposal-gaps.mjs  # reminder prefs, task history, Puffy scores, budget/review nudges, streaks
 node axe-check.mjs       # WCAG A/AA scan on 9 screens × light/dark (loads axe-core from CDN)
 ```
 
-Lighthouse (Chrome must be installed):
+Lighthouse (Chrome must be installed). Serve with compression — `npx serve` does; Python's `http.server` does not, and uncompressed CSS depresses the mobile score:
 
 ```bash
 npx lighthouse http://127.0.0.1:4173/ --output=json --output-path=./lighthouse-mobile.json
 npx lighthouse@11.7.1 http://127.0.0.1:4173/ --only-categories=pwa --output=json --output-path=./lighthouse-pwa.json
 ```
 
-Latest results on this machine:
+Latest results on this machine (gzip-enabled static server):
 
 | Profile | Performance | Accessibility | Best practices | SEO | PWA |
 | --- | --- | --- | --- | --- | --- |
-| Mobile (Lighthouse 13) | 99 | 100 | 100 | 100 | 100* |
+| Mobile (Lighthouse 13) | 97 | 100 | 100 | 100 | 100* |
 | Desktop | 100 | 100 | 100 | 100 | 100* |
 
 \* Lighthouse 12+ removed the PWA category; the PWA score above is from Lighthouse 11.7.1 against the same build.
