@@ -203,12 +203,13 @@ export default async function notificationsPage(root, ctx) {
       <section class="rail-card card rail-card--quiet">
         <span class="card-kicker">What I watch</span>
         <ul class="notif-watch">
-          <li>${icon('receipt', 15)}<span>Bills due in the next three days</span></li>
+          <li>${icon('receipt', 15)}<span>Bills inside your reminder window</span></li>
           <li>${icon('tasks', 15)}<span>Tasks that slipped past their date</span></li>
-          <li>${icon('chart', 15)}<span>Budget lines that ran over</span></li>
-          <li>${icon('book', 15)}<span>Your weekly review, once it’s ready</span></li>
+          <li>${icon('chart', 15)}<span>Budget lines at 80% and 100%</span></li>
+          <li>${icon('book', 15)}<span>A weekly review nudge on Sunday</span></li>
         </ul>
         <p class="tiny muted">No marketing, no streaks to protect, no “you haven’t opened the app” guilt.</p>
+        <a class="card-link" href="#/settings">Choose what Puffy mentions ${icon('chevron-right', 13)}</a>
       </section>
     </aside>`;
   }

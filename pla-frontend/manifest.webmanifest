@@ -76,6 +76,13 @@
       "description": "What is due next",
       "url": "./#/bills",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Leisure",
+      "short_name": "Leisure",
+      "description": "Six quiet games with six free levels each",
+      "url": "./#/leisure",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
     }
   ],
   "prefer_related_applications": false

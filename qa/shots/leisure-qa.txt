@@ -1,0 +1,14 @@
+hub: "6 cards · Begin level 1 / Begin level 1 / Begin level 1 / Begin level 1 / Begin level 1 / Begin level 1" overflow=0
+pairs: "8 cards · "All pairs found." · Next level 2" overflow=0
+lantern: "9 lamps · "Every lantern is awake." · Next level 2" overflow=0
+words: "9 words · "3 threads, found." · Next level 2" overflow=0
+trail: "36 cells · "The trail is clear." · Next level 2" overflow=0
+odd: "4 choices · "Every odd one, found." · Next level 2" overflow=0
+pattern: "4 sequence tiles · "The thread continues." · Next level 2" overflow=0
+hub-progress: "MEMORY · 3–5 MIN Quiet pairs Cards face down, a handful of pairs to find. The board grows " overflow=0
+persist: "six games at level 2 after reload" overflow=0
+clamp: "stored level 7 opens at level 6 without Plus" overflow=0
+plus: "gate at 6 → unlock → level 7 with 20 cards" overflow=0
+offline: "Letter trail · 36 cells · tap accepted" overflow=0
+
+CLEAN: six games played, levels saved, Plus unlocked, offline trail accepted a tap.

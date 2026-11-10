@@ -314,6 +314,19 @@ export default async function settingsPage(root, ctx) {
       }
     : {};
 
+  const leadDays = Math.min(30, Math.max(0, Number(profile.remindDaysBefore ?? 3)));
+  const nudgeRow = (key, title, sub) => `<div class="switch-row settings-switch settings-nudge">
+      <span class="switch-row__text">
+        <span class="switch-row__title">${title}</span>
+        <span class="switch-row__sub">${sub}</span>
+      </span>
+      <label class="switch">
+        <input type="checkbox" data-notify-toggle="${key}" ${profile[key] !== false ? 'checked' : ''}
+          aria-label="${title}">
+        <span class="switch__track"></span>
+      </label>
+    </div>`;
+
   root.innerHTML = `<div class="page settings-page">
     ${pageHead({
       eyebrow: 'Make it yours',
@@ -510,6 +523,40 @@ export default async function settingsPage(root, ctx) {
           </div>
         </section>
 
+        <section class="card settings-card" aria-labelledby="settings-nudges-title">
+          <header class="settings-card__head">
+            <span class="settings-card__icon tone tone--ochre" aria-hidden="true">${icon('bell', 19)}</span>
+            <div class="grow">
+              <h2 id="settings-nudges-title">Nudges</h2>
+              <p class="settings-card__sub">What Puffy may mention, and how early. No marketing, ever.</p>
+            </div>
+          </header>
+
+          <div class="settings-nudges">
+            ${nudgeRow('notifyBills', 'Bills due soon', 'A note before rent, utilities and subscriptions come out.')}
+            ${nudgeRow('notifyTasks', 'Tasks that slipped', 'One daily note when something passes its date.')}
+            ${nudgeRow('notifyBudgets', 'Budget lines', 'Warn at 80% of a category, and again when it reaches 100%.')}
+            ${nudgeRow('notifyReview', 'Weekly review', 'A Sunday note when the week is ready to look back on.')}
+          </div>
+
+          <form class="settings-form settings-remind-form" data-remind-form novalidate>
+            <div class="settings-remind">
+              <label class="settings-remind__label" for="remind-days">Default reminder window</label>
+              <span class="settings-remind__control">
+                <input class="input" id="remind-days" name="remindDaysBefore" type="number"
+                  min="0" max="30" step="1" inputmode="numeric" value="${leadDays}">
+                <span class="settings-remind__unit">days before</span>
+              </span>
+            </div>
+            <p class="field__error" data-remind-error role="alert"></p>
+            <p class="settings-hint">Each bill can override this in its own editor. Zero means “on the day”.</p>
+            <div class="settings-actions">
+              <span class="settings-actions__note tiny muted">In-app nudges stay here even when browser notifications are off.</span>
+              <button class="btn btn--primary btn--sm" type="submit">Save window</button>
+            </div>
+          </form>
+        </section>
+
         <section class="card settings-card" aria-labelledby="settings-data-title">
           <header class="settings-card__head">
             <span class="settings-card__icon tone tone--sage" aria-hidden="true">${icon('download', 19)}</span>
@@ -596,7 +643,7 @@ export default async function settingsPage(root, ctx) {
           <p class="settings-hint">Install is offered when Puffy is served over HTTPS or localhost.</p>
         </section>
 
-        <p class="settings-version tiny muted">Puffy · local-first · v1.0<br><span>Data contract v1 · IndexedDB</span><br><span data-sw-status>Offline shell: checking…</span></p>
+        <p class="settings-version tiny muted">Puffy · local-first · v1.3<br><span>Data contract v1 · IndexedDB</span><br><span data-sw-status>Offline shell: checking…</span></p>
       </aside>
     </div>
   </div>`;
@@ -865,6 +912,55 @@ export default async function settingsPage(root, ctx) {
     }
   }
 
+  async function toggleNudge(event) {
+    const input = event.target.closest('[data-notify-toggle]');
+    if (!input) return;
+    const key = input.dataset.notifyToggle;
+    const next = input.checked;
+    try {
+      profile = await ctx.updateProfile({ [key]: next });
+      toast(next ? 'Nudge on.' : 'Nudge off. That line stays quiet.', {
+        type: 'info',
+        duration: 2000,
+      });
+    } catch (err) {
+      console.warn('Could not save reminder preference', err);
+      input.checked = !next;
+      toastError('That preference did not save.');
+    }
+  }
+
+  async function saveRemindWindow(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const field = form.elements.remindDaysBefore;
+    const error = root.querySelector('[data-remind-error]');
+    const raw = Number(field.value);
+    if (!Number.isFinite(raw) || raw < 0 || raw > 30) {
+      error.textContent = 'Choose a window between 0 and 30 days.';
+      field.focus();
+      return;
+    }
+    error.textContent = '';
+    const submit = form.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    submit.setAttribute('aria-busy', 'true');
+    try {
+      const days = Math.round(raw);
+      profile = await ctx.updateProfile({ remindDaysBefore: days });
+      field.value = days;
+      toast(
+        days === 0 ? 'Bills will remind you on the day.' : `Bills will remind you ${days} day${days === 1 ? '' : 's'} ahead.`
+      );
+    } catch (err) {
+      console.warn('Could not save the reminder window', err);
+      toastError('That window did not save. Try once more.');
+    } finally {
+      submit.disabled = false;
+      submit.removeAttribute('aria-busy');
+    }
+  }
+
   /* ---- Export ------------------------------------------------------------ */
 
   async function ensureExportData() {
@@ -1038,6 +1134,7 @@ export default async function settingsPage(root, ctx) {
 
   const onChange = (event) => {
     if (event.target.matches('[data-ai-toggle]')) toggleAi(event);
+    if (event.target.matches('[data-notify-toggle]')) toggleNudge(event);
   };
 
   const onInstallable = () => paintInstall();
@@ -1066,6 +1163,7 @@ export default async function settingsPage(root, ctx) {
   root.addEventListener('change', onChange);
   root.querySelector('[data-profile-form]')?.addEventListener('submit', saveProfile);
   root.querySelector('[data-hours-form]')?.addEventListener('submit', saveHours);
+  root.querySelector('[data-remind-form]')?.addEventListener('submit', saveRemindWindow);
   document.addEventListener('pla:installable', onInstallable);
   window.addEventListener('appinstalled', onInstalled);
   paintSwStatus();

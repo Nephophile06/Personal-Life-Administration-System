@@ -45,6 +45,11 @@ export const ROUTES = {
     title: 'Weekly review',
     load: () => import('./pages/review.js'),
   },
+  leisure: {
+    id: 'leisure',
+    title: 'Leisure',
+    load: () => import('./pages/leisure.js'),
+  },
   notifications: {
     id: 'notifications',
     title: 'Notifications',

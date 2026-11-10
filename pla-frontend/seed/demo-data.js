@@ -46,6 +46,7 @@ function task({
   completedAt = null,
   order = 0,
 }) {
+  const when = completedAt || STAMP;
   return {
     id: uid(),
     title,
@@ -60,6 +61,11 @@ function task({
     done,
     completedAt,
     order,
+    history: [
+      done
+        ? { id: uid(), ts: when, type: 'completed', text: 'Marked done' }
+        : { id: uid(), ts: when, type: 'created', text: 'Added to the list' },
+    ],
     ...base(),
   };
 }
@@ -268,7 +274,16 @@ const tasks = [
 
 /* ---- Bills --------------------------------------------------------------- */
 
-function bill({ name, kind, amount, frequency, nextDue, payments = [], notes = '' }) {
+function bill({
+  name,
+  kind,
+  amount,
+  frequency,
+  nextDue,
+  payments = [],
+  notes = '',
+  remindDaysBefore = 3,
+}) {
   const meta = billKind(kind);
   const history = payments.map((p) => ({ id: uid(), date: p.date, amount: p.amount ?? amount }));
   return {
@@ -280,6 +295,7 @@ function bill({ name, kind, amount, frequency, nextDue, payments = [], notes = '
     amount,
     frequency,
     nextDue,
+    remindDaysBefore,
     notes,
     payments: history.sort((a, b) => (a.date < b.date ? 1 : -1)),
     lastPaid: history[0]?.date || null,
@@ -294,6 +310,7 @@ const bills = [
     amount: 980,
     frequency: 'monthly',
     nextDue: addDays(TODAY, 27),
+    remindDaysBefore: 5,
     payments: [{ date: addDays(TODAY, -3) }, { date: addDays(TODAY, -33) }, { date: addDays(TODAY, -63) }],
     notes: 'Half of the two-bed on Alder St. Transfer to Jo.',
   }),
@@ -637,7 +654,7 @@ const notifications = [
   {
     id: uid(),
     type: 'system',
-    title: 'Your weekly review is ready',
+    title: 'Last week’s review, revisited',
     body: 'A look back at the week, and two gentle suggestions for the next one.',
     ts: daysAgoTs(2),
     read: true,
@@ -688,6 +705,11 @@ const profile = {
   workEnd: '17:30',
   aiOn: true,
   notificationsOn: false,
+  notifyBills: true,
+  notifyTasks: true,
+  notifyBudgets: true,
+  notifyReview: true,
+  remindDaysBefore: 3,
   onboarded: false,
   ...base(),
 };

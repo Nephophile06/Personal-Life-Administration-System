@@ -1,62 +1,104 @@
 phone/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 phone/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-phone/light tasks: h="The list, honestly." overflow=0 focusables=180
+phone/light tasks: h="The list, honestly." overflow=0 focusables=194
 phone/light planner: h="A plan you can argue with." overflow=0 focusables=35
 phone/light bills: h="Bills, held steady." overflow=0 focusables=30
-phone/light money: h="The month, in plain sight." overflow=0 focusables=43
+phone/light money: h="The month, in plain sight." overflow=0 focusables=49
 phone/light habits: h="Tend the garden." overflow=0 focusables=53
 phone/light review: h="The week, held up to the light." overflow=0 focusables=7
-phone/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-phone/light settings: h="A desk that fits only you." overflow=0 focusables=36
+phone/light leisure: h="Something gentle to do." overflow=0 focusables=7
+phone/light leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+phone/light leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+phone/light leisure?game=words: h="Three by three" overflow=0 focusables=15
+phone/light leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+phone/light leisure?game=odd: h="One of these" overflow=0 focusables=6
+phone/light leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+phone/light notifications: h="Nudges, not noise." overflow=0 focusables=25
+phone/light settings: h="A desk that fits only you." overflow=0 focusables=42
 phone/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 phone/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-phone/dark tasks: h="The list, honestly." overflow=0 focusables=180
+phone/dark tasks: h="The list, honestly." overflow=0 focusables=194
 phone/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 phone/dark bills: h="Bills, held steady." overflow=0 focusables=30
-phone/dark money: h="The month, in plain sight." overflow=0 focusables=43
+phone/dark money: h="The month, in plain sight." overflow=0 focusables=49
 phone/dark habits: h="Tend the garden." overflow=0 focusables=53
 phone/dark review: h="The week, held up to the light." overflow=0 focusables=7
-phone/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-phone/dark settings: h="A desk that fits only you." overflow=0 focusables=36
+phone/dark leisure: h="Something gentle to do." overflow=0 focusables=7
+phone/dark leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+phone/dark leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+phone/dark leisure?game=words: h="Three by three" overflow=0 focusables=15
+phone/dark leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+phone/dark leisure?game=odd: h="One of these" overflow=0 focusables=6
+phone/dark leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+phone/dark notifications: h="Nudges, not noise." overflow=0 focusables=25
+phone/dark settings: h="A desk that fits only you." overflow=0 focusables=42
 tablet/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 tablet/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-tablet/light tasks: h="The list, honestly." overflow=0 focusables=180
+tablet/light tasks: h="The list, honestly." overflow=0 focusables=194
 tablet/light planner: h="A plan you can argue with." overflow=0 focusables=35
 tablet/light bills: h="Bills, held steady." overflow=0 focusables=30
-tablet/light money: h="The month, in plain sight." overflow=0 focusables=43
+tablet/light money: h="The month, in plain sight." overflow=0 focusables=49
 tablet/light habits: h="Tend the garden." overflow=0 focusables=53
 tablet/light review: h="The week, held up to the light." overflow=0 focusables=7
-tablet/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-tablet/light settings: h="A desk that fits only you." overflow=0 focusables=36
+tablet/light leisure: h="Something gentle to do." overflow=0 focusables=7
+tablet/light leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+tablet/light leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+tablet/light leisure?game=words: h="Three by three" overflow=0 focusables=15
+tablet/light leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+tablet/light leisure?game=odd: h="One of these" overflow=0 focusables=6
+tablet/light leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+tablet/light notifications: h="Nudges, not noise." overflow=0 focusables=25
+tablet/light settings: h="A desk that fits only you." overflow=0 focusables=42
 tablet/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 tablet/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-tablet/dark tasks: h="The list, honestly." overflow=0 focusables=180
+tablet/dark tasks: h="The list, honestly." overflow=0 focusables=194
 tablet/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 tablet/dark bills: h="Bills, held steady." overflow=0 focusables=30
-tablet/dark money: h="The month, in plain sight." overflow=0 focusables=43
+tablet/dark money: h="The month, in plain sight." overflow=0 focusables=49
 tablet/dark habits: h="Tend the garden." overflow=0 focusables=53
 tablet/dark review: h="The week, held up to the light." overflow=0 focusables=7
-tablet/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-tablet/dark settings: h="A desk that fits only you." overflow=0 focusables=36
+tablet/dark leisure: h="Something gentle to do." overflow=0 focusables=7
+tablet/dark leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+tablet/dark leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+tablet/dark leisure?game=words: h="Three by three" overflow=0 focusables=15
+tablet/dark leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+tablet/dark leisure?game=odd: h="One of these" overflow=0 focusables=6
+tablet/dark leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+tablet/dark notifications: h="Nudges, not noise." overflow=0 focusables=25
+tablet/dark settings: h="A desk that fits only you." overflow=0 focusables=42
 desktop/light welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 desktop/light dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-desktop/light tasks: h="The list, honestly." overflow=0 focusables=180
+desktop/light tasks: h="The list, honestly." overflow=0 focusables=194
 desktop/light planner: h="A plan you can argue with." overflow=0 focusables=35
 desktop/light bills: h="Bills, held steady." overflow=0 focusables=30
-desktop/light money: h="The month, in plain sight." overflow=0 focusables=43
+desktop/light money: h="The month, in plain sight." overflow=0 focusables=49
 desktop/light habits: h="Tend the garden." overflow=0 focusables=53
 desktop/light review: h="The week, held up to the light." overflow=0 focusables=7
-desktop/light notifications: h="Nudges, not noise." overflow=0 focusables=24
-desktop/light settings: h="A desk that fits only you." overflow=0 focusables=36
+desktop/light leisure: h="Something gentle to do." overflow=0 focusables=7
+desktop/light leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+desktop/light leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+desktop/light leisure?game=words: h="Three by three" overflow=0 focusables=15
+desktop/light leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+desktop/light leisure?game=odd: h="One of these" overflow=0 focusables=6
+desktop/light leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+desktop/light notifications: h="Nudges, not noise." overflow=0 focusables=25
+desktop/light settings: h="A desk that fits only you." overflow=0 focusables=42
 desktop/dark welcome: h="Everything lifeasks of you,in one place." overflow=0 focusables=null
 desktop/dark dashboard: h="Good afternoon, Maya." overflow=0 focusables=19
-desktop/dark tasks: h="The list, honestly." overflow=0 focusables=180
+desktop/dark tasks: h="The list, honestly." overflow=0 focusables=194
 desktop/dark planner: h="A plan you can argue with." overflow=0 focusables=35
 desktop/dark bills: h="Bills, held steady." overflow=0 focusables=30
-desktop/dark money: h="The month, in plain sight." overflow=0 focusables=43
+desktop/dark money: h="The month, in plain sight." overflow=0 focusables=49
 desktop/dark habits: h="Tend the garden." overflow=0 focusables=53
 desktop/dark review: h="The week, held up to the light." overflow=0 focusables=7
-desktop/dark notifications: h="Nudges, not noise." overflow=0 focusables=24
-desktop/dark settings: h="A desk that fits only you." overflow=0 focusables=36
+desktop/dark leisure: h="Something gentle to do." overflow=0 focusables=7
+desktop/dark leisure?game=pairs: h="Quiet pairs" overflow=0 focusables=10
+desktop/dark leisure?game=lantern: h="Lantern grid" overflow=0 focusables=12
+desktop/dark leisure?game=words: h="Three by three" overflow=0 focusables=15
+desktop/dark leisure?game=trail: h="Letter trail" overflow=0 focusables=39
+desktop/dark leisure?game=odd: h="One of these" overflow=0 focusables=6
+desktop/dark leisure?game=pattern: h="Next in line" overflow=0 focusables=5
+desktop/dark notifications: h="Nudges, not noise." overflow=0 focusables=25
+desktop/dark settings: h="A desk that fits only you." overflow=0 focusables=42
 
 CLEAN: all screens rendered without overflow or console errors.

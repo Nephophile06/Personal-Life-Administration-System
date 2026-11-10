@@ -18,6 +18,13 @@ const routes = [
   ['money', 'Expenses & budgets'],
   ['habits', 'Habits & goals'],
   ['review', 'Weekly review'],
+  ['leisure', 'Something gentle to do'],
+  ['leisure?game=pairs', 'Quiet pairs'],
+  ['leisure?game=lantern', 'Lantern grid'],
+  ['leisure?game=words', 'Three by three'],
+  ['leisure?game=trail', 'Letter trail'],
+  ['leisure?game=odd', 'One of these'],
+  ['leisure?game=pattern', 'Next in line'],
   ['notifications', 'Notifications'],
   ['settings', 'Settings'],
 ];
@@ -30,6 +37,7 @@ const sizes = [
 
 const issues = [];
 const rows = [];
+const slug = (route) => route.replace(/[^\w-]+/g, '-').replace(/-+$/, '');
 const fail = (msg) => {
   issues.push(msg);
   console.log('FAIL:', msg);
@@ -81,7 +89,7 @@ for (const [label, viewport] of sizes) {
       if (state.imagesWithoutAlt) fail(`${label}/${theme}/${route} has ${state.imagesWithoutAlt} img without alt`);
       rows.push({ label, theme, route, heading: state.h, overflow: state.overflow, focusables: state.focusables });
       if (route === 'settings') {
-        await page.screenshot({ path: path.join(out, `phase10-${route}-${label}-${theme}.png`) });
+        await page.screenshot({ path: path.join(out, `phase10-${slug(route)}-${label}-${theme}.png`) });
       }
     }
 
@@ -99,7 +107,7 @@ await page.waitForTimeout(600);
 for (const [route] of routes) {
   await page.goto(`${base}#/${route}`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(900);
-  await page.screenshot({ path: path.join(out, `phase10-${route}-desktop.png`), fullPage: true });
+  await page.screenshot({ path: path.join(out, `phase10-${slug(route)}-desktop.png`), fullPage: true });
 }
 await context.close();
 

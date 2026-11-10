@@ -33,6 +33,11 @@ const DEMO_PROFILE = {
   workEnd: '17:30',
   aiOn: true,
   notificationsOn: false,
+  notifyBills: true,
+  notifyTasks: true,
+  notifyBudgets: true,
+  notifyReview: true,
+  remindDaysBefore: 3,
   onboarded: false,
 };
 
@@ -57,6 +62,7 @@ const NAV_GROUPS = [
     items: [
       { route: 'habits', label: 'Habits & goals', icon: 'sprout' },
       { route: 'review', label: 'Weekly review', icon: 'book' },
+      { route: 'leisure', label: 'Leisure', icon: 'sparkles' },
     ],
   },
   {
@@ -84,6 +90,7 @@ const TAB_FOR_ROUTE = {
   bills: 'money',
   habits: 'more',
   review: 'more',
+  leisure: 'more',
   notifications: 'more',
   settings: 'more',
 };
@@ -92,6 +99,7 @@ const MORE_LINKS = [
   { route: 'bills', icon: 'receipt', label: 'Bills', sub: 'Rent, utilities, subscriptions' },
   { route: 'habits', icon: 'sprout', label: 'Habits & goals', sub: 'Streaks and the longer view' },
   { route: 'review', icon: 'book', label: 'Weekly review', sub: 'A short look back, then forward' },
+  { route: 'leisure', icon: 'sparkles', label: 'Leisure', sub: 'Six quiet games with six free levels each' },
   { route: 'notifications', icon: 'bell', label: 'Notifications', sub: 'Reminders and quiet alerts' },
   { route: 'settings', icon: 'settings', label: 'Settings', sub: 'Profile, theme, data' },
 ];
@@ -165,7 +173,7 @@ function shellMarkup() {
         <span>${formatDate(todayISO(), 'weekday-long')}</span>
         <strong>· ${formatDate(todayISO(), 'short')}</strong>
       </div>
-      <span class="offline-chip" id="offline-chip" role="status">${icon('wifi-off', 13)} Offline — saved here</span>
+      <span class="offline-chip" id="offline-chip" role="status">${icon('wifi-off', 13)}<span>Offline<span class="offline-chip__detail"> — saved here</span></span></span>
       <div class="topbar__spacer"></div>
       <div class="topbar__actions">
         <button class="icon-btn" type="button" data-theme-toggle aria-label="Change theme" title="Change theme">
@@ -371,6 +379,7 @@ async function boot() {
   refreshBadges();
   window.addEventListener('online', paintOnline);
   window.addEventListener('offline', paintOnline);
+  window.addEventListener('pla:budget-alert', () => refreshBadges());
 
   onThemeChange(() => paintThemeButton());
 

@@ -9,7 +9,7 @@
  *
  * Bump VERSION whenever precached files change.
  */
-const VERSION = 'puffy-v1.1.1';
+const VERSION = 'puffy-v1.4.2';
 const SHELL = `puffy-shell-${VERSION}`;
 const RUNTIME = `puffy-runtime-${VERSION}`;
 const CHART_URL = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
@@ -27,6 +27,7 @@ const PRECACHE = [
   'assets/js/constants.js',
   'assets/js/icons.js',
   'assets/js/illustrations.js',
+  'assets/js/leisure-data.js',
   'assets/js/mascot.js',
   'assets/js/planner.js',
   'assets/js/pwa.js',
@@ -41,6 +42,7 @@ const PRECACHE = [
   'assets/js/pages/money.js',
   'assets/js/pages/habits.js',
   'assets/js/pages/review.js',
+  'assets/js/pages/leisure.js',
   'assets/js/pages/notifications.js',
   'assets/js/pages/settings.js',
   'assets/js/ui/charts.js',

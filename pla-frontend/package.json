@@ -1,6 +1,7 @@
 {
   "name": "pla-frontend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Puffy — Personal Life Administration System (Frontend)",
   "scripts": {
     "dev": "npx serve . -l 4173",

@@ -154,6 +154,8 @@ export default async function bills(root, ctx) {
           <span>${freqPhrase(bill.frequency)}</span>
           <span aria-hidden="true">·</span>
           <span>${last ? `Last paid ${formatDate(last.date, 'short')}` : 'No payments yet'}</span>
+          <span aria-hidden="true">·</span>
+          <span>${Number(bill.remindDaysBefore ?? 3) === 0 ? 'Reminder on the day' : `Reminder ${Number(bill.remindDaysBefore ?? 3)}d before`}</span>
         </p>
         ${bill.notes ? `<p class="bill-note">${esc(bill.notes)}</p>` : ''}
       </div>
@@ -292,6 +294,7 @@ export default async function bills(root, ctx) {
     if (token !== generation) return;
     state.bills = next;
     paint();
+    ctx.refreshBadges();
   }
 
   function closeMenus() {
@@ -301,6 +304,8 @@ export default async function bills(root, ctx) {
   function openEditor(bill = null) {
     const isEdit = Boolean(bill);
     const kind = bill?.kind || 'custom';
+    const defaultLead = Math.min(30, Math.max(0, Number(ctx.getProfile()?.remindDaysBefore ?? 3)));
+    const lead = Math.min(30, Math.max(0, Number(bill?.remindDaysBefore ?? defaultLead)));
     const sheet = openSheet({
       eyebrow: isEdit ? 'Edit a regular' : 'A new regular',
       title: isEdit ? 'Change a bill.' : 'Add a bill.',
@@ -350,6 +355,15 @@ export default async function bills(root, ctx) {
             <label for="bill-due">Next due</label>
             <input class="input" id="bill-due" name="nextDue" type="date" required value="${bill?.nextDue || todayISO()}">
           </div>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label for="bill-remind">Remind me <span class="field__hint" style="font-weight:400">(before it lands)</span></label>
+          <div class="input-group">
+            <input class="input" id="bill-remind" name="remindDaysBefore" type="number" inputmode="numeric"
+              min="0" max="30" step="1" value="${lead}">
+            <span class="input-group__suffix">days before</span>
+          </div>
+          <p class="field__hint">Zero means a nudge on the due date. The default lives in Settings.</p>
         </div>
         <div class="field" style="margin-top:14px">
           <label for="bill-notes">Notes <span class="field__hint" style="font-weight:400">(optional)</span></label>
@@ -403,6 +417,7 @@ export default async function bills(root, ctx) {
         return;
       }
       const meta = billKind(String(data.get('kind')));
+      const rawRemind = String(data.get('remindDaysBefore') ?? '').trim();
       try {
         await saveBill({
           id: bill?.id,
@@ -413,6 +428,7 @@ export default async function bills(root, ctx) {
           amount,
           frequency: String(data.get('frequency') || 'monthly'),
           nextDue: String(data.get('nextDue') || todayISO()),
+          remindDaysBefore: rawRemind === '' ? defaultLead : Math.min(30, Math.max(0, Number(rawRemind) || 0)),
           notes: String(data.get('notes') || '').trim(),
           payments: bill?.payments || [],
         });

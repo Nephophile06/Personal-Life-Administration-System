@@ -1,14 +1,14 @@
 service worker: {"supported":true,"scope":"http://127.0.0.1:4173/","active":"activated","controller":true,"scriptURL":"http://127.0.0.1:4173/sw.js","syncSupported":true,"standaloneClass":false,"secure":true}
 manifest icons: [{"src":"assets/icons/icon-192.png","status":200,"width":192,"height":192},{"src":"assets/icons/icon-512.png","status":200,"width":512,"height":512},{"src":"assets/icons/icon-maskable-192.png","status":200,"width":192,"height":192},{"src":"assets/icons/icon-maskable-512.png","status":200,"width":512,"height":512}]
-manifest: {"name":"Pip · Personal Life Admin","display":"standalone","start_url":"./#/dashboard","icons":4,"shortcuts":3}
+manifest: {"name":"Puffy · Personal Life Admin","display":"standalone","start_url":"./#/dashboard","icons":4,"shortcuts":4}
 head tags: {"manifest":"manifest.webmanifest","appleIcon":"assets/icons/apple-touch-icon.png","themeColor":"#f2eadd","mobileCapable":"yes"}
-caches: {"keys":["pip-shell-pip-v1.0.9","pip-runtime-pip-v1.0.9"],"shellCount":43,"hasIndex":true,"hasApp":true,"hasAllPages":true,"hasFonts":true,"chartCached":true}
-worker status: {"version":"pip-v1.0.9","pending":1,"caches":["pip-shell-pip-v1.0.9","pip-runtime-pip-v1.0.9"],"chartCached":true}
+caches: {"keys":["puffy-shell-puffy-v1.4.1","puffy-runtime-puffy-v1.4.1"],"shellCount":45,"hasIndex":true,"hasApp":true,"hasAllPages":true,"hasFonts":true,"chartCached":true}
+worker status: {"version":"puffy-v1.4.1","pending":1,"caches":["puffy-shell-puffy-v1.4.1","puffy-runtime-puffy-v1.4.1"],"chartCached":true}
 background sync: {"pendingBefore":1,"pendingAfter":2,"tags":[],"disabled":null,"messages":[{"type":"PLA_QUEUE_FLUSH","pending":2}]}
 notifications: {"permBefore":"granted","profileNotif":{"notificationsOn":true,"permission":"granted"},"testCount":1}
-offline reload: {"onLine":false,"title":"Today · Pip","hasShell":true,"chipVisible":true,"chipText":"Offline — saved here","heading":"Good afternoon, Maya."}
+offline reload: {"onLine":false,"title":"Today · Puffy","hasShell":true,"chipVisible":true,"chipText":"Offline — saved here","heading":"Good afternoon, Maya."}
 offline tasks: {"route":"#/tasks","rows":21,"heading":"The list, honestly."}
-offline page: {"title":"Offline · Pip","heading":"You’re offline.Pip is still here.","hasActions":2}
+offline page: {"title":"Offline · Puffy","heading":"You’re offline.Puffy is still here.","hasActions":2}
 settings sw status: "Offline shell ready · Chart.js cached"
 console errors: []
 

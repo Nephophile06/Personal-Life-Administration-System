@@ -16,16 +16,20 @@ import {
   addDays,
   diffDays,
   relativeDue,
+  relativeTime,
   minutesLabel,
   formatDate,
+  timeToMinutes,
 } from '../ui/format.js';
 import {
   getTasks,
+  getProfile,
   saveTask,
   deleteTask,
   toggleTask,
   reorderTasks,
 } from '../api.js';
+import { scoreTask } from '../planner.js';
 
 const FILTERS = [
   { id: 'all', label: 'All' },
@@ -35,6 +39,7 @@ const FILTERS = [
 ];
 
 const SORTS = [
+  { id: 'puffy', label: 'Puffy’s order' },
   { id: 'manual', label: 'My order' },
   { id: 'due', label: 'Deadline' },
   { id: 'priority', label: 'Priority' },
@@ -46,6 +51,7 @@ const state = {
   filter: 'all',
   category: 'all',
   sort: 'manual',
+  availableMinutes: 480,
   expanded: new Set(),
   dragging: null,
   pressedAt: 0,
@@ -59,6 +65,10 @@ const today = () => todayISO();
 
 const decorate = (task, ref = today()) => {
   const rel = relativeDue(task.due, ref);
+  const scored = scoreTask(
+    { ...task, due: task.due || null },
+    { date: ref, availableMinutes: state.availableMinutes }
+  );
   return {
     ...task,
     rel,
@@ -68,6 +78,10 @@ const decorate = (task, ref = today()) => {
     doneSubs: (task.subtasks || []).filter((s) => s.done).length,
     overdue: !task.done && Boolean(task.due) && diffDays(ref, task.due) < 0,
     dueToday: !task.done && task.due === ref,
+    score: scored.score,
+    urgency: scored.urgency,
+    importance: scored.importance,
+    effort: scored.effort,
   };
 };
 
@@ -135,11 +149,13 @@ function catsMarkup() {
 
 function taskRowMarkup(task, index, length) {
   const expanded = state.expanded.has(task.id);
-  const hasDetail = Boolean(task.notes) || task.subs.length > 0;
+  const history = task.history || [];
+  const hasDetail = Boolean(task.notes) || task.subs.length > 0 || history.length > 0;
   const manual = state.sort === 'manual';
   const subLine = task.subs.length
     ? `${task.doneSubs}/${task.subs.length} steps`
     : '';
+  const pctOf = (value) => `${Math.round((Number(value) || 0) * 100)}%`;
 
   return `<li class="task-row ${task.done ? 'is-done' : ''} ${task.overdue ? 'is-overdue' : ''}"
       data-id="${task.id}" ${manual && !task.done ? 'draggable="true"' : ''}>
@@ -155,6 +171,7 @@ function taskRowMarkup(task, index, length) {
         ${task.due ? `<span class="task-due" data-tone="${task.rel.tone}">${icon('calendar', 12)} ${task.rel.label}</span>` : '<span class="task-due" data-tone="none">No deadline</span>'}
         <span class="task-est">${icon('clock', 12)} ${minutesLabel(task.estimate)}</span>
         ${task.priority === 'high' && !task.done ? `<span class="task-flag">${icon('flag', 12)} High</span>` : ''}
+        ${task.done ? '' : `<span class="task-priority-score" title="Puffy’s score ${task.score.toFixed(2)} — urgency ${pctOf(task.urgency)}, importance ${pctOf(task.importance)}, fit ${pctOf(task.effort)}">${icon('sparkles', 12)} ${task.score.toFixed(2)}</span>`}
         ${task.done && task.completedAt ? `<span class="task-done-at">Completed ${relativeDone(task.completedAt)}</span>` : ''}
       </div>
       ${hasDetail ? `<button type="button" class="task-expand" data-expand aria-expanded="${expanded}">
@@ -174,6 +191,49 @@ function taskRowMarkup(task, index, length) {
             </li>`
           )
           .join('')}</ul>` : ''}
+        ${
+          task.done
+            ? ''
+            : `<div class="task-score-panel">
+                <div class="task-score-panel__head">
+                  <span class="task-score-panel__value">${task.score.toFixed(2)}</span>
+                  <span>
+                    <strong>Puffy’s score</strong>
+                    <small>Why this sits where it does today.</small>
+                  </span>
+                </div>
+                <div class="task-score-grid">
+                  <span class="task-score-grid__label">Urgency</span>
+                  ${bar(task.urgency * 100, { thin: true, label: 'Urgency' })}
+                  <strong>${pctOf(task.urgency)}</strong>
+                  <span class="task-score-grid__label">Importance</span>
+                  ${bar(task.importance * 100, { thin: true, label: 'Importance' })}
+                  <strong>${pctOf(task.importance)}</strong>
+                  <span class="task-score-grid__label">Fits the day</span>
+                  ${bar(task.effort * 100, { thin: true, label: 'Effort fit' })}
+                  <strong>${pctOf(task.effort)}</strong>
+                </div>
+              </div>`
+        }
+        ${
+          history.length
+            ? `<div class="task-history">
+                <span class="task-history__head">${icon('clock', 12)} Activity</span>
+                <ul>
+                  ${history
+                    .slice(0, 4)
+                    .map(
+                      (entry) => `<li>
+                        <span>${esc(entry.text || entry.type || 'Updated')}</span>
+                        <time datetime="${esc(entry.ts || '')}">${entry.ts ? relativeTime(entry.ts) : ''}</time>
+                      </li>`
+                    )
+                    .join('')}
+                </ul>
+                ${history.length > 4 ? `<p class="tiny muted">+ ${history.length - 4} earlier change${history.length - 4 === 1 ? '' : 's'}</p>` : ''}
+              </div>`
+            : ''
+        }
         <button type="button" class="linkish" data-edit>Edit the details ${icon('arrow-right', 13)}</button>
       </div>
     </div>
@@ -209,6 +269,10 @@ function visibleTasks(decorated = state.tasks.map((t) => decorate(t))) {
   else if (state.filter === 'done') list = list.filter((t) => t.done);
 
   const cmp = {
+    puffy: (a, b) =>
+      b.score - a.score ||
+      (a.due || '9999').localeCompare(b.due || '9999') ||
+      (a.order ?? 0) - (b.order ?? 0),
     due: (a, b) => (a.due || '9999').localeCompare(b.due || '9999'),
     priority: (a, b) => b.pri.rank - a.pri.rank || (a.due || '9999').localeCompare(b.due || '9999'),
     estimate: (a, b) => (a.estimate || 0) - (b.estimate || 0),
@@ -229,6 +293,13 @@ function groupFor(filtered) {
   }
   const work = filtered.filter((t) => !t.done);
   const done = filtered.filter((t) => t.done);
+  if (state.sort === 'puffy') {
+    // A flat ranked list: the point of the score is one order, not five buckets.
+    return [
+      { id: 'puffy', title: 'Puffy’s order', note: 'by score, not by noise', items: work },
+      { id: 'done', title: 'Done', note: 'already carried', items: done, fold: true },
+    ].filter((g) => g.items.length);
+  }
   return [
     { id: 'overdue', title: 'Overdue', note: 'the red pencil', items: work.filter((t) => t.overdue), urgent: true },
     { id: 'today', title: 'Today', note: 'the page you are on', items: work.filter((t) => t.dueToday) },
@@ -714,7 +785,17 @@ export default async function tasks(root) {
   listHost = root.querySelector('[data-list]');
 
   try {
-    state.tasks = await getTasks();
+    const [tasks, profile] = await Promise.all([
+      getTasks(),
+      getProfile().catch(() => null),
+    ]);
+    state.tasks = tasks;
+    if (profile?.workStart && profile?.workEnd) {
+      state.availableMinutes = Math.max(
+        60,
+        timeToMinutes(profile.workEnd) - timeToMinutes(profile.workStart)
+      );
+    }
   } catch (err) {
     console.error(err);
     listHost.innerHTML = `<div class="card"><h2>That page didn’t load.</h2><p class="muted">Your tasks are safe on this device. Reload to try again.</p></div>`;

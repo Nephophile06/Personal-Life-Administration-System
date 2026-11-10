@@ -14,8 +14,18 @@ import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
   categoryMeta,
+  priorityMeta,
 } from './constants.js';
-import { todayISO, addDays, monthKey, diffDays } from './ui/format.js';
+import {
+  todayISO,
+  addDays,
+  monthKey,
+  diffDays,
+  formatDate,
+  money,
+  monthLabel,
+  startOfWeek,
+} from './ui/format.js';
 
 const uuid = () =>
   typeof crypto !== 'undefined' && crypto.randomUUID
@@ -25,6 +35,52 @@ const uuid = () =>
 const stamp = () => new Date().toISOString();
 const touch = (record) => ({ ...record, updatedAt: stamp(), synced: false });
 const maxOrder = (tasks) => tasks.reduce((max, t) => Math.max(max, Number(t.order) || 0), 0);
+const clampNumber = (value, min, max) =>
+  Math.min(max, Math.max(min, Number(value) || 0));
+
+const HISTORY_LIMIT = 40;
+const subtaskSignature = (subtasks = []) =>
+  (subtasks || [])
+    .map((s) => (typeof s === 'string' ? s : `${s.title}:${s.done ? 1 : 0}`))
+    .join('|');
+
+/** One audit trail entry per field that actually changed (FR-20). */
+function taskHistoryEntries(existing, next) {
+  const ts = stamp();
+  const entry = (type, text) => ({ id: uuid(), ts, type, text });
+  if (!existing) {
+    const entries = [entry('created', 'Added to the list')];
+    if (next.done) entries.push(entry('completed', 'Marked done'));
+    return entries.reverse();
+  }
+  const entries = [];
+  if (existing.done !== next.done) {
+    entries.push(entry(next.done ? 'completed' : 'reopened', next.done ? 'Marked done' : 'Reopened'));
+  }
+  if (existing.title !== next.title) entries.push(entry('title', 'Title changed'));
+  if ((existing.due || null) !== (next.due || null)) {
+    entries.push(
+      entry(
+        'due',
+        next.due ? `Due date moved to ${formatDate(next.due, 'short')}` : 'Due date cleared'
+      )
+    );
+  }
+  if (existing.priority !== next.priority) {
+    entries.push(entry('priority', `Priority set to ${priorityMeta(next.priority).label.toLowerCase()}`));
+  }
+  if (Number(existing.estimate) !== Number(next.estimate)) {
+    entries.push(entry('estimate', `Estimate set to ${next.estimate} min`));
+  }
+  if (existing.category !== next.category) {
+    entries.push(entry('category', `Moved to ${categoryMeta(next.category).label}`));
+  }
+  if ((existing.notes || '') !== (next.notes || '')) entries.push(entry('notes', 'Notes updated'));
+  if (subtaskSignature(existing.subtasks) !== subtaskSignature(next.subtasks)) {
+    entries.push(entry('subtasks', 'Checklist updated'));
+  }
+  return entries;
+}
 
 let ready = null;
 
@@ -191,7 +247,7 @@ export async function saveTask(input) {
   await initApi();
   const tasks = await getTasks();
   const existing = input.id ? await getTask(input.id) : null;
-  const task = touch({
+  const next = {
     id: input.id || uuid(),
     title: (input.title || 'Untitled task').trim(),
     notes: input.notes || '',
@@ -210,7 +266,12 @@ export async function saveTask(input) {
     completedAt: input.done ? input.completedAt || existing?.completedAt || stamp() : null,
     order: input.order ?? existing?.order ?? maxOrder(tasks) + 1,
     createdAt: existing?.createdAt || stamp(),
-  });
+  };
+  const history = [...taskHistoryEntries(existing, next), ...(existing?.history || [])].slice(
+    0,
+    HISTORY_LIMIT
+  );
+  const task = touch({ ...next, history });
   await db.put(STORES.tasks, task);
   await recordSync('task', existing ? 'update' : 'create', task);
   return task;
@@ -262,7 +323,10 @@ export async function getBills() {
 // BACKEND: POST /api/bills  (PUT /api/bills/:id)
 export async function saveBill(input) {
   await initApi();
-  const existing = input.id ? await db.get(STORES.bills, input.id) : null;
+  const [existing, profile] = await Promise.all([
+    input.id ? db.get(STORES.bills, input.id) : null,
+    getProfile(),
+  ]);
   const bill = touch({
     id: input.id || uuid(),
     name: (input.name || 'New bill').trim(),
@@ -272,6 +336,11 @@ export async function saveBill(input) {
     amount: Number(input.amount) || 0,
     frequency: input.frequency || 'monthly',
     nextDue: input.nextDue || todayISO(),
+    remindDaysBefore: clampNumber(
+      input.remindDaysBefore ?? existing?.remindDaysBefore ?? profile?.remindDaysBefore ?? 3,
+      0,
+      30
+    ),
     notes: input.notes || '',
     payments: input.payments || existing?.payments || [],
     lastPaid: existing?.lastPaid || null,
@@ -349,6 +418,9 @@ export async function markBillPaid(id, paidDate = todayISO()) {
   await db.put(STORES.transactions, transaction);
   await recordSync('transaction', 'create', transaction);
 
+  // Paying a bill can push its category over a budget line — check quietly.
+  await generateBudgetAlerts(paidDate.slice(0, 7)).catch(() => []);
+
   return { bill: updated, payment, transaction };
 }
 
@@ -397,6 +469,11 @@ export async function saveTransaction(input) {
   });
   await db.put(STORES.transactions, tx);
   await recordSync('transaction', existing ? 'update' : 'create', tx);
+
+  // Budget nudges are derived, never stored twice: 80% warns, 100% closes the line.
+  if (tx.type === 'expense') {
+    await generateBudgetAlerts(tx.date.slice(0, 7)).catch(() => []);
+  }
   return tx;
 }
 
@@ -483,6 +560,57 @@ export async function getMoneyOverview(month = monthKey(new Date())) {
     expenseCategories: EXPENSE_CATEGORIES,
     incomeCategories: INCOME_CATEGORIES,
   };
+}
+
+/**
+ * Warn once per category/month at 80%, and once more when the line closes at
+ * 100%. Keys make the check idempotent, so saving several expenses never
+ * repeats the same nudge.
+ */
+// BACKEND: POST /api/notifications/budget-alerts?month=YYYY-MM
+export async function generateBudgetAlerts(month = monthKey(new Date())) {
+  await initApi();
+  const profile = await getProfile();
+  if (profile && profile.notifyBudgets === false) return [];
+
+  const overview = await getMoneyOverview(month);
+  if (!overview.rows.length) return [];
+
+  const existing = await getNotifications();
+  const seen = new Set(existing.map((n) => n.key).filter(Boolean));
+  const monthName = monthLabel(month);
+  const created = [];
+
+  overview.rows.forEach((row) => {
+    if (!row.limit || !row.percent) return;
+    const level = row.percent >= 100 ? 100 : row.percent >= 80 ? 80 : 0;
+    if (!level) return;
+    const key = `budget:${month}:${row.category}:${level}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    const closed = level === 100;
+    created.push({
+      type: 'budget',
+      key,
+      title: closed
+        ? `${row.label} budget is spent`
+        : `${row.label} is at ${row.percent}% of its budget`,
+      body: closed
+        ? `${money(row.spent, { cents: false })} of ${money(row.limit, { cents: false })} in ${monthName}. The line is closed for this month.`
+        : `${money(row.spent, { cents: false })} of ${money(row.limit, { cents: false })} in ${monthName}. A small pause may help.`,
+      link: '#/money',
+    });
+  });
+
+  for (const item of created) await addNotification(item);
+
+  if (created.length && typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('pla:budget-alert', { detail: { month, alerts: created } })
+    );
+  }
+  return created;
 }
 
 /** Last N days, grouped by date, for the daily trend chart. */
@@ -760,11 +888,16 @@ export async function getNotifications() {
 }
 
 // BACKEND: POST /api/notifications
-export async function addNotification({ type = 'system', title, body, link = '' }) {
+export async function addNotification({ type = 'system', title, body, link = '', key = null }) {
   await initApi();
+  if (key) {
+    const existing = (await getNotifications()).find((n) => n.key === key);
+    if (existing) return existing;
+  }
   const notification = touch({
     id: uuid(),
     type,
+    key: key || null,
     title: String(title || '').trim(),
     body: String(body || '').trim(),
     ts: stamp(),
@@ -810,33 +943,82 @@ export async function deleteNotification(id) {
 // BACKEND: POST /api/notifications/generate
 export async function generateReminders(date = todayISO()) {
   await initApi();
-  const [bills, tasks] = await Promise.all([getBills(), getTasks({ includeDone: false })]);
-  const existing = await getNotifications();
-  const existingTitles = new Set(existing.filter((n) => !n.read).map((n) => n.title));
+  const [bills, tasks, profile, existing] = await Promise.all([
+    getBills(),
+    getTasks({ includeDone: false }),
+    getProfile(),
+    getNotifications(),
+  ]);
+
+  const prefs = {
+    bills: profile?.notifyBills !== false,
+    tasks: profile?.notifyTasks !== false,
+    budgets: profile?.notifyBudgets !== false,
+    review: profile?.notifyReview !== false,
+  };
+  const defaultLead = clampNumber(profile?.remindDaysBefore ?? 3, 0, 30);
+  const seenKeys = new Set(existing.map((n) => n.key).filter(Boolean));
+  const seenTitles = new Set(existing.filter((n) => !n.read).map((n) => n.title));
   const created = [];
+  const push = (item) => {
+    if (item.key && seenKeys.has(item.key)) return;
+    if (seenTitles.has(item.title)) return;
+    if (item.key) seenKeys.add(item.key);
+    created.push(item);
+  };
 
-  bills.forEach((bill) => {
-    const days = bill.nextDue ? diffDays(date, bill.nextDue) : 99;
-    if (days >= 0 && days <= 3) {
-      const title =
-        days === 0 ? `${bill.name} is due today` : `${bill.name} is due in ${days} day${days === 1 ? '' : 's'}`;
-      if (!existingTitles.has(title)) {
-        created.push({ type: 'bill', title, body: `$${bill.amount.toFixed(2)} · ${bill.nextDue}`, link: '#/bills' });
-      }
-    }
-  });
-
-  const overdue = tasks.filter((t) => t.due && diffDays(t.due, date) > 0);
-  if (overdue.length && !existingTitles.has('Overdue tasks need a moment')) {
-    created.push({
-      type: 'task',
-      title: 'Overdue tasks need a moment',
-      body: `${overdue.length} task${overdue.length === 1 ? '' : 's'} slipped past the date. Small ones first.`,
-      link: '#/tasks',
+  if (prefs.bills) {
+    bills.forEach((bill) => {
+      const days = bill.nextDue ? diffDays(date, bill.nextDue) : 99;
+      const lead = clampNumber(bill.remindDaysBefore ?? defaultLead, 0, 30);
+      if (days < 0 || days > lead) return;
+      push({
+        type: 'bill',
+        key: `bill:${bill.id}:${bill.nextDue}:${lead}`,
+        title:
+          days === 0
+            ? `${bill.name} is due today`
+            : `${bill.name} is due in ${days} day${days === 1 ? '' : 's'}`,
+        body: `${money(bill.amount)} · ${formatDate(bill.nextDue, 'short')}`,
+        link: '#/bills',
+      });
     });
   }
 
+  if (prefs.tasks) {
+    const overdue = tasks.filter((t) => t.due && diffDays(t.due, date) > 0);
+    if (overdue.length) {
+      push({
+        type: 'task',
+        key: `tasks:overdue:${date}`,
+        title: 'Overdue tasks need a moment',
+        body: `${overdue.length} task${overdue.length === 1 ? '' : 's'} slipped past the date. Small ones first.`,
+        link: '#/tasks',
+      });
+    }
+  }
+
+  if (prefs.review) {
+    const weekday = new Date(`${date}T12:00:00`).getDay(); // 0 Sunday, 1 Monday
+    if (weekday === 0 || weekday === 1) {
+      const weekStart = startOfWeek(date);
+      push({
+        type: 'system',
+        key: `review:${weekStart}`,
+        title: 'Your weekly review is ready',
+        body: 'Seven days in one page — what moved, what slipped, and one thing for next week.',
+        link: '#/review',
+      });
+    }
+  }
+
   for (const item of created) await addNotification(item);
+
+  if (prefs.budgets) {
+    const budgetAlerts = await generateBudgetAlerts(monthKey(date)).catch(() => []);
+    created.push(...budgetAlerts);
+  }
+
   return created;
 }
 
@@ -857,6 +1039,61 @@ export async function getWeeklyReview(date = todayISO()) {
   ]);
   const { buildWeeklyReview } = await import('./analytics.js');
   return buildWeeklyReview({ tasks, transactions, habits, goals, refISO: date });
+}
+
+/* =============================== Leisure ================================ */
+
+const LEISURE_KEY = 'leisure';
+const LEISURE_DEFAULTS = {
+  pairs: { plays: 0, wins: 0, bestMoves: null, level: 1, cleared: 0 },
+  lantern: { plays: 0, wins: 0, bestMoves: null, level: 1, cleared: 0 },
+  words: { plays: 0, wins: 0, bestMisses: null, perfect: 0, level: 1, cleared: 0 },
+  trail: { plays: 0, wins: 0, bestMisses: null, perfect: 0, level: 1, cleared: 0 },
+  odd: { plays: 0, wins: 0, bestMisses: null, perfect: 0, level: 1, cleared: 0 },
+  pattern: { plays: 0, wins: 0, bestMisses: null, perfect: 0, level: 1, cleared: 0 },
+  premium: { unlocked: false, since: null, source: null },
+  lastPlayed: null,
+};
+
+const mergeLeisure = (value = {}) => ({
+  ...LEISURE_DEFAULTS,
+  ...value,
+  pairs: { ...LEISURE_DEFAULTS.pairs, ...(value.pairs || {}) },
+  lantern: { ...LEISURE_DEFAULTS.lantern, ...(value.lantern || {}) },
+  words: { ...LEISURE_DEFAULTS.words, ...(value.words || {}) },
+  trail: { ...LEISURE_DEFAULTS.trail, ...(value.trail || {}) },
+  odd: { ...LEISURE_DEFAULTS.odd, ...(value.odd || {}) },
+  pattern: { ...LEISURE_DEFAULTS.pattern, ...(value.pattern || {}) },
+  premium: { ...LEISURE_DEFAULTS.premium, ...(value.premium || {}) },
+});
+
+// BACKEND: GET /api/leisure
+export async function getLeisureState() {
+  await initApi();
+  const row = await db.get(STORES.meta, LEISURE_KEY);
+  return mergeLeisure(row?.value || {});
+}
+
+// BACKEND: PUT /api/leisure
+export async function saveLeisureState(patch = {}) {
+  await initApi();
+  const current = await getLeisureState();
+  const next = mergeLeisure({
+    ...current,
+    ...patch,
+    pairs: { ...current.pairs, ...(patch.pairs || {}) },
+    lantern: { ...current.lantern, ...(patch.lantern || {}) },
+    words: { ...current.words, ...(patch.words || {}) },
+    trail: { ...current.trail, ...(patch.trail || {}) },
+    odd: { ...current.odd, ...(patch.odd || {}) },
+    pattern: { ...current.pattern, ...(patch.pattern || {}) },
+    premium: { ...current.premium, ...(patch.premium || {}) },
+    lastPlayed: patch.lastPlayed || stamp(),
+  });
+  const record = { key: LEISURE_KEY, value: next, updatedAt: stamp() };
+  await db.put(STORES.meta, record);
+  await recordSync('leisure', 'update', record);
+  return next;
 }
 
 /* =============================== Export ================================= */

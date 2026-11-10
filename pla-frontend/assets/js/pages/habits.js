@@ -23,7 +23,7 @@ import {
   todayISO,
   weekDays,
 } from '../ui/format.js';
-import { bar, hydrateRings, pageHead, ring, sectionHead } from '../ui/widgets.js';
+import { bar, countTo, hydrateRings, pageHead, ring, sectionHead } from '../ui/widgets.js';
 import { icon } from '../icons.js';
 import { openSheet, confirmSheet } from '../ui/sheet.js';
 import { toast, toastError } from '../ui/toast.js';
@@ -69,6 +69,7 @@ export default async function habitsPage(root, ctx) {
     focus: null,
   };
   let generation = 0;
+  let streaksAnimated = false;
 
   root.innerHTML = `<div class="page habits-page">
     <div class="page-loading" aria-busy="true">
@@ -147,7 +148,7 @@ export default async function habitsPage(root, ctx) {
       </div>
       <div class="ledger-cell" data-ledger-cell="ochre">
         <span class="ledger-cell__label"><span class="pill-dot"></span>Longest streak</span>
-        <strong class="ledger-cell__value">${s.longest?.streak ? `${s.longest.streak} days` : '—'}</strong>
+        <strong class="ledger-cell__value">${s.longest?.streak ? `<span data-streak-count="${s.longest.streak}">${s.longest.streak}</span> days` : '—'}</strong>
         <span class="ledger-cell__note">${s.longest?.streak ? esc(s.longest.habit.name) : 'a check-in starts it'}</span>
       </div>
       <div class="ledger-cell" data-ledger-cell="rose">
@@ -188,7 +189,7 @@ export default async function habitsPage(root, ctx) {
         <div class="habit-row__text">
           <div class="habit-row__name-line">
             <h3>${esc(habit.name)}</h3>
-            ${streak > 1 ? `<span class="habit-streak" title="${streak}-day streak">${icon('flame', 11)} ${streak}</span>` : ''}
+            ${streak > 1 ? `<span class="habit-streak" title="${streak}-day streak">${icon('flame', 11)} <span data-streak-count="${streak}">${streak}</span></span>` : ''}
           </div>
           <p class="habit-row__meta">${habit.cadence === 'daily' ? 'Every day' : `${target}× a week`} · ${count} of ${target} kept</p>
         </div>
@@ -396,6 +397,12 @@ export default async function habitsPage(root, ctx) {
       <p class="sr-only" role="status" aria-live="polite">${esc(state.live)}</p>
     </div>`;
     hydrateRings(root);
+    if (!streaksAnimated) {
+      streaksAnimated = true;
+      root.querySelectorAll('[data-streak-count]').forEach((el) => {
+        countTo(el, Number(el.dataset.streakCount), { duration: 900 });
+      });
+    }
     if (state.focus) {
       const selector = `[data-habit="${state.focus.id}"][data-date="${state.focus.date}"]`;
       root.querySelector(selector)?.focus({ preventScroll: true });

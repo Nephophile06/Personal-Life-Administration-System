@@ -130,7 +130,7 @@ function place(segments, minutes, buffer = 0) {
   return null;
 }
 
-function blockFor({ kind, task, bill, start, end, reason, mood }) {
+function blockFor({ kind, task, bill, start, end, reason, mood, score = null }) {
   return {
     id: `${kind}-${task?.id || bill?.id || start}`,
     kind,
@@ -144,6 +144,10 @@ function blockFor({ kind, task, bill, start, end, reason, mood }) {
     minutes: Math.round((toMinutes(end.split('T')[1]) - toMinutes(start.split('T')[1])) || 0),
     reason,
     mood: mood || null,
+    score: score?.score ?? null,
+    urgency: score?.urgency ?? null,
+    importance: score?.importance ?? null,
+    effort: score?.effort ?? null,
   };
 }
 
@@ -254,6 +258,7 @@ export function generatePlan({
         end: isoAt(date, slot.end),
         reason: lowMood ? 'Kept light — your energy comes first.' : reasonFor(task, date, score),
         mood,
+        score,
       })
     );
     used += task.estimate + config.breakMinutes;

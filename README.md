@@ -24,7 +24,7 @@ To reset the demo week at any time: **Settings → A clean slate → Reset demo 
 
 ---
 
-## The ten screens
+## The screens
 
 | Screen | Route | Notes |
 | --- | --- | --- |
@@ -36,6 +36,7 @@ To reset the demo week at any time: **Settings → A clean slate → Reset demo 
 | Expenses & budgets | `#/money` | Month switcher, category donut, daily rhythm, budget ledger, 80/100% alerts |
 | Habits & goals | `#/habits` | Weekly rhythm, animated streaks, progress rings |
 | Weekly review | `#/review` | Tasks, money, habits, goals, Puffy's notes |
+| Leisure | `#/leisure` | Six offline games — Quiet pairs, Lantern grid, Three by three, Letter trail, One of these, Next in line — 36 levels each, first six free, local Plus unlock |
 | Notifications | `#/notifications` | Bill/task/budget/review reminders, browser opt-in, test notification |
 | Profile & Settings | `#/settings` | Profile, accent/theme/Puffy, hours, nudges, CSV export, install |
 
@@ -64,6 +65,7 @@ Personal-Life-Administration-System/
 │  │     ├─ theme.js             accent + light/dark/auto persistence
 │  │     ├─ mascot.js            Puffy illustrations, four forms, colourways, glyph
 │  │     ├─ planner.js           pure scoring + time-block generation
+│  │     ├─ leisure-data.js      curated prompts plus board generators for six games (offline)
 │  │     ├─ analytics.js         streaks, budget levels, weekly review
 │  │     ├─ constants.js         categories, priorities, frequencies
 │  │     ├─ pwa.js               SW registration, install, notifications, sync handshake
@@ -96,7 +98,7 @@ Every create/update/delete also appends to the `syncQueue` store:
 { id, entity: "task", op: "update", payload: { ...record }, ts: 1762324442000 }
 ```
 
-Dates are local `YYYY-MM-DD` strings, money is USD in numbers, and the profile is a singleton with `id: "me"`. The profile also carries notification preferences (`notifyBills`, `notifyTasks`, `notifyBudgets`, `notifyReview`, `remindDaysBefore`), while each bill may override the lead window with its own `remindDaysBefore`. Tasks keep a capped `history` array of `{ id, ts, type, text }` entries (FR-20).
+Dates are local `YYYY-MM-DD` strings, money is USD in numbers, and the profile is a singleton with `id: "me"`. The profile also carries notification preferences (`notifyBills`, `notifyTasks`, `notifyBudgets`, `notifyReview`, `remindDaysBefore`), while each bill may override the lead window with its own `remindDaysBefore`. Tasks keep a capped `history` array of `{ id, ts, type, text }` entries (FR-20). Leisure lives in a single local `meta:leisure` record: per-game tallies (`plays`, `wins`, best moves/misses, perfect boards), progression (`level`, `cleared`, 1–36), and `premium: { unlocked, since, source }`. Finishing a board advances `level` and grows `cleared`; board content is generated from those numbers, so no level layout is stored. No game result ever leaves the device. The Plus flag is a demo entitlement, not a payment record.
 
 ### Function → future endpoint
 
@@ -177,6 +179,8 @@ Each function has a `// BACKEND:` comment in `api.js` naming the endpoint it wil
 | `generateReminders(date)` | `POST /api/notifications/generate` |
 | `getUnreadCount()` | `GET /api/notifications/unread-count` |
 | `getWeeklyReview(date)` | `GET /api/review/week?date=YYYY-MM-DD` |
+| `getLeisureState()` | `GET /api/leisure` |
+| `saveLeisureState(patch)` | `PUT /api/leisure` |
 | `getTasksForExport()` | `GET /api/export/tasks` |
 | `getExpensesForExport(from, to)` | `GET /api/export/expenses?from=&to=` |
 | `getAllForExport()` | `GET /api/export/all` |
@@ -190,6 +194,7 @@ Each function has a `// BACKEND:` comment in `api.js` naming the endpoint it wil
 4. Replay `syncQueue` at `POST /api/sync` with `{ id, entity, op, payload, ts }` entries and acknowledge ids so `flushQueue()` can clear them.
 5. Delete `seedAll()` and the demo-data import when the backend is live; the UI already treats an empty week gracefully.
 6. The service worker's `sync` handler (`pla-sync`) posts `PLA_QUEUE_FLUSH` to open windows; point `flushQueue()` at the new endpoint and the existing offline flow completes itself.
+7. Replace the demo Plus unlock with a verified entitlement. `saveLeisureState({ premium })` currently trusts the client; a real server should return the entitlement from a purchase record and `GET /api/leisure` should be the only source of `premium.unlocked`. Keep the client-side free-level clamp as a UI courtesy, not as the paywall.
 
 ---
 
@@ -211,6 +216,7 @@ Each function has a `// BACKEND:` comment in `api.js` naming the endpoint it wil
 - Local variable fonts: Fraunces (display) and Instrument Sans (body).
 - Semantic landmarks, one `h1` per screen, skip link, visible `:focus-visible` rings, labelled controls, `aria-live` toasts, native `<dialog>` sheets with Escape handling, `prefers-reduced-motion` and `prefers-color-scheme`.
 - AA contrast and ARIA checked with Lighthouse and axe-core on every screen in light and dark (100 accessibility, zero WCAG A/AA violations).
+- Leisure is deliberately quiet: no timers, scores or interruptions, six keyboard-operable games with six free levels each, generated boards that grow with the level, tokens for light/dark, and motion that stops under `prefers-reduced-motion`.
 
 ---
 
@@ -223,10 +229,14 @@ cd qa
 npm install
 node phase8.mjs          # settings, export, reset
 node phase9.mjs          # manifest, SW cache, offline, sync, notifications
-node phase10-layout.mjs  # welcome + 9 screens × 360/768/1280 × light/dark
+node phase10-layout.mjs  # every screen and game route × 360/768/1280 × light/dark
+node leisure.mjs         # plays all six games, levels, Plus gate/unlock, persistence, offline
+node leisure-layout.mjs  # hub + six games × 360/768/1280 × light/dark
+node leisure-advanced.mjs  # Plus level-36 boards at phone and tablet, light/dark
+node leisure-generators.mjs  # 25 generated boards per level, plus level-36 DOM checks
 node check-coffee-logout.mjs  # Puffy form/colour pickers, logout + route guard
 node check-proposal-gaps.mjs  # reminder prefs, task history, Puffy scores, budget/review nudges, streaks
-node axe-check.mjs       # WCAG A/AA scan on 9 screens × light/dark (loads axe-core from CDN)
+node axe-check.mjs       # WCAG A/AA scan on every screen and game × light/dark (loads axe-core from CDN)
 ```
 
 Lighthouse (Chrome must be installed). Serve with compression — `npx serve` does; Python's `http.server` does not, and uncompressed CSS depresses the mobile score:
@@ -240,18 +250,19 @@ Latest results on this machine (gzip-enabled static server):
 
 | Profile | Performance | Accessibility | Best practices | SEO | PWA |
 | --- | --- | --- | --- | --- | --- |
-| Mobile (Lighthouse 13) | 97 | 100 | 100 | 100 | 100* |
+| Mobile (Lighthouse 13) | 98 | 100 | 100 | 100 | 100* |
 | Desktop | 100 | 100 | 100 | 100 | 100* |
 
 \* Lighthouse 12+ removed the PWA category; the PWA score above is from Lighthouse 11.7.1 against the same build.
 
-Layout audit: **60 screen/theme combinations** (welcome + 9 screens × 3 widths × 2 themes) with zero horizontal overflow and zero console errors.
+Layout audit: **102 screen/theme combinations** (welcome + every screen and six game routes × 3 widths × 2 themes) with zero horizontal overflow and zero console errors. Leisure audit: **12 functional checks** across all six games (every level-1 board finished, levels saved, reload persistence, locked-level clamp, Plus gate → demo unlock → level 7, offline trail tap) plus **71 layout checks** covering the hub, first boards, level-36 Plus boards, and the phone gate in light and dark. A generator audit folds 25 boards per level across all 36 levels and checks level-36 DOM boards (trail words present, lantern masks solvable, options unique).
 
 ---
 
 ## Known limits
 
 - No backend, account or password: data is local to the browser and profile.
+- Puffy Plus is a local demo unlock. No card, account or payment is collected, and clearing site data clears the entitlement along with progress.
 - Demo data is seeded on first entry, not on page load, so the welcome screen stays light.
 - Background Sync and install prompts vary by browser; Safari/iOS uses Share → Add to Home Screen and does not support Background Sync.
 - Chart.js is the only third-party dependency, pinned and cached by the service worker.

@@ -187,6 +187,8 @@ function blockMarkup(block) {
   const doneSubs = subs.filter((s) => s.done).length;
   const glyph = bill ? 'receipt' : cat?.icon || 'tasks';
   const title = block.title;
+  const hasScore = Number.isFinite(Number(block.score));
+  const pct = (value) => `${Math.round((Number(value) || 0) * 100)}%`;
 
   return `<li class="plan-block" data-block="${esc(block.id)}" data-kind="${block.kind}" draggable="true">
     <span class="plan-block__time"><strong>${start.time}</strong><span>${start.suffix}</span></span>
@@ -200,6 +202,7 @@ function blockMarkup(block) {
       <div class="plan-block__meta">
         <span class="tag tag--${bill ? 'ochre' : cat?.tone || 'accent'}">${esc(bill ? 'Bill' : cat?.label || 'Task')}</span>
         ${pri && pri.id === 'high' && !bill ? `<span class="status status--due">${icon('flag', 12)} High</span>` : ''}
+        ${hasScore ? `<span class="status plan-block__score" title="Puffy’s score ${Number(block.score).toFixed(2)} — urgency ${pct(block.urgency)}, importance ${pct(block.importance)}, fit ${pct(block.effort)}">${icon('sparkles', 12)} ${Number(block.score).toFixed(2)}</span>` : ''}
         ${bill ? `<span class="status">${money(bill.amount)}</span>` : ''}
         ${subs.length ? `<span class="status">${icon('tasks', 12)} ${doneSubs}/${subs.length} steps</span>` : ''}
         <span class="status plan-block__range">${start.time}${start.suffix} – ${end.time}${end.suffix}</span>

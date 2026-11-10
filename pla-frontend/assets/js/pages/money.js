@@ -107,6 +107,7 @@ export default async function moneyPage(root, ctx) {
       state.overview = overview;
       paint();
       drawCharts();
+      ctx.refreshBadges();
     } catch (err) {
       console.error(err);
       root.innerHTML = `<div class="page"><div class="card card--pad-lg">
